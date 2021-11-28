@@ -6,16 +6,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tuyenxe")
+@Table(name = "tongluong")
 @Setter
 @Getter
 @Data
-public class TuyenXe extends BaseEntity {
-    private String diemDau;
-    private String diemCuoi;
-    private Integer doDai;
-    private Integer doPhucTapCuaTuyenDuong; // 1 dễ, 2 vừa, 3 khó
+public class TongLuong extends BaseEntity {
+    @ManyToOne
+    private ChuyenXe chuyenXe;
+
+    @ManyToOne
+    private LuongCoBan luongCoBan;
+
+    private Long luongHoaHong;
+
 }
