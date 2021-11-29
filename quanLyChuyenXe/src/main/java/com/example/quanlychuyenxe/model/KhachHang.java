@@ -1,6 +1,6 @@
 package com.example.quanlychuyenxe.model;
 
-import com.example.quanlychuyenxe.model.base.BaseEntityUser;
+import com.example.quanlychuyenxe.base.entity.BaseEntityUser;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

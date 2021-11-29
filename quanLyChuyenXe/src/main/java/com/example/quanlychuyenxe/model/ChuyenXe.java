@@ -1,6 +1,6 @@
 package com.example.quanlychuyenxe.model;
 
-import com.example.quanlychuyenxe.model.base.BaseEntity;
+import com.example.quanlychuyenxe.base.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;

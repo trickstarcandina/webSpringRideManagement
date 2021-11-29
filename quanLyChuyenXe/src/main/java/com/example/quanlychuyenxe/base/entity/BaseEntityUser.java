@@ -1,4 +1,4 @@
-package com.example.quanlychuyenxe.model.base;
+package com.example.quanlychuyenxe.base.entity;
 
 import lombok.Getter;
 import lombok.Setter;
