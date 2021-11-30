@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 public class BaseEntityUser {
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     protected LocalDateTime createdAt;
 
     @UpdateTimestamp
