@@ -21,4 +21,20 @@ public class TuyenXeServiceImpl implements TuyenXeService {
     public Response create(TuyenXe tuyenXe) {
         return ResponseBuilder.ok(tuyenXeRepository.save(tuyenXe));
     }
+
+    @Override
+    public Response delete(Integer id) {
+        tuyenXeRepository.deleteById(id);
+        return ResponseBuilder.ok();
+    }
+
+    @Override
+    public Response searchById(Integer id) {
+        return ResponseBuilder.ok(tuyenXeRepository.findById(id));
+    }
+
+    @Override
+    public Response searchByDiemDau(String diemDau) {
+        return ResponseBuilder.ok(tuyenXeRepository.findByDiemDau(diemDau));
+    }
 }

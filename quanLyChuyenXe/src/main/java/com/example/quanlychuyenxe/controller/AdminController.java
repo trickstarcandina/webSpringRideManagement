@@ -16,11 +16,35 @@ public class AdminController {
     private TuyenXeService tuyenXeService;
     private LuongCoBanService luongCoBanService;
 
+
+    // tuyen xe
     @PostMapping("/addTuyenXe")
     public ResponseEntity addTuyenXe(@RequestBody TuyenXe tuyenXe) {
         return ResponseEntity.ok(tuyenXeService.create(tuyenXe).build());
     }
 
+    @DeleteMapping("/deleteTuyenXe/{id}")
+    public ResponseEntity deleteTuyenXe(@PathVariable("id") Integer id){
+        return ResponseEntity.ok().body(tuyenXeService.delete(id));
+    }
+
+    @GetMapping("/searchTuyenXe")
+    public ResponseEntity searchTuyenXeByDiemDau(@RequestParam("diemDau") String diemDau){
+        return ResponseEntity.ok().body(tuyenXeService.searchByDiemDau(diemDau).build());
+    }
+
+    @GetMapping("/showTuyenXe/{id}")
+    public ResponseEntity searchTuyenXeById(@RequestParam("id") Integer id){
+        return ResponseEntity.ok().body(tuyenXeService.searchById(id).build());
+    }
+
+    @PutMapping("/updateTuyenXe/{id}")
+    public ResponseEntity updateTuyenXe(@PathVariable("id") Integer id, @RequestBody TuyenXe tuyenXe){
+        if(tuyenXe.getId().equals(id)){
+            return ResponseEntity.ok().body(tuyenXeService.create(tuyenXe).build());
+        }
+        throw new IllegalStateException("Error");
+    }
 
     // luong co ban
 
@@ -35,8 +59,13 @@ public class AdminController {
     }
 
     @GetMapping("/searchLuongCoBan")
-    public ResponseEntity searchLuongCoBan(@RequestParam("luong") Long luong){
+    public ResponseEntity searchLuongCoBanByLuong(@RequestParam("luong") Long luong){
         return ResponseEntity.ok().body(luongCoBanService.searchByLuong(luong));
+    }
+
+    @GetMapping("/showLuongCoBan")
+    public ResponseEntity searchLuongCoBanById(@RequestParam("id") Integer id){
+        return ResponseEntity.ok().body(luongCoBanService.searchById(id));
     }
 
     @PutMapping("/updateLuongCoBan/{id}")
