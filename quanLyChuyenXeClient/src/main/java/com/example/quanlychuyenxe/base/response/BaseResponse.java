@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class BaseResponse<T> {
-    @JsonProperty("status")
+    @JsonProperty("status")  //  1  success   0 error dau vao   -1 -xxxxxx
     private Integer status;
-    @JsonProperty("error")
+    @JsonProperty("error")  //  1  success   0 error dau vao   -1 -xxxxxx
     private Boolean error;
     @JsonProperty("message")
     private String message;
