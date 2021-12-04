@@ -15,12 +15,12 @@ public class TuyenXeController {
     private TuyenXeService tuyenXeService;
 
     @GetMapping("/searchTuyenXe")
-    public ResponseEntity searchKhachHangByName(@RequestParam("diemDau") String diemDau, @RequestParam("dieuCuoi") String diemCuoi) {
+    public ResponseEntity searchTuyenXeByName(@RequestParam("diemDau") String diemDau, @RequestParam("dieuCuoi") String diemCuoi) {
         return ResponseEntity.ok().body(tuyenXeService.searchTuyenXeDiemDauDiemCuoi(diemDau, diemCuoi).build());
     }
 
     @GetMapping("/showTuyenXe/{idTuyenXe}")
-    public ResponseEntity searchKhachHangByID(@PathVariable("idTuyenXe") String idTuyenXe,
+    public ResponseEntity searchTuyenXeByID(@PathVariable("idTuyenXe") String idTuyenXe,
                                               @RequestParam int page, @RequestParam int size) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok().body(tuyenXeService.showTuyenXe(idTuyenXe, pageable).build());

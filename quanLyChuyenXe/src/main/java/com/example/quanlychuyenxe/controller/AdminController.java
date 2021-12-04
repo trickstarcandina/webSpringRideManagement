@@ -1,7 +1,11 @@
 package com.example.quanlychuyenxe.controller;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
+import com.example.quanlychuyenxe.model.KhachHang;
+import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.model.TuyenXe;
+import com.example.quanlychuyenxe.services.KhachHangService;
+import com.example.quanlychuyenxe.services.TaiXeService;
 import com.example.quanlychuyenxe.services.TuyenXeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private TuyenXeService tuyenXeService;
+    private KhachHangService khachHangService;
+    private TaiXeService taiXeService;
 
     //tuyen xe
     @PostMapping("/addTuyenXe")
@@ -21,15 +27,74 @@ public class AdminController {
     }
 
     @DeleteMapping("/deleteTuyenXe/{idTuyenXe}")
-    public ResponseEntity deleteKhachHang(@PathVariable("idTuyenXe") String idTuyenXe) {
+    public ResponseEntity deleteTuyenXe(@PathVariable("idTuyenXe") String idTuyenXe) {
         return ResponseEntity.ok().body(tuyenXeService.delete(idTuyenXe).build());
     }
 
-    @PutMapping("/updateKhachHang/{idTuyenXe}")
-    public ResponseEntity updateKhachHang(@PathVariable("idTuyenXe") String idTuyenXe, @RequestBody TuyenXe tuyenXe) {
-        if(tuyenXe.getId().equals(idTuyenXe)) {
+    @PutMapping("/updateTuyenXe/{idTuyenXe}")
+    public ResponseEntity updateTuyenXe(@PathVariable("idTuyenXe") String idTuyenXe, @RequestBody TuyenXe tuyenXe) {
+        if (tuyenXe.getId().equals(idTuyenXe)) {
             return ResponseEntity.ok().body(tuyenXeService.create(tuyenXe).build());
         }
         return ResponseEntity.ok().body(ResponseBuilder.ok(200, "Cập nhật thất bại"));
     }
+
+    // Khach Hang
+    @PostMapping("/addKhachHang")
+    public ResponseEntity addKhachHang(@RequestBody KhachHang khachHang) {
+        return ResponseEntity.ok().body(khachHangService.create(khachHang).build());
+    }
+
+    @DeleteMapping("/deleteKhachHang/{cmtKhachHang}")
+    public ResponseEntity deleteKhachHang(@PathVariable("cmtKhachHang") String cmtKhachHang) {
+        return ResponseEntity.ok().body(khachHangService.delete(cmtKhachHang).build());
+    }
+
+    @GetMapping("/searchKhachHang")
+    public ResponseEntity searchKhachHangByName(@RequestParam("tenKhachHang") String tenKhachHang) {
+        return ResponseEntity.ok().body(khachHangService.searchByName(tenKhachHang).build());
+    }
+
+    @GetMapping("/showKhachHang/{cmtKhachHang}")
+    public ResponseEntity searchKhachHangByID(@PathVariable("cmtKhachHang") String cmtKhachHang) {
+        return ResponseEntity.ok().body(khachHangService.searchById(cmtKhachHang).build());
+    }
+
+    @PutMapping("/updateKhachHang/{cmtKhachHang}")
+    public ResponseEntity updateKhachHang(@PathVariable("cmtKhachHang") String cmtKhachHang, @RequestBody KhachHang khachHang) {
+        if(khachHang.getCmtKhachHang().equals(cmtKhachHang)) {
+            return ResponseEntity.ok().body(khachHangService.create(khachHang).build());
+        }
+        throw new IllegalStateException("Error");
+    }
+
+    // Tai Xe
+    @PostMapping("/addTaiXe")
+    public ResponseEntity addTaiXe(@RequestBody TaiXe taiXe) {
+        return ResponseEntity.ok().body(taiXeService.create(taiXe).build());
+    }
+
+    @DeleteMapping("/deleteTaiXe/{cmtTaiXe}")
+    public ResponseEntity deleteTaiXe(@PathVariable("cmtTaiXe") String cmtTaiXe) {
+        return ResponseEntity.ok().body(taiXeService.delete(cmtTaiXe).build());
+    }
+
+    @GetMapping("/searchTaiXe")
+    public ResponseEntity searchTaiXeByName(@RequestParam("tenTaiXe") String tenTaiXe) {
+        return ResponseEntity.ok().body(taiXeService.searchByName(tenTaiXe).build());
+    }
+
+    @GetMapping("/showTaiXe/{cmtTaiXe}")
+    public ResponseEntity searchTaiXeByID(@PathVariable("cmtTaiXe") String cmtTaiXe) {
+        return ResponseEntity.ok().body(taiXeService.searchById(cmtTaiXe).build());
+    }
+
+    @PutMapping("/updateTaiXe/{cmtTaiXe}")
+    public ResponseEntity updateTaiXe(@PathVariable("cmtTaiXe") String cmtTaiXe, @RequestBody TaiXe taiXe) {
+        if(taiXe.getCmtTaiXe().equals(cmtTaiXe)) {
+            return ResponseEntity.ok().body(taiXeService.create(taiXe).build());
+        }
+        throw new IllegalStateException("Error");
+    }
+
 }
