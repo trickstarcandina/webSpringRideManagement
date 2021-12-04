@@ -1,5 +1,10 @@
 package com.example.quanlychuyenxe.controller;
 
+
+import com.example.quanlychuyenxe.model.LuongCoBan;
+import com.example.quanlychuyenxe.model.TuyenXe;
+import com.example.quanlychuyenxe.services.LuongCoBanService;
+
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.model.TaiXe;
@@ -8,6 +13,7 @@ import com.example.quanlychuyenxe.model.XeKhach;
 
 import com.example.quanlychuyenxe.services.KhachHangService;
 import com.example.quanlychuyenxe.services.TaiXeService;
+
 
 import com.example.quanlychuyenxe.services.TuyenXeService;
 import com.example.quanlychuyenxe.services.XeKhachService;
@@ -21,13 +27,12 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private TuyenXeService tuyenXeService;
+    private LuongCoBanService luongCoBanService;
     private XeKhachService xeKhachService;
-
     private KhachHangService khachHangService;
     private TaiXeService taiXeService;
 
-
-    //tuyen xe
+   //tuyen xe
     @PostMapping("/addTuyenXe")
     public ResponseEntity addTuyenXe(@RequestBody TuyenXe tuyenXe) {
         return ResponseEntity.ok(tuyenXeService.create(tuyenXe).build());
@@ -46,7 +51,7 @@ public class AdminController {
         return ResponseEntity.ok().body(ResponseBuilder.ok(200, "Cập nhật thất bại"));
     }
 
-  
+
     // Khach Hang
     @PostMapping("/addKhachHang")
     public ResponseEntity addKhachHang(@RequestBody KhachHang khachHang) {
@@ -70,7 +75,7 @@ public class AdminController {
 
     @PutMapping("/updateKhachHang/{cmtKhachHang}")
     public ResponseEntity updateKhachHang(@PathVariable("cmtKhachHang") String cmtKhachHang, @RequestBody KhachHang khachHang) {
-        if(khachHang.getCmtKhachHang().equals(cmtKhachHang)) {
+        if (khachHang.getCmtKhachHang().equals(cmtKhachHang)) {
             return ResponseEntity.ok().body(khachHangService.create(khachHang).build());
         }
         throw new IllegalStateException("Error");
@@ -99,7 +104,7 @@ public class AdminController {
 
     @PutMapping("/updateTaiXe/{cmtTaiXe}")
     public ResponseEntity updateTaiXe(@PathVariable("cmtTaiXe") String cmtTaiXe, @RequestBody TaiXe taiXe) {
-        if(taiXe.getCmtTaiXe().equals(cmtTaiXe)) {
+        if (taiXe.getCmtTaiXe().equals(cmtTaiXe)) {
             return ResponseEntity.ok().body(taiXeService.create(taiXe).build());
         }
         throw new IllegalStateException("Error");
@@ -118,15 +123,44 @@ public class AdminController {
 
     @GetMapping("/searchXeKhach")
     public ResponseEntity searchXeKhachByID(@RequestParam("bienSo") String bienSo) {
-        return ResponseEntity.ok().body(xeKhachService.searchById (bienSo).build());
+        return ResponseEntity.ok().body(xeKhachService.searchById(bienSo).build());
     }
 
     @PutMapping("/updateXeKhach/{bienSo}")
     public ResponseEntity updateKhachHang(@PathVariable("bienSo") String bienSo, @RequestBody XeKhach xeKhach) {
-        if(xeKhach.getBienSo ().equals(bienSo)) {
+        if (xeKhach.getBienSo().equals(bienSo)) {
             return ResponseEntity.ok().body(xeKhachService.create(xeKhach).build());
         }
         throw new IllegalStateException("Error");
     }
-}
 
+    // luong co ban
+
+    @PostMapping("/addLuongCoBan")
+    public ResponseEntity addLuongCoBan(@RequestBody LuongCoBan luongCoBan) {
+        return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
+    }
+
+    @DeleteMapping("/deleteLuongCoBan/{id}")
+    public ResponseEntity deleteLuongCoBan(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(luongCoBanService.delete(id).build());
+    }
+
+    @GetMapping("/searchLuongCoBan")
+    public ResponseEntity searchLuongCoBanByLuong(@RequestParam("luong") Long luong) {
+        return ResponseEntity.ok().body(luongCoBanService.searchByLuong(luong));
+    }
+
+    @GetMapping("/showLuongCoBan")
+    public ResponseEntity searchLuongCoBanById(@RequestParam("id") Integer id) {
+        return ResponseEntity.ok().body(luongCoBanService.searchById(id));
+    }
+
+    @PutMapping("/updateLuongCoBan/{id}")
+    public ResponseEntity updateLuongCoBan(@PathVariable("id") Integer id, @RequestBody LuongCoBan luongCoBan) {
+        if (luongCoBan.getId().equals(id)) {
+            return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
+        }
+        throw new IllegalStateException("Error");
+    }
+}

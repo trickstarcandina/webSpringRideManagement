@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface TuyenXeRepository extends JpaRepository<TuyenXe, Integer> {
 
     @Query(value = "select * from tuyenxe where diem_cuoi = ? and diem_cuoi = ?", nativeQuery = true)
