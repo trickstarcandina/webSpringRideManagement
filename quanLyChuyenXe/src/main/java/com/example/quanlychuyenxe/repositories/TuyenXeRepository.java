@@ -8,5 +8,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface TuyenXeRepository extends JpaRepository<TuyenXe, Integer> {
-    List<TuyenXe> findByDiemDau(String diemDau);
 }

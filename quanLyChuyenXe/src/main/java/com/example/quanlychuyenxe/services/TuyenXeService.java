@@ -6,7 +6,5 @@ import com.example.quanlychuyenxe.model.TuyenXe;
 
 public interface TuyenXeService {
     Response create(TuyenXe tuyenXe);
-    Response delete(Integer id);
-    Response searchById(Integer id);
-    Response searchByDiemDau(String diemDau);
+
 }
