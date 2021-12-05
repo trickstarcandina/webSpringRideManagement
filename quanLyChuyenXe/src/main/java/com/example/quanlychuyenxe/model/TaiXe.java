@@ -1,13 +1,12 @@
 package com.example.quanlychuyenxe.model;
 
 import com.example.quanlychuyenxe.base.entity.BaseEntityUser;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -22,7 +21,11 @@ public class TaiXe extends BaseEntityUser {
     private String maSoBangLai;
     private String loaiBangLai;
     private String diaChi;
+
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date ngaySinh;
+
     private Integer thamNien;
     private String username;
     private String password;
