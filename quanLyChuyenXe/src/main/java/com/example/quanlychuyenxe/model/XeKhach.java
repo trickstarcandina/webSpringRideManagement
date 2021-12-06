@@ -13,7 +13,8 @@ import java.util.Date;
 @Setter
 @Getter
 @Data
-public class XeKhach extends BaseEntity {
+public class XeKhach {
+    @Id
     private String bienSo;
     private String mauXe;
     private String hangSanXuat;

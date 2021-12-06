@@ -24,6 +24,4 @@ public class TaiXe extends BaseEntityUser {
     private String diaChi;
     private Date ngaySinh;
     private Integer thamNien;
-    private String username;
-    private String password;
 }
