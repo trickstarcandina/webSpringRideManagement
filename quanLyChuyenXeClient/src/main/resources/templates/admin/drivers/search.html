@@ -127,7 +127,7 @@
                 <div class="card mb-4">
                     <div class="row mt-2 mb-2">
                         <div class="col" style="display: flex; justify-content: space-between;">
-                            <form th:action="@{/admin/customers/search}">
+                            <form th:action="@{/admin/drivers/search}">
                                 <div class="form-inline float-left" style="display: flex">
                                     <label for="name">Name: </label>
                                     <input type="text" class="form-control ml-2" name="name" id="name"
@@ -137,7 +137,7 @@
                                 </div>
                             </form>
                             <div class="float-right">
-                                <a th:href="@{/admin/customers/add}" class="btn btn-outline-primary">Thêm khách hàng</a>
+                                <a th:href="@{/admin/drivers/add}" class="btn btn-outline-primary">Thêm tài xế</a>
                             </div>
                         </div>
                     </div>
@@ -155,32 +155,36 @@
                         <tr>
                             <th>CMT</th>
                             <th>Tên</th>
+                            <th>Mã số bằng lái</th>
+                            <th>Loại bằng lái</th>
                             <th>Địa chỉ</th>
-                            <th>Tuổi</th>
-                            <th>Ghi chú</th>
+                            <th>Ngày sinh</th>
+                            <th>Thâm niên</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="khachhang : ${listkhachhang}">
-                            <td scope="row" th:text="${khachhang.cmtKhachHang}"></td>
-                            <td th:text="${khachhang.ten}"></td>
-                            <td th:text="${khachhang.diaChi}"></td>
-                            <td th:text="${khachhang.tuoi}"></td>
-                            <td th:text="${khachhang.ghiChu}"></td>
+                        <tr th:each="taixe : ${listtaixe}">
+                            <td scope="row" th:text="${taixe.cmtTaiXe}"></td>
+                            <td th:text="${taixe.ten}"></td>
+                            <td th:text="${taixe.maSoBangLai}"></td>
+                            <td th:text="${taixe.loaiBangLai}"></td>
+                            <td th:text="${taixe.diaChi}"></td>
+                            <td th:text="${taixe.ngaySinh}"></td>
+                            <td th:text="${taixe.thamNien}"></td>
                             <td>
                                 <!--<a th:href="@{'/admin/categories/view/'}"
                                    class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
-                                <a th:href="@{'/admin/customers/edit/' + ${khachhang.cmtKhachHang}}"
+                                <a th:href="@{'/admin/drivers/edit/' + ${taixe.cmtTaiXe}}"
                                    class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
 
                                 <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                        th:data-target="${'#'+khachhang.cmtKhachHang}">
+                                        th:data-target="${'#'+taixe.cmtTaiXe}">
                                     <i class="fas fa-recycle"></i>
                                 </button>
 
                                 <!-- Modal -->
-                                <div class="modal fade" th:id="${khachhang.cmtKhachHang}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" th:id="${taixe.cmtTaiXe}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -190,13 +194,13 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <span th:text="${'Tên: ' + khachhang.ten}" /><br>
-                                                <span th:text="${'Địa chỉ: ' + khachhang.diaChi}" /><br>
-                                                <span th:text="${'Tuổi: ' + khachhang.tuoi}" /><br>
+                                                <span th:text="${'Tên: ' + taixe.ten}" /><br>
+                                                <span th:text="${'Địa chỉ: ' + taixe.diaChi}" /><br>
+                                                <span th:text="${'Tuổi: ' + taixe.ngaySinh}" /><br>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                                                <a th:href="@{'/admin/customers/delete/' + ${khachhang.cmtKhachHang}}" type="button" class="btn btn-primary">Xác nhận</a>
+                                                <a th:href="@{'/admin/drivers/delete/' + ${taixe.cmtTaiXe}}" type="button" class="btn btn-primary">Xác nhận</a>
                                             </div>
                                         </div>
                                     </div>

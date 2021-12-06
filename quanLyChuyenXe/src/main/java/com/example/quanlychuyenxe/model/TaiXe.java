@@ -1,13 +1,13 @@
 package com.example.quanlychuyenxe.model;
 
 import com.example.quanlychuyenxe.base.entity.BaseEntityUser;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -22,6 +22,11 @@ public class TaiXe extends BaseEntityUser {
     private String maSoBangLai;
     private String loaiBangLai;
     private String diaChi;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
     private Date ngaySinh;
+
     private Integer thamNien;
 }

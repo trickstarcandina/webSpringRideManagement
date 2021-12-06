@@ -120,12 +120,12 @@
                         <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
                         </div>
 
-                        <form th:action="${khachhang.isEdit}? @{/admin/customers/update} : @{/admin/customers/save}"
-                               th:object="${khachhang}" method="POST">
-<!--                            th:action="@{/admin/customers/save}"-->
+                        <form th:action="${taixe.isEdit}? @{/admin/drivers/update} : @{/admin/drivers/save}"
+                               th:object="${taixe}" method="POST">
+<!--                            th:action="@{/admin/drivers/save}"-->
                             <div class="card">
                                 <div class="card-header">
-                                    <h2 th:text="${khachhang.isEdit?'Sửa thông tin khách hàng' : 'Thêm khách hàng'}" />
+                                    <h2 th:text="${taixe.isEdit ? 'Sửa thông tin tài xế' : 'Thêm tài xế'}" />
                                 </div>
 
                                 <div>
@@ -139,16 +139,16 @@
 
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="cmtKhachHang">Cmt / Căn cước công dân</label>
-                                        <input th:if="*{!isEdit}" th:value="*{cmtKhachHang}" type="text"
-                                               th:class="${#fields.hasErrors('cmtKhachHang')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="cmtKhachHang" aria-describedby="cmtKhachHangId" placeholder="" >
+                                        <label for="cmtTaiXe">Cmt / Căn cước công dân</label>
+                                        <input th:if="*{!isEdit}" th:value="*{cmtTaiXe}" type="text"
+                                               th:class="${#fields.hasErrors('cmtTaiXe')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="cmtTaiXe" aria-describedby="cmtTaiXeId" placeholder="" >
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('cmtKhachHang')}"
-                                              th:errors="*{cmtKhachHang}">Error</span>
+                                              th:if="${#fields.hasErrors('cmtTaiXe')}"
+                                              th:errors="*{cmtTaiXe}">Error</span>
 
-                                        <input th:if="*{isEdit}" th:value="*{cmtKhachHang}" type="text"
-                                               class="form-control" name="cmtKhachHang" aria-describedby="cmtKhachHangId" placeholder="" readonly >
+                                        <input th:if="*{isEdit}" th:value="*{cmtTaiXe}" type="text"
+                                               class="form-control" name="cmtTaiXe" aria-describedby="cmtTaiXeId" placeholder="" readonly >
                                     </div>
 
                                     <div class="form-group">
@@ -162,6 +162,26 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="maSoBangLai">Mã số bằng lái</label>
+                                        <input th:value="*{maSoBangLai}" type="text"
+                                               th:class="${#fields.hasErrors('maSoBangLai')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="maSoBangLai" id="maSoBangLai" aria-describedby="maSoBangLaiId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('maSoBangLai')}"
+                                              th:errors="*{maSoBangLai}"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="loaiBangLai">Loại bằng lái</label>
+                                        <input th:value="*{loaiBangLai}" type="text"
+                                               th:class="${#fields.hasErrors('loaiBangLai')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="loaiBangLai" id="loaiBangLai" aria-describedby="loaiBangLaiId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('loaiBangLai')}"
+                                              th:errors="*{loaiBangLai}">Error</span>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="diaChi">Địa chỉ</label>
                                         <input th:value="*{diaChi}" type="text"
                                                th:class="${#fields.hasErrors('diaChi')} ? 'validationInputError form-control' : 'form-control'"
@@ -172,26 +192,28 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="tuoi">Tuổi</label>
-                                        <input th:value="*{tuoi}" type="number"
-                                               th:class="${#fields.hasErrors('tuoi')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="tuoi" id="tuoi" aria-describedby="tuoiId" placeholder="">
+                                        <label for="ngaySinh">Ngày sinh</label>
+                                        <input th:value="${#dates.format(taixe.ngaySinh, 'dd/MM/yyyy')}" type="text"
+                                               th:class="${#fields.hasErrors('ngaySinh')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="ngaySinh" id="ngaySinh" aria-describedby="ngaySinhId" placeholder="">
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('tuoi')}"
-                                              th:errors="*{tuoi}">Error</span>
+                                              th:if="${#fields.hasErrors('ngaySinh')}">Sai định dạng dd/MM/yyyy</span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="ghiChu">Ghi chú</label>
-                                        <input th:value="*{ghiChu}" type="text"
-                                               class="form-control" name="ghiChu" id="ghiChu" aria-describedby="ghiChuId" placeholder="">
+                                        <label for="thamNien">Thâm niên</label>
+                                        <input th:value="*{thamNien}" type="number"
+                                               class="form-control" name="thamNien" id="thamNien" aria-describedby="thamNienId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('thamNien')}"
+                                              th:errors="*{thamNien}">Error</span>
                                     </div>
 
                                 </div>
 
                                 <div class="card-footer text-muted">
                                     <button type="reset" class="btn btn-secondary">Reset</button>
-                                    <a th:href="@{/admin/customers}" class="btn btn-success">Xem danh sách</a>
+                                    <a th:href="@{/admin/drivers}" class="btn btn-success">Xem danh sách</a>
                                     <button class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>
