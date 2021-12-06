@@ -51,7 +51,6 @@ public class AdminController {
         return ResponseEntity.ok().body(ResponseBuilder.ok(200, "Cập nhật thất bại"));
     }
 
-
     // Khach Hang
     @PostMapping("/addKhachHang")
     public ResponseEntity addKhachHang(@RequestBody KhachHang khachHang) {
