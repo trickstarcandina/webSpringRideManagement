@@ -23,10 +23,19 @@ public class ChuyenXe extends BaseEntity {
     private Date thoiGianKetThuc;
     private Integer soLuongHanhKhach;
 
-    private String bienSo;
-    private String maSoTuyenXe;
-    private String cmtLaiXe;
-    private String cmtPhuXe;
+//    private String bienSo;
+//    private String maSoTuyenXe;
+//    private String cmtLaiXe;
+//    private String cmtPhuXe;
+
+    @ManyToOne
+    private XeKhach xeKhach;
+    @ManyToOne
+    private TuyenXe tuyenXe;
+    @ManyToOne
+    private TaiXe taiXe1;
+    @ManyToOne
+    private TaiXe taiXe2;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
