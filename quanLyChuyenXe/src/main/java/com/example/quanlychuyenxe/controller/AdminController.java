@@ -18,6 +18,8 @@ import com.example.quanlychuyenxe.services.TaiXeService;
 import com.example.quanlychuyenxe.services.TuyenXeService;
 import com.example.quanlychuyenxe.services.XeKhachService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -123,6 +125,13 @@ public class AdminController {
     @GetMapping("/searchXeKhach")
     public ResponseEntity searchXeKhachByID(@RequestParam("bienSo") String bienSo) {
         return ResponseEntity.ok().body(xeKhachService.searchById(bienSo).build());
+    }
+
+    @GetMapping("/showXeKhach/{id}")
+    public ResponseEntity searchXeKhach(@PathVariable("id") String id,
+                                        @RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(xeKhachService.showXeKhach(id, pageable).build());
     }
 
     @PutMapping("/updateXeKhach/{bienSo}")

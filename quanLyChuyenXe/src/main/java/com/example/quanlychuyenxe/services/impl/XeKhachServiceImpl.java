@@ -6,6 +6,7 @@ import com.example.quanlychuyenxe.model.XeKhach;
 import com.example.quanlychuyenxe.repositories.XeKhachRepository;
 import com.example.quanlychuyenxe.services.XeKhachService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,17 +19,25 @@ public class XeKhachServiceImpl implements XeKhachService {
 
     @Override
     public Response create(XeKhach xeKhach) {
-        return ResponseBuilder.ok (xeKhachRepository.save (xeKhach));
+        return ResponseBuilder.ok(xeKhachRepository.save(xeKhach));
     }
 
     @Override
     public Response delete(String bienSo) {
-        xeKhachRepository.deleteById (bienSo);
-        return ResponseBuilder.ok ();
+        xeKhachRepository.deleteById(bienSo);
+        return ResponseBuilder.ok(200, "Xóa thông tin xe khách thành công");
     }
 
     @Override
     public Response searchById(String bienSo) {
-        return ResponseBuilder.ok (xeKhachRepository.findById (bienSo));
+        return ResponseBuilder.ok(xeKhachRepository.findById(bienSo));
+    }
+
+    @Override
+    public Response showXeKhach(String id, Pageable pageable) {
+        if(id == null) {
+            return ResponseBuilder.ok(xeKhachRepository.findAllTuyenXe(pageable));
+        }
+        return ResponseBuilder.ok(xeKhachRepository.findById(id));
     }
 }

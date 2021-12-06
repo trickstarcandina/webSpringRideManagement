@@ -9,8 +9,4 @@ import java.time.LocalDateTime;
 @Setter
 public class BaseEntity {
     protected Integer id;
-
-    protected LocalDateTime createdAt;
-
-    protected LocalDateTime updatedAt;
 }

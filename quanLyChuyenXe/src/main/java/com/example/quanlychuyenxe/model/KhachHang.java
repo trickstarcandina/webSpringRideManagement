@@ -20,8 +20,6 @@ public class KhachHang extends BaseEntityUser {
     private String diaChi;
     private Integer tuoi;
     private String ghiChu;
-    private String username;
-    private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "khachhang_chuyenxe",
