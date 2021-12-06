@@ -141,7 +141,12 @@
                                     <div class="form-group">
                                         <label for="cmtKhachHang">Cmt / Căn cước công dân</label>
                                         <input th:if="*{!isEdit}" th:value="*{cmtKhachHang}" type="text"
-                                               class="form-control" name="cmtKhachHang" aria-describedby="cmtKhachHangId" placeholder="" >
+                                               th:class="${#fields.hasErrors('cmtKhachHang')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="cmtKhachHang" aria-describedby="cmtKhachHangId" placeholder="" >
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('cmtKhachHang')}"
+                                              th:errors="*{cmtKhachHang}">Error</span>
+
                                         <input th:if="*{isEdit}" th:value="*{cmtKhachHang}" type="text"
                                                class="form-control" name="cmtKhachHang" aria-describedby="cmtKhachHangId" placeholder="" readonly >
                                     </div>
@@ -149,19 +154,31 @@
                                     <div class="form-group">
                                       <label for="ten">Họ và tên</label>
                                       <input th:value="*{ten}" type="text"
-                                        class="form-control" name="ten" id="ten" aria-describedby="tenId" placeholder="">
+                                             th:class="${#fields.hasErrors('ten')} ? 'validationInputError form-control' : 'form-control'"
+                                             name="ten" id="ten" aria-describedby="tenId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('ten')}"
+                                              th:errors="*{ten}">Error</span>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="diaChi">Địa chỉ</label>
                                         <input th:value="*{diaChi}" type="text"
-                                          class="form-control" name="diaChi" id="diaChi" aria-describedby="diaChiId" placeholder="">
+                                               th:class="${#fields.hasErrors('diaChi')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="diaChi" id="diaChi" aria-describedby="diaChiId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('diaChi')}"
+                                              th:errors="*{diaChi}">Error</span>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="tuoi">Tuổi</label>
-                                        <input th:value="*{tuoi}" type="text"
-                                               class="form-control" name="tuoi" id="tuoi" aria-describedby="tuoiId" placeholder="">
+                                        <input th:value="*{tuoi}" type="number"
+                                               th:class="${#fields.hasErrors('tuoi')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="tuoi" id="tuoi" aria-describedby="tuoiId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('tuoi')}"
+                                              th:errors="*{tuoi}">Error</span>
                                     </div>
 
                                     <div class="form-group">

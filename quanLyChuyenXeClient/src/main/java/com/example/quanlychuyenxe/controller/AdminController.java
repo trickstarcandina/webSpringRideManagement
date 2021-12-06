@@ -72,7 +72,10 @@ public class AdminController {
     }
 
     @PostMapping("customers/update")
-    public String updateCustomer(Model model, @ModelAttribute("khachhang") KhachHang khachHang) {
+    public String updateCustomer(Model model, @Valid @ModelAttribute("khachhang") KhachHang khachHang, Errors errors) {
+        if(errors.hasErrors()) {
+            return "admin/customers/search";
+        }
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateKhachHang/" + khachHang.getCmtKhachHang(),
                 HttpMethod.PUT, new HttpEntity<>(khachHang, null), ResponseBuilder.class);
         String noticeUpdate = "";
@@ -86,7 +89,10 @@ public class AdminController {
     }
 
     @PostMapping("customers/save")
-    public String saveCustomer(Model model, @ModelAttribute("khachhang") KhachHang khachHang) {
+    public String saveCustomer(Model model, @Valid @ModelAttribute("khachhang") KhachHang khachHang, Errors errors) {
+        if(errors.hasErrors()) {
+            return "admin/customers/addOrEdit";
+        }
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showKhachHang/{cmtKhachHang}",
                 ResponseBuilder.class, khachHang.getCmtKhachHang());
         ObjectMapper objectMapper = new ObjectMapper();
@@ -146,7 +152,10 @@ public class AdminController {
     }
 
     @PostMapping("drivers/update")
-    public String updateDriver(Model model, @ModelAttribute("taixe") TaiXe taiXe) {
+    public String updateDriver(Model model, @Valid @ModelAttribute("taixe") TaiXe taiXe, Errors errors) {
+        if(errors.hasErrors()) {
+            return "admin/drivers/addOrEdit";
+        }
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateTaiXe/"
                         + taiXe.getCmtTaiXe(), HttpMethod.PUT, new HttpEntity<>(taiXe, null), ResponseBuilder.class);
         String noticeUpdate = "";

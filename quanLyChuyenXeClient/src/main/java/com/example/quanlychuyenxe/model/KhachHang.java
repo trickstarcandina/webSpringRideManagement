@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Setter
@@ -12,9 +14,13 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KhachHang {
+    @NotEmpty(message = "Thiếu cmt tài xế")
     private String cmtKhachHang;
+    @NotEmpty(message = "Thiếu tên")
     private String ten;
+    @NotEmpty(message = "Thiếu địa chỉ")
     private String diaChi;
+    @NotNull(message = "Thiếu tuổi")
     private Integer tuoi;
     private String ghiChu;
     private String username;

@@ -11688,6 +11688,10 @@ body {
 }
 
 .validationError {
-  color: #aa0f0f;
+  color: #de0000;
   font-size: 12px;
+}
+
+.validationInputError {
+  border-color: #de0000;
 }
