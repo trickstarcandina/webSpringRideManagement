@@ -16,8 +16,6 @@ import java.util.List;
 @Getter
 @Data
 public class ChuyenXe extends BaseEntity {
-//    private String maSoChuyenXe;
-    private Integer soKhach;
     private Long giaVe;
     private Date thoiGianKhoiHanh;
     private Date thoiGianKetThuc;
