@@ -2,8 +2,9 @@ package com.example.quanlychuyenxe.services;
 
 import com.example.quanlychuyenxe.base.response.Response;
 import com.example.quanlychuyenxe.model.KhachHang;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface KhachHangService {
+public interface KhachHangService extends UserDetailsService {
     Response create(KhachHang khachHang);
     Response delete(String cmtKhachHang);
     Response searchByName(String ten);

@@ -6,6 +6,8 @@ import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.repositories.KhachHangRepository;
 import com.example.quanlychuyenxe.services.KhachHangService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,5 +37,10 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public Response searchById(String cmt) {
         return ResponseBuilder.ok(khachHangRepository.findById(cmt));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
     }
 }
