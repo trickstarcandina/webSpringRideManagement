@@ -1,27 +1,21 @@
 package com.example.quanlychuyenxe.controller;
 
 
-import com.example.quanlychuyenxe.model.LuongCoBan;
-import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.services.LuongCoBanService;
+import com.example.quanlychuyenxe.model.*;
+import com.example.quanlychuyenxe.services.*;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
-import com.example.quanlychuyenxe.model.KhachHang;
-import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.model.XeKhach;
-
-import com.example.quanlychuyenxe.services.KhachHangService;
-import com.example.quanlychuyenxe.services.TaiXeService;
 
 
-import com.example.quanlychuyenxe.services.TuyenXeService;
-import com.example.quanlychuyenxe.services.XeKhachService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -33,6 +27,7 @@ public class AdminController {
     private XeKhachService xeKhachService;
     private KhachHangService khachHangService;
     private TaiXeService taiXeService;
+    private ChuyenXeService chuyenXeService;
 
    //tuyen xe
     @PostMapping("/addTuyenXe")
@@ -168,6 +163,36 @@ public class AdminController {
     public ResponseEntity updateLuongCoBan(@PathVariable("id") Integer id, @RequestBody LuongCoBan luongCoBan) {
         if (luongCoBan.getId().equals(id)) {
             return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
+        }
+        throw new IllegalStateException("Error");
+    }
+
+    // Chuyen Xe
+    @PostMapping("/addChuyenXe")
+    public ResponseEntity addChuyenXe(@RequestBody ChuyenXe chuyenXe) {
+        return ResponseEntity.ok().headers(httpHeaders -> {Collections.singletonList(MediaType.APPLICATION_JSON_UTF8_VALUE);})
+                .body(chuyenXeService.create(chuyenXe));
+    }
+
+    @DeleteMapping("/deleteChuyenXe/{id}")
+    public ResponseEntity deleteChuyenXe(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(chuyenXeService.delete(id).build());
+    }
+
+    @GetMapping("/allChuyenXe")
+    public ResponseEntity allChuyenXe() {
+        return ResponseEntity.ok().body(chuyenXeService.getAll().build());
+    }
+
+    @GetMapping("/showChuyenXe/{id}")
+    public ResponseEntity searchChuyenXeByID(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(chuyenXeService.searchById(id).build());
+    }
+
+    @PutMapping("/updateTuyenXe/{id}")
+    public ResponseEntity updateChuyenXe(@PathVariable("id") Integer id, @RequestBody ChuyenXe chuyenXe) {
+        if (chuyenXe.getId() == id) {
+            return ResponseEntity.ok().body(chuyenXeService.create(chuyenXe).build());
         }
         throw new IllegalStateException("Error");
     }

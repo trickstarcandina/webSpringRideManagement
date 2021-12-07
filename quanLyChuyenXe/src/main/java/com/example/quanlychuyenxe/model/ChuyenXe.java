@@ -16,17 +16,20 @@ import java.util.List;
 @Getter
 @Data
 public class ChuyenXe extends BaseEntity {
-//    private String maSoChuyenXe;
-    private Integer soKhach;
+
     private Long giaVe;
     private Date thoiGianKhoiHanh;
     private Date thoiGianKetThuc;
-    private Integer soLuongHanhKhach;
+    private Integer soLuongHanhKhach = 0;
 
-    private String bienSo;
-    private String maSoTuyenXe;
-    private String cmtLaiXe;
-    private String cmtPhuXe;
+    @ManyToOne
+    private XeKhach xeKhach;
+    @ManyToOne
+    private TuyenXe tuyenXe;
+    @ManyToOne
+    private TaiXe taiXe1;
+    @ManyToOne
+    private TaiXe taiXe2;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
