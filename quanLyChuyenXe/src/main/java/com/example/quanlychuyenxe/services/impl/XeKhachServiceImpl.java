@@ -40,4 +40,9 @@ public class XeKhachServiceImpl implements XeKhachService {
         }
         return ResponseBuilder.ok(xeKhachRepository.findById(id));
     }
+
+    @Override
+    public Response searchByName(String tenxekhach) {
+        return ResponseBuilder.ok(xeKhachRepository.findByTenXeKhachContaining(tenxekhach));
+    }
 }

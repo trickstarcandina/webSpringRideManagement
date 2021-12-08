@@ -2,6 +2,7 @@ package com.example.quanlychuyenxe.controller;
 
 
 import com.example.quanlychuyenxe.model.*;
+import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
 import com.example.quanlychuyenxe.services.*;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
@@ -11,11 +12,8 @@ import com.example.quanlychuyenxe.model.TuyenXe;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -117,8 +115,8 @@ public class AdminController {
         return ResponseEntity.ok().body(xeKhachService.delete(bienSo).build());
     }
 
-    @GetMapping("/searchXeKhach")
-    public ResponseEntity searchXeKhachByID(@RequestParam("bienSo") String bienSo) {
+    @GetMapping("/showXeKhachByID/{bienSo}")
+    public ResponseEntity showXeKhach(@PathVariable("bienSo") String bienSo) {
         return ResponseEntity.ok().body(xeKhachService.searchById(bienSo).build());
     }
 
@@ -135,6 +133,11 @@ public class AdminController {
             return ResponseEntity.ok().body(xeKhachService.create(xeKhach).build());
         }
         throw new IllegalStateException("Error");
+    }
+
+    @GetMapping("/searchXeKhach")
+    public ResponseEntity searchXeKhachByTen(@RequestParam("tenxekhach") String tenxekhach) {
+        return ResponseEntity.ok().body(xeKhachService.searchByName(tenxekhach).build());
     }
 
     // luong co ban
@@ -168,10 +171,10 @@ public class AdminController {
     }
 
     // Chuyen Xe
-    @PostMapping("/addChuyenXe")
-    public ResponseEntity addChuyenXe(@RequestBody ChuyenXe chuyenXe) {
-        return ResponseEntity.ok().headers(httpHeaders -> {Collections.singletonList(MediaType.APPLICATION_JSON_UTF8_VALUE);})
-                .body(chuyenXeService.create(chuyenXe));
+    @PostMapping(value = "/addChuyenXe")
+    public ResponseEntity addChuyenXe(@RequestBody ChuyenXeRequest chuyenXeRequest) {
+
+        return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
     }
 
     @DeleteMapping("/deleteChuyenXe/{id}")
@@ -189,11 +192,9 @@ public class AdminController {
         return ResponseEntity.ok().body(chuyenXeService.searchById(id).build());
     }
 
-    @PutMapping("/updateTuyenXe/{id}")
-    public ResponseEntity updateChuyenXe(@PathVariable("id") Integer id, @RequestBody ChuyenXe chuyenXe) {
-        if (chuyenXe.getId() == id) {
-            return ResponseEntity.ok().body(chuyenXeService.create(chuyenXe).build());
-        }
-        throw new IllegalStateException("Error");
+    @PutMapping("/updateChuyenXe")
+    public ResponseEntity updateChuyenXe(@RequestParam("id") Integer id, @RequestBody ChuyenXeRequest chuyenXeRequest) {
+        chuyenXeRequest.setId(id);
+        return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
     }
 }

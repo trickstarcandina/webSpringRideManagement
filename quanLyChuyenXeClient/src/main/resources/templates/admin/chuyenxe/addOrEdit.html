@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Tables - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+    <link th:href="@{../css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+          integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+            class="fas fa-bars"></i></button>
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
+                   aria-describedby="btnNavbarSearch"/>
+            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#!">Settings</a></li>
+                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                <li>
+                    <hr class="dropdown-divider"/>
+                </li>
+                <li><a class="dropdown-item" href="#!">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Core</div>
+                    <a class="nav-link" href="index.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Dashboard
+                    </a>
+                    <div class="sb-sidenav-menu-heading">Interface</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
+                       aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Layouts
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                        </nav>
+                    </div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                       aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Pages
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                               data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                               aria-controls="pagesCollapseAuth">
+                                Authentication
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                 data-bs-parent="#sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="login.html">Login</a>
+                                    <a class="nav-link" href="register.html">Register</a>
+                                    <a class="nav-link" href="password.html">Forgot Password</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                               data-bs-target="#pagesCollapseError" aria-expanded="false"
+                               aria-controls="pagesCollapseError">
+                                Error
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                 data-bs-parent="#sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="401.html">401 Page</a>
+                                    <a class="nav-link" href="404.html">404 Page</a>
+                                    <a class="nav-link" href="500.html">500 Page</a>
+                                </nav>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="sb-sidenav-menu-heading">Addons</div>
+                    <a class="nav-link" href="charts.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                        Charts
+                    </a>
+                    <a class="nav-link" href="tables.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Tables
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                Start Bootstrap
+            </div>
+        </nav>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <section class="row" layout:fragment="content">
+                    <div class="col-8 offset-3 mt-4">
+                        <div class="card mb-4">
+
+                        </div>
+
+                        <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
+                        </div>
+
+                        <div>
+                            <div class="card">
+                                <div class="card-header" style="display: flex;justify-content: space-between;">
+                                    <!--  <h2 th:text="${chuyenxe.isEdit ? 'Sửa thông tin tài xế' : 'Thêm tài xế'}" />-->
+                                    <h2  th:text="${chuyenxe.isEdit ? 'Sửa thông tin Chuyến xe' : 'Thêm chuyến xe'}" />
+                                    <a th:href="@{/admin/chuyenxe}" class="btn btn-success float-right">Xem danh
+                                        sách</a>
+                                </div>
+
+                                <div th:if="${tuyenxe == null}">
+                                    <div class="row mt-2 mb-2">
+                                        <div class="col" style="display: flex; justify-content: space-between;">
+                                            <form th:action="@{/admin/chuyenxe/add/searchtuyenxe}">
+                                                <div class="form-inline float-left" style="display: flex">
+                                                    <label for="name">Điểm đầu: </label>
+                                                    <input type="text" class="form-control ml-2" name="diemDau"
+                                                           id="diemDau"
+                                                           aria-describedby="helpId">
+
+                                                    <label for="name">Điểm cuối: </label>
+                                                    <input type="text" class="form-control ml-2" name="diemCuoi"
+                                                           id="diemCuoi"
+                                                           aria-describedby="helpId">
+
+                                                    <button class="btn btn-outline-primary ml-2">Search</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <table th:if="${listtuyenxe != null}" class="table table-striped table-inverse">
+                                        <thead class="thead-inverse">
+                                        <tr>
+                                            <th>Điểm đầu</th>
+                                            <th>Điểm cuối</th>
+                                            <th>Độ dài</th>
+                                            <th>Độ phức tạp của tuyến đường</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="tuyenxe : ${listtuyenxe}">
+                                            <td scope="row" th:text="${tuyenxe.diemDau}"></td>
+                                            <td th:text="${tuyenxe.diemCuoi}"></td>
+                                            <td th:text="${tuyenxe.doDai}"></td>
+                                            <td th:text="${tuyenxe.doPhucTapCuaTuyenDuong}"></td>
+                                            <td>
+                                                <a th:href="@{'/admin/chuyenxe/add/selecttuyenxe/' + ${tuyenxe.id}}"
+                                                   class="btn btn-outline-success"><i
+                                                        class="fas fa-check-circle"></i></a>
+                                            </td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div th:if="${tuyenxe != null}" class="card-body">
+                                    <!--Collapse Bootstrap-->
+                                    <div class="accordion mb-4" id="accordionExample">
+                                        <div class="card">
+                                            <div class="card-header" id="headingTwo">
+                                                <h2 class="mb-0">
+                                                    <button class="btn btn-link collapsed" type="button"
+                                                            data-toggle="collapse" data-target="#choosetuyenxe"
+                                                            aria-expanded="false" aria-controls="collapseTwo">
+                                                        Thông tin tuyến xe
+                                                    </button>
+                                                    <a th:href="@{/admin/chuyenxe/add/removetuyenxe}"
+                                                       class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                                </h2>
+                                            </div>
+                                            <div id="choosetuyenxe" class="collapse" aria-labelledby="headingTwo"
+                                                 data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    <a th:text="${'Điểm đầu: ' + tuyenxe.diemDau}"></a><br>
+                                                    <a th:text="${'Điểm cuối: ' + tuyenxe.diemCuoi}"></a><br>
+                                                    <a th:text="${'Độ dài: ' + tuyenxe.doDai}"></a><br>
+                                                    <a th:text="${'Độ phức tạp của tuyến đường: ' + tuyenxe.doPhucTapCuaTuyenDuong}"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div th:if="${xekhach == null}" class="form-group">
+                                        <form th:action="@{/admin/chuyenxe/add/searchxekhach}">
+                                            <label for="tenxekhach">Nhập tên xe khách</label>
+                                            <div style="display: flex;">
+                                                <input type="text" class="form-control"
+                                                       name="tenxekhach" id="bienSo" aria-describedby="tenxekhachId"
+                                                       placeholder="">
+                                                <button class="btn btn-outline-info"><i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <table th:if="${listxekhach != null}" class="table table-striped table-inverse">
+                                            <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Biển số</th>
+                                                <th>Tên xe khách</th>
+                                                <th>Màu xe</th>
+                                                <th>Hãng sản xuất</th>
+                                                <th>Đời xe</th>
+                                                <th>Model</th>
+                                                <th>Số ghế</th>
+                                                <th>Số năm sử dụng</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="xekhach : ${listxekhach}">
+                                                <td scope="row" th:text="${xekhach.bienSo}"></td>
+                                                <td th:text="${xekhach.tenXeKhach}"></td>
+                                                <td th:text="${xekhach.mauXe}"></td>
+                                                <td th:text="${xekhach.hangSanXuat}"></td>
+                                                <td th:text="${xekhach.doiXe}"></td>
+                                                <td th:text="${xekhach.model}"></td>
+                                                <td th:text="${xekhach.soNamSuDung}"></td>
+                                                <td th:text="${xekhach.hangSanXuat}"></td>
+                                                <td>
+                                                    <a th:href="@{'/admin/chuyenxe/add/selectxekhach/' + ${xekhach.bienSo}}"
+                                                       class="btn btn-outline-success"><i
+                                                            class="fas fa-check-circle"></i></a>
+                                                </td>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div th:if="${xekhach != null}" class="form-group">
+                                        <div class="card">
+                                            <div class="card-header" id="headingTwo">
+                                                <h2 class="mb-0">
+                                                    <button class="btn btn-link collapsed" type="button"
+                                                            data-toggle="collapse" data-target="#choosexekhach"
+                                                            aria-expanded="false" aria-controls="collapseTwo">
+                                                        Thông tin xe khách
+                                                    </button>
+                                                    <a th:href="@{/admin/chuyenxe/add/removexekhach}"
+                                                       class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                                </h2>
+                                            </div>
+                                            <div id="choosexekhach" class="collapse" aria-labelledby="headingTwo"
+                                                 data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    <a th:text="${'Màu xe: ' + xekhach.mauXe}"></a><br>
+                                                    <a th:text="${'Hãng sản xuất: ' + xekhach.hangSanXuat}"></a><br>
+                                                    <a th:text="${'Đời xe: ' + xekhach.doiXe}"></a><br>
+                                                    <a th:text="${'model: ' + xekhach.model}"></a><br>
+                                                    <a th:text="${'Số ghế: ' + xekhach.soGhe}"></a><br>
+                                                    <a th:text="${'Số năm sử dụng: ' + xekhach.soNamSuDung}"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div th:if="${chuyenxe.isEdit}" class="row mt-4">
+                                            <div class="col-6">
+                                                <div th:if="${laixe == null}">
+                                                    <div class="row mt-2 mb-2">
+                                                        <div class="col"
+                                                             style="display: flex; justify-content: space-between;">
+                                                            <form th:action="@{/admin/chuyenxe/edit/searchlaixe}">
+                                                                <div class="form-inline float-left" style="display: flex">
+                                                                    <label for="tentaixe">Tên lái xe</label>
+                                                                    <input type="text" class="form-control ml-2"
+                                                                           name="tentaixe"
+                                                                           id="tentaixe"
+                                                                           aria-describedby="helpId">
+                                                                    <button class="btn btn-outline-primary ml-2">Search
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div th:if="${laixe != null}">
+                                                    <!--Collapse Bootstrap-->
+                                                    <div class="accordion" id="accordionExample2">
+                                                        <div class="card">
+                                                            <div class="card-header" id="laixecollapse">
+                                                                <h2 class="mb-0">
+                                                                    <button class="btn btn-link collapsed" type="button"
+                                                                            data-toggle="collapse"
+                                                                            data-target="#chooselaixe"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="laixecollapse">
+                                                                        Thông tin lái xe
+                                                                    </button>
+                                                                    <a th:href="@{/admin/chuyenxe/edit/removelaixe}"
+                                                                       class="btn btn-outline-danger"><i
+                                                                            class="fas fa-trash"></i></a>
+                                                                </h2>
+                                                            </div>
+                                                            <div id="chooselaixe" class="collapse"
+                                                                 aria-labelledby="laixecollapse"
+                                                                 data-parent="#accordionExample2">
+                                                                <div class="card-body">
+                                                                    <a th:text="${'Tên: ' + laixe.ten}"></a><br>
+                                                                    <a th:text="${'Địa chỉ: ' + laixe.diaChi}"></a><br>
+                                                                    <a th:text="${'Mã số bằng lái: ' + laixe.maSoBangLai}"></a><br>
+                                                                    <a th:text="${'Loại bằng lái: ' + laixe.loaiBangLai}"></a><br>
+                                                                    <a th:text="${'Ngày sinh: ' + laixe.ngaySinh}"></a><br>
+                                                                    <a th:text="${'Thâm niên: ' + laixe.thamNien}"></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div th:if="${phuxe == null}" class="form-group">
+                                                    <div class="row mt-2 mb-2">
+                                                        <div class="col"
+                                                             style="display: flex; justify-content: space-between;">
+                                                            <form th:action="@{/admin/chuyenxe/edit/searchphuxe}">
+                                                                <div class="form-inline float-left" style="display: flex">
+                                                                    <label for="tentaixe">Tên phụ xe</label>
+                                                                    <input type="text" class="form-control ml-2"
+                                                                           name="tentaixe"
+                                                                           aria-describedby="helpId">
+                                                                    <button class="btn btn-outline-primary ml-2">Search
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div th:if="${phuxe != null}" class="form-group">
+                                                    <!--Collapse Bootstrap-->
+                                                    <div class="card">
+                                                        <div class="card-header" id="phuxecollapse">
+                                                            <h2 class="mb-0">
+                                                                <button class="btn btn-link collapsed" type="button"
+                                                                        data-toggle="collapse" data-target="#choosephuxe"
+                                                                        aria-expanded="false" aria-controls="laixecollapse">
+                                                                    Thông tin phụ xe
+                                                                </button>
+                                                                <a th:href="@{/admin/chuyenxe/edit/removephuxe}"
+                                                                   class="btn btn-outline-danger"><i
+                                                                        class="fas fa-trash"></i></a>
+                                                            </h2>
+                                                        </div>
+                                                        <div id="choosephuxe" class="collapse"
+                                                             aria-labelledby="phuxecollapse"
+                                                             data-parent="#accordionExample2">
+                                                            <div class="card-body">
+                                                                <a th:text="${'Tên: ' + phuxe.ten}"></a><br>
+                                                                <a th:text="${'Địa chỉ: ' + phuxe.diaChi}"></a><br>
+                                                                <a th:text="${'Mã số bằng lái: ' + phuxe.maSoBangLai}"></a><br>
+                                                                <a th:text="${'Loại bằng lái: ' + phuxe.loaiBangLai}"></a><br>
+                                                                <a th:text="${'Ngày sinh: ' + phuxe.ngaySinh}"></a><br>
+                                                                <a th:text="${'Thâm niên: ' + phuxe.thamNien}"></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <table th:if="${listtaixe != null}"
+                                                   class="table table-striped table-inverse">
+                                                <thead class="thead-inverse">
+                                                <tr>
+                                                    <th>CMT</th>
+                                                    <th>Tên</th>
+                                                    <th>Mã số bằng lái</th>
+                                                    <th>Loại bằng lái</th>
+                                                    <th>Địa chỉ</th>
+                                                    <th>Ngày sinh</th>
+                                                    <th>Thâm niên</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="taixe : ${listtaixe}">
+                                                    <td scope="row" th:text="${taixe.cmtTaiXe}"></td>
+                                                    <td th:text="${taixe.ten}"></td>
+                                                    <td th:text="${taixe.maSoBangLai}"></td>
+                                                    <td th:text="${taixe.loaiBangLai}"></td>
+                                                    <td th:text="${taixe.diaChi}"></td>
+                                                    <td th:text="${taixe.ngaySinh}"></td>
+                                                    <td th:text="${taixe.thamNien}"></td>
+                                                    <td>
+                                                        <a th:href="@{'/admin/chuyenxe/edit/selectlaixe/' + ${taixe.cmtTaiXe}}"
+                                                           class="btn btn-outline-success"><i
+                                                                class="fas fa-check-circle"></i></a>
+                                                    </td>
+
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <table th:if="${listphuxe != null}"
+                                                   class="table table-striped table-inverse">
+                                                <thead class="thead-inverse">
+                                                <tr>
+                                                    <th>CMT</th>
+                                                    <th>Tên</th>
+                                                    <th>Mã số bằng lái</th>
+                                                    <th>Loại bằng lái</th>
+                                                    <th>Địa chỉ</th>
+                                                    <th>Ngày sinh</th>
+                                                    <th>Thâm niên</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="taixe : ${listphuxe}">
+                                                    <td scope="row" th:text="${taixe.cmtTaiXe}"></td>
+                                                    <td th:text="${taixe.ten}"></td>
+                                                    <td th:text="${taixe.maSoBangLai}"></td>
+                                                    <td th:text="${taixe.loaiBangLai}"></td>
+                                                    <td th:text="${taixe.diaChi}"></td>
+                                                    <td th:text="${taixe.ngaySinh}"></td>
+                                                    <td th:text="${taixe.thamNien}"></td>
+                                                    <td>
+                                                        <a th:href="@{'/admin/chuyenxe/edit/selectphuxe/' + ${taixe.cmtTaiXe}}"
+                                                           class="btn btn-outline-success"><i
+                                                                class="fas fa-check-circle"></i></a>
+                                                    </td>
+
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+
+                                        <form th:action="${chuyenxe.isEdit}? @{/admin/chuyenxe/update} : @{/admin/chuyenxe/save}"
+                                              th:object="${chuyenxe}" method="POST">
+                                            <div class="form-group">
+                                                <label for="giaVe">Giá vé</label>
+                                                <input th:value="*{giaVe}" type="number"
+                                                       th:class="${#fields.hasErrors('giaVe')} ? 'validationInputError form-control' : 'form-control'"
+                                                       name="giaVe" id="giaVe" aria-describedby="giaVeId"
+                                                       placeholder="">
+                                                <span class="validationError"
+                                                      th:if="${#fields.hasErrors('giaVe')}"
+                                                      th:errors="*{giaVe}">Error</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="thoiGianKhoiHanh">Thời gian khởi hành</label>
+                                                <input th:value="${#dates.format(chuyenxe.thoiGianKhoiHanh, 'HH:mm dd/MM/yyyy')}"
+                                                       type="text"
+                                                       th:class="${#fields.hasErrors('thoiGianKhoiHanh')} ? 'validationInputError form-control' : 'form-control'"
+                                                       name="thoiGianKhoiHanh" id="thoiGianKhoiHanh"
+                                                       aria-describedby="thoiGianKhoiHanhId"
+                                                       placeholder="">
+                                                <span class="validationError"
+                                                      th:if="${#fields.hasErrors('thoiGianKhoiHanh')}">Định dạng thời gian là HH:mm dd/MM/yyyy</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="thoiGianKetThuc">Thời gian kết thúc</label>
+                                                <input th:value="${#dates.format(chuyenxe.thoiGianKetThuc, 'HH:mm dd/MM/yyyy')}"
+                                                       type="text"
+                                                       th:class="${#fields.hasErrors('thoiGianKetThuc')} ? 'validationInputError form-control' : 'form-control'"
+                                                       name="thoiGianKetThuc" id="thoiGianKetThuc"
+                                                       aria-describedby="thoiGianKetThucId"
+                                                       placeholder="">
+                                                <span class="validationError"
+                                                      th:if="${#fields.hasErrors('thoiGianKetThuc')}">Định dạng thời gian là HH:mm dd/MM/yyyy</span>
+                                            </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="card-footer text-muted">
+                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                    <a th:href="@{/admin/chuyenxe}" class="btn btn-success">Xem danh
+                                        sách</a>
+                                    <button class="btn btn-primary">Lưu</button>
+                                </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script th:src="@{../js/scripts.js}"></script>
+<script th:src="@{js/scripts.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script th:src="@{../js/datatables-simple-demo.js}"></script>
+<script th:src="@{js/datatables-simple-demo.js}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

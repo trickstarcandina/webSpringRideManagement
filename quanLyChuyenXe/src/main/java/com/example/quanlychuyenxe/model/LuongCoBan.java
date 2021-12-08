@@ -19,7 +19,8 @@ public class LuongCoBan extends BaseEntity {
     private String ghiChu;
     private Date thangLuong;
 
-    private String cmtTaiXe;
+    @ManyToOne
+    private TaiXe taiXe;
 
 //    @JsonIgnore
 //    @ManyToMany(fetch = FetchType.EAGER)

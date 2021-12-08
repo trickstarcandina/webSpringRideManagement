@@ -29,52 +29,52 @@ public class AdminController {
     private RestTemplate rest = new RestTemplate();
 
     // Khách hàng
-    @GetMapping("customers")
-    public String homeCustomer() {
-        return "redirect:customers/search?name=";
-//        return "admin/customers/search";
+    @GetMapping("khachhang")
+    public String homeKhachHang() {
+        return "redirect:khachhang/search?name=";
+//        return "admin/khachhang/search";
     }
 
-    @GetMapping("customers/search")
-    public String searchCustomer(ModelMap model, @RequestParam("name") String name) {
+    @GetMapping("khachhang/search")
+    public String searchKhachHang(ModelMap model, @RequestParam("name") String name) {
         ResponseEntity<ResponseBuilder> responseEntity = rest.getForEntity("http://localhost:8080/api/admin/searchKhachHang?tenKhachHang="
                 + name, ResponseBuilder.class);
-        List<KhachHang> customers = (List<KhachHang>) responseEntity.getBody().getData();
-        model.addAttribute("listkhachhang", customers);
-        return "admin/customers/search";
+        List<KhachHang> listkhachhang = (List<KhachHang>) responseEntity.getBody().getData();
+        model.addAttribute("listkhachhang", listkhachhang);
+        return "admin/khachhang/search";
     }
 
-    @GetMapping("customers/add")
-    public String addCustomer(Model model) {
+    @GetMapping("khachhang/add")
+    public String addKhachHang(Model model) {
         model.addAttribute("khachhang", new KhachHang());
-        return "admin/customers/addOrEdit";
+        return "admin/khachhang/addOrEdit";
     }
 
-    @GetMapping("customers/edit/{cmtKhachHang}")
-    public String editCustomer(Model model, @PathVariable("cmtKhachHang") String cmtKhachHang) {
+    @GetMapping("khachhang/edit/{cmtKhachHang}")
+    public String editKhachHang(Model model, @PathVariable("cmtKhachHang") String cmtKhachHang) {
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showKhachHang/{cmtKhachHang}",
                 ResponseBuilder.class, cmtKhachHang);
         ObjectMapper objectMapper = new ObjectMapper();
-        KhachHang customer = objectMapper.convertValue(builder.getData(), KhachHang.class);
-        customer.setIsEdit(true);
-        model.addAttribute("khachhang", customer);
-        return "admin/customers/addOrEdit";
+        KhachHang khachhang = objectMapper.convertValue(builder.getData(), KhachHang.class);
+        khachhang.setIsEdit(true);
+        model.addAttribute("khachhang", khachhang);
+        return "admin/khachhang/addOrEdit";
     }
 
-    @GetMapping("customers/delete/{cmtKhachHang}")
-    public ModelAndView deleteCustomer(ModelMap model, @PathVariable("cmtKhachHang") String cmtKhachHang) {
+    @GetMapping("khachhang/delete/{cmtKhachHang}")
+    public ModelAndView deleteKhachHang(ModelMap model, @PathVariable("cmtKhachHang") String cmtKhachHang) {
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteKhachHang/" + cmtKhachHang,
                 HttpMethod.DELETE, null, ResponseBuilder.class);
         if(responseEntity.getStatusCode() == HttpStatus.OK) {
             model.addAttribute("deleteNotice", "Xóa thành công");
         }
-        return new ModelAndView("admin/customers/search", model);
+        return new ModelAndView("admin/khachhang/search", model);
     }
 
-    @PostMapping("customers/update")
-    public String updateCustomer(Model model, @Valid @ModelAttribute("khachhang") KhachHang khachHang, Errors errors) {
+    @PostMapping("khachhang/update")
+    public String updateKhachHang(Model model, @Valid @ModelAttribute("khachhang") KhachHang khachHang, Errors errors) {
         if(errors.hasErrors()) {
-            return "admin/customers/search";
+            return "admin/khachhang/search";
         }
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateKhachHang/" + khachHang.getCmtKhachHang(),
                 HttpMethod.PUT, new HttpEntity<>(khachHang, null), ResponseBuilder.class);
@@ -85,20 +85,20 @@ public class AdminController {
             noticeUpdate = "Cập nhật thất bại!";
         }
         model.addAttribute("noticeUpdate", noticeUpdate);
-        return "admin/customers/search";
+        return "admin/khachhang/search";
     }
 
-    @PostMapping("customers/save")
-    public String saveCustomer(Model model, @Valid @ModelAttribute("khachhang") KhachHang khachHang, Errors errors) {
+    @PostMapping("khachhang/save")
+    public String saveKhachHang(Model model, @Valid @ModelAttribute("khachhang") KhachHang khachHang, Errors errors) {
         if(errors.hasErrors()) {
-            return "admin/customers/addOrEdit";
+            return "admin/khachhang/addOrEdit";
         }
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showKhachHang/{cmtKhachHang}",
                 ResponseBuilder.class, khachHang.getCmtKhachHang());
         ObjectMapper objectMapper = new ObjectMapper();
-        KhachHang customer = objectMapper.convertValue(builder.getData(), KhachHang.class);
+        KhachHang khachhang = objectMapper.convertValue(builder.getData(), KhachHang.class);
         String notice = "";
-        if(!ObjectUtils.isEmpty(customer)) {
+        if(!ObjectUtils.isEmpty(khachhang)) {
             notice = "Thẻ căn cước công dân đã tồn tại!";
         } else {
             ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addKhachHang",
@@ -106,55 +106,55 @@ public class AdminController {
             notice = "Thành công!";
         }
         model.addAttribute("notice", notice);
-        return "admin/customers/addOrEdit";
+        return "admin/khachhang/addOrEdit";
     }
 
     // Tài xế
-    @GetMapping("drivers")
-    public String homeDriver() {
-        return "redirect:drivers/search?name=";
+    @GetMapping("taixe")
+    public String homeTaiXe() {
+        return "redirect:taixe/search?name=";
     }
 
-    @GetMapping("drivers/search")
-    public String searchDriver(ModelMap model, @RequestParam("name") String name) {
+    @GetMapping("taixe/search")
+    public String searchTaiXe(ModelMap model, @RequestParam("name") String name) {
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/searchTaiXe?tenTaiXe=" + name,
                 ResponseBuilder.class);
-        List<TaiXe> drivers = (List<TaiXe>) builder.getData();
-        model.addAttribute("listtaixe", drivers);
-        return "admin/drivers/search";
+        List<TaiXe> listtaixe = (List<TaiXe>) builder.getData();
+        model.addAttribute("listtaixe", listtaixe);
+        return "admin/taixe/search";
     }
 
-    @GetMapping("drivers/add")
-    public String addDriver(Model model) {
+    @GetMapping("taixe/add")
+    public String addTaiXe(Model model) {
         model.addAttribute("taixe", new TaiXe());
-        return "admin/drivers/addOrEdit";
+        return "admin/taixe/addOrEdit";
     }
 
-    @GetMapping("drivers/edit/{cmtTaiXe}")
-    public String editDriver(Model model, @PathVariable("cmtTaiXe") String cmtTaiXe) {
+    @GetMapping("taixe/edit/{cmtTaiXe}")
+    public String editTaiXe(Model model, @PathVariable("cmtTaiXe") String cmtTaiXe) {
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{cmtTaiXe}",
                 ResponseBuilder.class, cmtTaiXe);
         ObjectMapper objectMapper = new ObjectMapper();
-        TaiXe driver = objectMapper.convertValue(builder.getData(), TaiXe.class);
-        driver.setIsEdit(true);
-        model.addAttribute("taixe", driver);
-        return "admin/drivers/addOrEdit";
+        TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
+        taixe.setIsEdit(true);
+        model.addAttribute("taixe", taixe);
+        return "admin/taixe/addOrEdit";
     }
 
-    @GetMapping("drivers/delete/{cmtTaiXe}")
-    public ModelAndView deleteDriver(ModelMap model, @PathVariable("cmtTaiXe") String cmtTaiXe) {
+    @GetMapping("taixe/delete/{cmtTaiXe}")
+    public ModelAndView deleteTaiXe(ModelMap model, @PathVariable("cmtTaiXe") String cmtTaiXe) {
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteTaiXe/" + cmtTaiXe,
                 HttpMethod.DELETE, null, ResponseBuilder.class);
         if(responseEntity.getStatusCode() == HttpStatus.OK) {
             model.addAttribute("deleteNotice", "Xóa thành công");
         }
-        return new ModelAndView("admin/drivers/search", model);
+        return new ModelAndView("admin/taixe/search", model);
     }
 
-    @PostMapping("drivers/update")
-    public String updateDriver(Model model, @Valid @ModelAttribute("taixe") TaiXe taiXe, Errors errors) {
+    @PostMapping("taixe/update")
+    public String updateTaiXe(Model model, @Valid @ModelAttribute("taixe") TaiXe taiXe, Errors errors) {
         if(errors.hasErrors()) {
-            return "admin/drivers/addOrEdit";
+            return "admin/taixe/addOrEdit";
         }
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateTaiXe/"
                         + taiXe.getCmtTaiXe(), HttpMethod.PUT, new HttpEntity<>(taiXe, null), ResponseBuilder.class);
@@ -165,20 +165,20 @@ public class AdminController {
             noticeUpdate = "Cập nhật thất bại!";
         }
         model.addAttribute("noticeUpdate", noticeUpdate);
-        return "admin/drivers/search";
+        return "admin/taixe/search";
     }
 
-    @PostMapping("drivers/save")
-    public String saveDriver(Model model, @Valid @ModelAttribute("taixe") TaiXe taiXe, Errors errors) {
+    @PostMapping("taixe/save")
+    public String saveTaiXe(Model model, @Valid @ModelAttribute("taixe") TaiXe taiXe, Errors errors) {
         if(errors.hasErrors()) {
-            return "admin/drivers/addOrEdit";
+            return "admin/taixe/addOrEdit";
         }
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{cmtTaiXe}",
                 ResponseBuilder.class, taiXe.getCmtTaiXe());
         ObjectMapper objectMapper = new ObjectMapper();
-        TaiXe driver = objectMapper.convertValue(builder.getData(), TaiXe.class);
+        TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
         String notice = "";
-        if(!ObjectUtils.isEmpty(driver)) {
+        if(!ObjectUtils.isEmpty(taixe)) {
             notice = "Thẻ căn cước công dân đã tồn tại!";
         } else {
             ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addTaiXe",
@@ -186,6 +186,6 @@ public class AdminController {
             notice = "Thành công!";
         }
         model.addAttribute("notice", notice);
-        return "admin/drivers/addOrEdit";
+        return "admin/taixe/addOrEdit";
     }
 }
