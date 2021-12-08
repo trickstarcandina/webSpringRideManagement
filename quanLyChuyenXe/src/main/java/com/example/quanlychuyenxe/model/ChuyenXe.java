@@ -20,6 +20,8 @@ public class ChuyenXe extends BaseEntity {
     private Date thoiGianKhoiHanh;
     private Date thoiGianKetThuc;
     private Integer soLuongHanhKhach;
+    private String status; // 0 - chưa đủ tài xế; 1 - đã đủ tài xế; 2 - đang di chuyển; 3 - đã kết thúc
+    //note ở trạng thái 0,1 thì khách hàng có thể mua đc vé
 
 //    private String bienSo;
 //    private String maSoTuyenXe;
