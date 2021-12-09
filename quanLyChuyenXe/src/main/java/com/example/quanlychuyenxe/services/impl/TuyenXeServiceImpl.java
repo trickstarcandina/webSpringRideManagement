@@ -42,4 +42,14 @@ public class TuyenXeServiceImpl implements TuyenXeService {
         }
         return ResponseBuilder.ok(tuyenXeRepository.findById(Integer.valueOf(idTuyenXe)));
     }
+
+    @Override
+    public Response search(String diemDau, String diemCuoi) {
+        return ResponseBuilder.ok(tuyenXeRepository.findAllByDiemDauContainingAndDiemCuoiContaining(diemDau, diemCuoi));
+    }
+
+    @Override
+    public Response showTuyenXeById(Integer id) {
+        return ResponseBuilder.ok(tuyenXeRepository.findById(id));
+    }
 }

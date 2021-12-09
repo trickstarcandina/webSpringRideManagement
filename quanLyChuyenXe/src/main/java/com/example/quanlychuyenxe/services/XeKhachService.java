@@ -9,4 +9,5 @@ public interface XeKhachService {
     Response delete(String bienSo);
     Response searchById(String bienSo);
     Response showXeKhach(String idTuyenXe, Pageable pageable);
+    Response searchByName(String tenxekhach);
 }
