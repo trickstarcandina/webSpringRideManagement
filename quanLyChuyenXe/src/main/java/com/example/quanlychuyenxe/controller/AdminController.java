@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +27,8 @@ public class AdminController {
     private KhachHangService khachHangService;
     private TaiXeService taiXeService;
     private ChuyenXeService chuyenXeService;
+
+    private BCryptPasswordEncoder encoder;
 
    //tuyen xe
     @PostMapping("/addTuyenXe")
@@ -49,12 +52,13 @@ public class AdminController {
     // Khach Hang
     @PostMapping("/addKhachHang")
     public ResponseEntity addKhachHang(@RequestBody KhachHang khachHang) {
+        khachHang.setPassword(encoder.encode(khachHang.getPassword()));
         return ResponseEntity.ok().body(khachHangService.create(khachHang).build());
     }
 
-    @DeleteMapping("/deleteKhachHang/{cmtKhachHang}")
-    public ResponseEntity deleteKhachHang(@PathVariable("cmtKhachHang") String cmtKhachHang) {
-        return ResponseEntity.ok().body(khachHangService.delete(cmtKhachHang).build());
+    @DeleteMapping("/deleteKhachHang/{username}")
+    public ResponseEntity deleteKhachHang(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(khachHangService.delete(username).build());
     }
 
     @GetMapping("/searchKhachHang")
@@ -62,14 +66,14 @@ public class AdminController {
         return ResponseEntity.ok().body(khachHangService.searchByName(tenKhachHang).build());
     }
 
-    @GetMapping("/showKhachHang/{cmtKhachHang}")
-    public ResponseEntity searchKhachHangByID(@PathVariable("cmtKhachHang") String cmtKhachHang) {
-        return ResponseEntity.ok().body(khachHangService.searchById(cmtKhachHang).build());
+    @GetMapping("/showKhachHang/{username}")
+    public ResponseEntity searchKhachHangByID(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(khachHangService.searchById(username).build());
     }
 
-    @PutMapping("/updateKhachHang/{cmtKhachHang}")
-    public ResponseEntity updateKhachHang(@PathVariable("cmtKhachHang") String cmtKhachHang, @RequestBody KhachHang khachHang) {
-        if (khachHang.getCmtKhachHang().equals(cmtKhachHang)) {
+    @PutMapping("/updateKhachHang/{username}")
+    public ResponseEntity updateKhachHang(@PathVariable("username") String username, @RequestBody KhachHang khachHang) {
+        if (khachHang.getUsername().equals(username)) {
             return ResponseEntity.ok().body(khachHangService.create(khachHang).build());
         }
         throw new IllegalStateException("Error");
@@ -78,12 +82,13 @@ public class AdminController {
     // Tai Xe
     @PostMapping("/addTaiXe")
     public ResponseEntity addTaiXe(@RequestBody TaiXe taiXe) {
+        taiXe.setPassword(encoder.encode(taiXe.getPassword()));
         return ResponseEntity.ok().body(taiXeService.create(taiXe).build());
     }
 
-    @DeleteMapping("/deleteTaiXe/{cmtTaiXe}")
-    public ResponseEntity deleteTaiXe(@PathVariable("cmtTaiXe") String cmtTaiXe) {
-        return ResponseEntity.ok().body(taiXeService.delete(cmtTaiXe).build());
+    @DeleteMapping("/deleteTaiXe/{username}")
+    public ResponseEntity deleteTaiXe(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(taiXeService.delete(username).build());
     }
 
     @GetMapping("/searchTaiXe")
@@ -91,14 +96,14 @@ public class AdminController {
         return ResponseEntity.ok().body(taiXeService.searchByName(tenTaiXe).build());
     }
 
-    @GetMapping("/showTaiXe/{cmtTaiXe}")
-    public ResponseEntity searchTaiXeByID(@PathVariable("cmtTaiXe") String cmtTaiXe) {
-        return ResponseEntity.ok().body(taiXeService.searchById(cmtTaiXe).build());
+    @GetMapping("/showTaiXe/{username}")
+    public ResponseEntity searchTaiXeByID(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(taiXeService.searchById(username).build());
     }
 
-    @PutMapping("/updateTaiXe/{cmtTaiXe}")
-    public ResponseEntity updateTaiXe(@PathVariable("cmtTaiXe") String cmtTaiXe, @RequestBody TaiXe taiXe) {
-        if (taiXe.getCmtTaiXe().equals(cmtTaiXe)) {
+    @PutMapping("/updateTaiXe/{username}")
+    public ResponseEntity updateTaiXe(@PathVariable("username") String username, @RequestBody TaiXe taiXe) {
+        if (taiXe.getUsername().equals(username)) {
             return ResponseEntity.ok().body(taiXeService.create(taiXe).build());
         }
         throw new IllegalStateException("Error");

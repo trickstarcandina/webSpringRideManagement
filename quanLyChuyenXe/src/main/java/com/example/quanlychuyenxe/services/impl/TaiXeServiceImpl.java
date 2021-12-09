@@ -2,13 +2,20 @@ package com.example.quanlychuyenxe.services.impl;
 
 import com.example.quanlychuyenxe.base.response.Response;
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
+import com.example.quanlychuyenxe.dto.KhachHangDetailsDTO;
+import com.example.quanlychuyenxe.dto.TaiXeDetailsDTO;
 import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.repositories.TaiXeRepository;
 import com.example.quanlychuyenxe.services.TaiXeService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -18,13 +25,18 @@ public class TaiXeServiceImpl implements TaiXeService {
 
     @Override
     public Response create(TaiXe taiXe) {
-        return ResponseBuilder.ok(taiXeRepository.save(taiXe));
+        if(taiXeRepository.checkUserNameExists(taiXe.getUsername()) > 0) {
+            return ResponseBuilder.ok(201,"Tài khoản đã tồn tại, vui lòng thử lại");
+        }
+        else {
+            return ResponseBuilder.ok(taiXeRepository.save(taiXe));
+        }
     }
 
     @Override
-    public Response delete(String cmtTaiXe) {
-        taiXeRepository.deleteById(cmtTaiXe);
-        return ResponseBuilder.ok();
+    public Response delete(String username) {
+        taiXeRepository.deleteById(username);
+        return ResponseBuilder.ok(200,"Xóa tài xế thành công");
     }
 
     @Override
@@ -33,7 +45,19 @@ public class TaiXeServiceImpl implements TaiXeService {
     }
 
     @Override
-    public Response searchById(String cmtTaiXe) {
-        return ResponseBuilder.ok(taiXeRepository.findById(cmtTaiXe));
+    public Response searchById(String username) {
+        return ResponseBuilder.ok(taiXeRepository.findById(username));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        TaiXe taiXe = taiXeRepository.findById(s).get();
+        if(taiXe == null) {
+            throw new UsernameNotFoundException("Not found username : " + s);
+        }
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        return new TaiXeDetailsDTO(taiXe.getUsername(), taiXe.getPassword(), true, true,
+                true, true , authorities, taiXe);
+//        return null;
     }
 }

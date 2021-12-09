@@ -16,7 +16,6 @@ import java.util.Date;
 @Getter
 @Data
 public class TaiXe extends BaseEntityUser {
-    @Id
     private String cmtTaiXe;
     private String ten;
     private String maSoBangLai;

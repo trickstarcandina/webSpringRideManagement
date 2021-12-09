@@ -25,19 +25,23 @@ public class ChuyenXe extends BaseEntity {
     private Date thoiGianKhoiHanh;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
     private Date thoiGianKetThuc;
-    private Integer soLuongHanhKhach = 0;
-    private Integer status; // 0 - chưa đủ tài xế; 1 - đã đủ tài xế; 2 - đang di chuyển; 3 - đã kết thúc
+
+    private Integer soLuongHanhKhach;
+    private String status; // 0 - chưa đủ tài xế; 1 - đã đủ tài xế; 2 - đang di chuyển; 3 - đã kết thúc
     //note ở trạng thái 0,1 thì khách hàng có thể mua đc vé
+
+//    private String bienSo;
+//    private String maSoTuyenXe;
+//    private String cmtLaiXe;
+//    private String cmtPhuXe;
 
     @ManyToOne
     private XeKhach xeKhach;
     @ManyToOne
     private TuyenXe tuyenXe;
     @ManyToOne
-    @JoinColumn(nullable = true)
     private TaiXe taiXe1;
     @ManyToOne
-    @JoinColumn(nullable = true)
     private TaiXe taiXe2;
 
     @JsonIgnore
