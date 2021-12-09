@@ -1,22 +1,14 @@
 package com.example.quanlychuyenxe.controller;
 
 
-import com.example.quanlychuyenxe.model.LuongCoBan;
-import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.services.LuongCoBanService;
+import com.example.quanlychuyenxe.model.*;
+import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
+import com.example.quanlychuyenxe.services.*;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
-import com.example.quanlychuyenxe.model.KhachHang;
-import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.model.XeKhach;
-
-import com.example.quanlychuyenxe.services.KhachHangService;
-import com.example.quanlychuyenxe.services.TaiXeService;
 
 
-import com.example.quanlychuyenxe.services.TuyenXeService;
-import com.example.quanlychuyenxe.services.XeKhachService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +26,7 @@ public class AdminController {
     private XeKhachService xeKhachService;
     private KhachHangService khachHangService;
     private TaiXeService taiXeService;
+    private ChuyenXeService chuyenXeService;
 
     private BCryptPasswordEncoder encoder;
 
@@ -127,8 +120,8 @@ public class AdminController {
         return ResponseEntity.ok().body(xeKhachService.delete(bienSo).build());
     }
 
-    @GetMapping("/searchXeKhach")
-    public ResponseEntity searchXeKhachByID(@RequestParam("bienSo") String bienSo) {
+    @GetMapping("/showXeKhachByID/{bienSo}")
+    public ResponseEntity showXeKhach(@PathVariable("bienSo") String bienSo) {
         return ResponseEntity.ok().body(xeKhachService.searchById(bienSo).build());
     }
 
@@ -145,6 +138,11 @@ public class AdminController {
             return ResponseEntity.ok().body(xeKhachService.create(xeKhach).build());
         }
         throw new IllegalStateException("Error");
+    }
+
+    @GetMapping("/searchXeKhach")
+    public ResponseEntity searchXeKhachByTen(@RequestParam("tenxekhach") String tenxekhach) {
+        return ResponseEntity.ok().body(xeKhachService.searchByName(tenxekhach).build());
     }
 
     // luong co ban
@@ -175,5 +173,33 @@ public class AdminController {
             return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
         }
         throw new IllegalStateException("Error");
+    }
+
+    // Chuyen Xe
+    @PostMapping(value = "/addChuyenXe")
+    public ResponseEntity addChuyenXe(@RequestBody ChuyenXeRequest chuyenXeRequest) {
+
+        return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
+    }
+
+    @DeleteMapping("/deleteChuyenXe/{id}")
+    public ResponseEntity deleteChuyenXe(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(chuyenXeService.delete(id).build());
+    }
+
+    @GetMapping("/allChuyenXe")
+    public ResponseEntity allChuyenXe() {
+        return ResponseEntity.ok().body(chuyenXeService.getAll().build());
+    }
+
+    @GetMapping("/showChuyenXe/{id}")
+    public ResponseEntity searchChuyenXeByID(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(chuyenXeService.searchById(id).build());
+    }
+
+    @PutMapping("/updateChuyenXe")
+    public ResponseEntity updateChuyenXe(@RequestParam("id") Integer id, @RequestBody ChuyenXeRequest chuyenXeRequest) {
+        chuyenXeRequest.setId(id);
+        return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
     }
 }
