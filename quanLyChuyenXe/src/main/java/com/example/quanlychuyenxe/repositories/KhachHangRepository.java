@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface KhachHangRepository extends JpaRepository<KhachHang, String>{
     List<KhachHang> findByTenContaining(String ten);
+
+    @Query(value = "select count(*) from khachhang where username = ?", nativeQuery = true)
+    Integer checkUserNameExists(String username);
+
 }
