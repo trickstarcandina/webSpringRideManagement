@@ -47,8 +47,9 @@ public class AdminController {
 
     @PutMapping("/updateTuyenXe/{idTuyenXe}")
     public ResponseEntity updateTuyenXe(@PathVariable("idTuyenXe") String idTuyenXe, @RequestBody TuyenXe tuyenXe) {
-        if (tuyenXe.getId().equals(idTuyenXe)) {
-            return ResponseEntity.ok().body(tuyenXeService.create(tuyenXe).build());
+        Integer id = Integer.parseInt(idTuyenXe);
+        if (tuyenXe.getId().equals(id)) {
+            return ResponseEntity.ok().body(tuyenXeService.update(tuyenXe).build());
         }
         return ResponseEntity.ok().body(ResponseBuilder.ok(200, "Cập nhật thất bại"));
     }
@@ -142,33 +143,5 @@ public class AdminController {
         throw new IllegalStateException("Error");
     }
 
-    // luong co ban
 
-    @PostMapping("/addLuongCoBan")
-    public ResponseEntity addLuongCoBan(@RequestBody LuongCoBan luongCoBan) {
-        return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
-    }
-
-    @DeleteMapping("/deleteLuongCoBan/{id}")
-    public ResponseEntity deleteLuongCoBan(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok().body(luongCoBanService.delete(id).build());
-    }
-
-    @GetMapping("/searchLuongCoBan")
-    public ResponseEntity searchLuongCoBanByLuong(@RequestParam("luong") Long luong) {
-        return ResponseEntity.ok().body(luongCoBanService.searchByLuong(luong));
-    }
-
-    @GetMapping("/showLuongCoBan")
-    public ResponseEntity searchLuongCoBanById(@RequestParam("id") Integer id) {
-        return ResponseEntity.ok().body(luongCoBanService.searchById(id));
-    }
-
-    @PutMapping("/updateLuongCoBan/{id}")
-    public ResponseEntity updateLuongCoBan(@PathVariable("id") Integer id, @RequestBody LuongCoBan luongCoBan) {
-        if (luongCoBan.getId().equals(id)) {
-            return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
-        }
-        throw new IllegalStateException("Error");
-    }
 }
