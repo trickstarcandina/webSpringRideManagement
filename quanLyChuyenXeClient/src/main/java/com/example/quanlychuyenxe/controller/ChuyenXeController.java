@@ -31,8 +31,9 @@ public class ChuyenXeController {
 
     private RestTemplate rest = new RestTemplate();
     private ChuyenXe editChuyenXe = null;
+    private ChuyenXeRequest chuyenXeRequest = null;
 
-    @ModelAttribute("chuyenxe")
+    @ModelAttribute("chuyenxeRequest")
     public ChuyenXeRequest createChuyenXe() {
         return new ChuyenXeRequest();
     }
@@ -42,6 +43,7 @@ public class ChuyenXeController {
         return "admin/chuyenxe/search";
     }
 
+    // Tìm kiếm - search
     @GetMapping("search")
     public String searchChuyenXe(Model model, @RequestParam("diemDau") String diemDau, @RequestParam("diemCuoi") String diemCuoi) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchChuyenXe")
@@ -53,6 +55,7 @@ public class ChuyenXeController {
         return "admin/chuyenxe/search";
     }
 
+    // Thêm chuyến xe - add
     @GetMapping("add")
     public String addChuyenXe(Model model) {
         editChuyenXe = new ChuyenXe();
@@ -131,7 +134,7 @@ public class ChuyenXeController {
     }
 
     @PostMapping("save")
-    public String saveChuyenXe(Model model, @Valid @ModelAttribute("chuyenxe") ChuyenXeRequest chuyenXeRequest,
+    public String saveChuyenXe(Model model, @Valid @ModelAttribute("chuyenxeRequest") ChuyenXeRequest chuyenXeRequest,
                                Errors errors, HttpSession session) {
 //        TuyenXe tuyenXe = (TuyenXe) session.getAttribute("tuyenxe");
 //        XeKhach xeKhach = (XeKhach) session.getAttribute("xekhach");
@@ -159,6 +162,7 @@ public class ChuyenXeController {
         return "admin/chuyenxe/search";
     }
 
+    // Sửa chuyến xe - update
     @GetMapping("edit/{id}")
     public String editDriver(Model model, @PathVariable("id") int id) {
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showChuyenXe/{id}",
@@ -167,6 +171,11 @@ public class ChuyenXeController {
         ChuyenXe chuyenXe = objectMapper.convertValue(builder.getData(), ChuyenXe.class);
         chuyenXe.setIsEdit(true);
         editChuyenXe = chuyenXe;
+        chuyenXeRequest = new ChuyenXeRequest();
+        chuyenXeRequest.setGiaVe(chuyenXe.getGiaVe());
+        chuyenXeRequest.setThoiGianKetThuc(chuyenXe.getThoiGianKetThuc());
+        chuyenXeRequest.setThoiGianKhoiHanh(chuyenXe.getThoiGianKhoiHanh());
+        model.addAttribute("chuyenxeRequest", chuyenXeRequest);
         model.addAttribute("tuyenxe", editChuyenXe.getTuyenXe());
         model.addAttribute("xekhach", editChuyenXe.getXeKhach());
         model.addAttribute("laixe", editChuyenXe.getTaiXe1());
@@ -181,6 +190,7 @@ public class ChuyenXeController {
                 ResponseBuilder.class);
         List<TaiXe> listtaixe = (List<TaiXe>) builder.getData();
         model.addAttribute("listtaixe", listtaixe);
+        model.addAttribute("chuyenxeRequest", chuyenXeRequest);
         model.addAttribute("tuyenxe", editChuyenXe.getTuyenXe());
         model.addAttribute("xekhach", editChuyenXe.getXeKhach());
         model.addAttribute("laixe", editChuyenXe.getTaiXe1());
@@ -195,6 +205,7 @@ public class ChuyenXeController {
                 ResponseBuilder.class);
         List<TaiXe> listtaixe = (List<TaiXe>) builder.getData();
         model.addAttribute("listphuxe", listtaixe);
+        model.addAttribute("chuyenxeRequest", chuyenXeRequest);
         model.addAttribute("tuyenxe", editChuyenXe.getTuyenXe());
         model.addAttribute("xekhach", editChuyenXe.getXeKhach());
         model.addAttribute("laixe", editChuyenXe.getTaiXe1());
@@ -209,11 +220,12 @@ public class ChuyenXeController {
                 ResponseBuilder.class, cmtTaiXe);
         ObjectMapper objectMapper = new ObjectMapper();
         TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
-        if(taixe.getCmtTaiXe().equals(editChuyenXe.getTaiXe2())) {
+        if(editChuyenXe.getTaiXe2() != null && taixe.getCmtTaiXe().equals(editChuyenXe.getTaiXe2().getCmtTaiXe())) {
             model.addAttribute("notice", "Tài xế trùng với phụ xe");
         } else {
             editChuyenXe.setTaiXe1(taixe);
         }
+        model.addAttribute("chuyenxeRequest", chuyenXeRequest);
         model.addAttribute("tuyenxe", editChuyenXe.getTuyenXe());
         model.addAttribute("xekhach", editChuyenXe.getXeKhach());
         model.addAttribute("laixe", editChuyenXe.getTaiXe1());
@@ -228,11 +240,12 @@ public class ChuyenXeController {
                 ResponseBuilder.class, cmtTaiXe);
         ObjectMapper objectMapper = new ObjectMapper();
         TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
-        if(taixe.getCmtTaiXe().equals(editChuyenXe.getTaiXe1().getCmtTaiXe())) {
+        if(editChuyenXe.getTaiXe1() != null && taixe.getCmtTaiXe().equals(editChuyenXe.getTaiXe1().getCmtTaiXe())) {
             model.addAttribute("notice", "Phụ xe trùng với tài xế");
         } else {
             editChuyenXe.setTaiXe2(taixe);
         }
+        model.addAttribute("chuyenxeRequest", chuyenXeRequest);
         model.addAttribute("tuyenxe", editChuyenXe.getTuyenXe());
         model.addAttribute("xekhach", editChuyenXe.getXeKhach());
         model.addAttribute("laixe", editChuyenXe.getTaiXe1());
@@ -244,6 +257,7 @@ public class ChuyenXeController {
     @GetMapping("edit/removelaixe")
     public String removeLaiXe(Model model) {
         editChuyenXe.setTaiXe1(null);
+        model.addAttribute("chuyenxeRequest", chuyenXeRequest);
         model.addAttribute("tuyenxe", editChuyenXe.getTuyenXe());
         model.addAttribute("xekhach", editChuyenXe.getXeKhach());
         model.addAttribute("laixe", editChuyenXe.getTaiXe1());
@@ -255,6 +269,7 @@ public class ChuyenXeController {
     @GetMapping("edit/removephuxe")
     public String removePhuXe(Model model) {
         editChuyenXe.setTaiXe2(null);
+        model.addAttribute("chuyenxeRequest", chuyenXeRequest);
         model.addAttribute("tuyenxe", editChuyenXe.getTuyenXe());
         model.addAttribute("xekhach", editChuyenXe.getXeKhach());
         model.addAttribute("laixe", editChuyenXe.getTaiXe1());
@@ -264,9 +279,10 @@ public class ChuyenXeController {
     }
 
     @PostMapping("update")
-    public String updateChuyenXe(Model model, @Valid @ModelAttribute("chuyenxe") ChuyenXeRequest chuyenXeRequest,
+    public String updateChuyenXe(Model model, @Valid @ModelAttribute("chuyenxeRequest") ChuyenXeRequest chuyenXeRequest,
                                Errors errors) {
         if(errors.hasErrors()) {
+            model.addAttribute("chuyenxeRequest", chuyenXeRequest);
             model.addAttribute("tuyenxe", editChuyenXe.getTuyenXe());
             model.addAttribute("xekhach", editChuyenXe.getXeKhach());
             model.addAttribute("chuyenxe", editChuyenXe);
@@ -284,10 +300,12 @@ public class ChuyenXeController {
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateChuyenXe?id="
                  + editChuyenXe.getId(), HttpMethod.PUT, new HttpEntity<>(chuyenXeRequest, null), ResponseBuilder.class);
         editChuyenXe = null;
+        chuyenXeRequest = null;
         model.addAttribute("notice", notice);
         return "admin/chuyenxe/search";
     }
 
+    // Xóa chuyến xe - delete
     @GetMapping("delete/{id}")
     public ModelAndView deleteChuyenXe(ModelMap model, @PathVariable("id") Integer id) {
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteChuyenXe/" + id,

@@ -18,6 +18,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 
 @Service
 @AllArgsConstructor
@@ -36,8 +37,7 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
         chuyenXe.setThoiGianKetThuc(chuyenXeRequest.getThoiGianKetThuc());
         chuyenXe.setSoLuongHanhKhach(chuyenXeRequest.getSoLuongHanhKhach());
         chuyenXe.setStatus(0);
-        TuyenXe tuyenXe = tuyenXeRepository.findById(chuyenXeRequest.getTuyen_xe_id()).get();
-        XeKhach xeKhach = xeKhachRepository.findById(chuyenXeRequest.getXe_khach_bien_so()).get();
+
         if(chuyenXeRequest.getCmtLaiXe() != null) {
             TaiXe laixe = taiXeRepository.findById(chuyenXeRequest.getCmtLaiXe()).get();
             chuyenXe.setTaiXe1(laixe);
@@ -46,13 +46,17 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
             TaiXe phuxe = taiXeRepository.findById(chuyenXeRequest.getCmtPhuXe()).get();
             chuyenXe.setTaiXe2(phuxe);
         }
-
-        if(ObjectUtils.isEmpty(tuyenXe) || ObjectUtils.isEmpty(xeKhach)) {
-            return ResponseBuilder.ok(100, "Sai mã xe khách hoặc tuyến xe");
+        if(chuyenXeRequest.getTuyen_xe_id() != null) {
+            TuyenXe tuyenXe = tuyenXeRepository.findById(chuyenXeRequest.getTuyen_xe_id()).get();
+            chuyenXe.setTuyenXe(tuyenXe);
         }
+        if(chuyenXeRequest.getXe_khach_bien_so() != null) {
+            XeKhach xeKhach = xeKhachRepository.findById(chuyenXeRequest.getXe_khach_bien_so()).get();
+            chuyenXe.setXeKhach(xeKhach);
+        }
+
         if(chuyenXeRequest.getId() != null) chuyenXe.setId(chuyenXeRequest.getId());
-        chuyenXe.setTuyenXe(tuyenXe);
-        chuyenXe.setXeKhach(xeKhach);
+
         return ResponseBuilder.ok(chuyenXeRepository.save(chuyenXe));
     }
 
@@ -75,5 +79,46 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
     @Override
     public Response searchByTuyenXe(String diemDau, String diemCuoi) {
         return ResponseBuilder.ok(chuyenXeRepository.findAllByTuyenXe_DiemDauContainingAndTuyenXe_DiemCuoiContaining(diemDau, diemCuoi));
+    }
+
+    @Override
+    public Response searchLaiXeByStatus(String cmtTaiXe, Integer status) {
+        return ResponseBuilder.ok(chuyenXeRepository.searchTaiXeAndStatus(status, cmtTaiXe, cmtTaiXe));
+    }
+
+    @Override
+    public Response updateStatus(Integer id, Integer status) {
+        try {
+            chuyenXeRepository.updateStatusById(status, id);
+            return ResponseBuilder.ok(200, "Cập nhật thành công!");
+        } catch (Exception e) {
+            return ResponseBuilder.ok(100, "Lỗi!!");
+        }
+    }
+
+    @Override
+    public Response findChuyenXeThieuTaiXe(String diemDau, String diemCuoi) {
+        return ResponseBuilder.ok(chuyenXeRepository
+                .findAllByTaiXe1NullOrTaiXe2NullAndTuyenXe_DiemDauContainingAndTuyenXe_DiemCuoiContaining(diemDau, diemCuoi));
+    }
+
+    @Override
+    public Response updateLaiXeById(Integer id, String cmt) {
+        try {
+            chuyenXeRepository.updateLaiXeById(cmt, id);
+            return ResponseBuilder.ok(200, "Đăng ký thành công!");
+        } catch (Exception e) {
+            return ResponseBuilder.ok(100, "Lỗi!!");
+        }
+    }
+
+    @Override
+    public Response updatePhuXeById(Integer id, String cmt) {
+        try {
+            chuyenXeRepository.updatePhuXeById(cmt, id);
+            return ResponseBuilder.ok(200, "Đăng ký thành công!");
+        } catch (Exception e) {
+            return ResponseBuilder.ok(100, "Lỗi!!");
+        }
     }
 }

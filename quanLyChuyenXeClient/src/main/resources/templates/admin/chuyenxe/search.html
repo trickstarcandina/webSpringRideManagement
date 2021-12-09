@@ -142,26 +142,26 @@
                 </div>
 
                 <div class="card mb-4">
-                    <div class="row mt-2 mb-2">
+                    <div class="row mt-4 mb-4">
                         <div class="col" style="display: flex; justify-content: space-between;">
 
                             <form th:action="@{/admin/chuyenxe/search}">
                                 <div class="form-inline float-left" style="display: flex">
-                                    <label for="name">Điểm đầu: </label>
+                                    <label class="ml-4" for="name">Điểm đầu: </label>
                                     <input type="text" class="form-control ml-2" name="diemDau"
                                            id="diemDau"
                                            aria-describedby="helpId">
 
-                                    <label for="name">Điểm cuối: </label>
+                                    <label class="ml-4" for="name">Điểm cuối: </label>
                                     <input type="text" class="form-control ml-2" name="diemCuoi"
                                            id="diemCuoi"
                                            aria-describedby="helpId">
 
-                                    <button class="btn btn-outline-primary ml-2">Tìm kiếm</button>
+                                    <button class="btn btn-outline-primary ml-4">Tìm kiếm</button>
                                 </div>
                             </form>
 
-                            <div class="float-right">
+                            <div class="float-right mr-4">
                                 <a th:href="@{/admin/chuyenxe/add}" class="btn btn-outline-primary">Thêm chuyến xe</a>
                             </div>
                         </div>
@@ -196,7 +196,7 @@
                             <td th:text="${chuyenxe.thoiGianKetThuc}"></td>
                             <td th:text="${(chuyenxe.taiXe1 == null) ? 'Không có' : chuyenxe.taiXe1.ten}"></td>
                             <td th:text="${(chuyenxe.taiXe2 == null) ? 'Không có' : chuyenxe.taiXe2.ten}"></td>
-                            <td th:text="${(chuyenxe.status == 0) ? 'Chưa khởi hành' : ((chuyenxe.status==1) ? 'Đang di chuyển' : 'Đã kết thúc')}"></td>
+                            <td th:text="${(chuyenxe.status == 0) ? 'Chưa khởi hành' : ((chuyenxe.status==1) ? 'Đã kết thúc' : 'Đang di chuyển')}"></td>
                             <td>
 
                                 <a th:href="@{'/admin/chuyenxe/edit/' + ${chuyenxe.id}}"
