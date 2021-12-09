@@ -6,6 +6,7 @@ import com.example.quanlychuyenxe.dto.KhachHangDetailsDTO;
 import com.example.quanlychuyenxe.dto.TaiXeDetailsDTO;
 import com.example.quanlychuyenxe.services.KhachHangService;
 import com.example.quanlychuyenxe.services.TaiXeService;
+import com.example.quanlychuyenxe.services.UserService;
 import com.example.quanlychuyenxe.utils.JwtUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,8 @@ public class AuthenticateController {
     private KhachHangService khachHangService;
     private TaiXeService taiXeService;
 
+    private UserService userService;
+
     @PostMapping("/authenticateKhachHang")
     public ResponseEntity authenticateKhachHang(@RequestBody AuthenticationRequest request) {
         try {
@@ -32,7 +35,9 @@ public class AuthenticateController {
         catch (BadCredentialsException e) {
             throw new BadCredentialsException("Invalid username " + request.getUsername());
         }
-        KhachHangDetailsDTO khachHangDetailsDTO = (KhachHangDetailsDTO) khachHangService.loadUserByUsername(request.getUsername());
+//        UserDetailsDTO userDetailsDTO = (UserDetailsDTO) userService.loadUserByUsername(request.getUsername());
+//        String jwt = JwtUtils.generateToken(userDetailsDTO);
+        KhachHangDetailsDTO khachHangDetailsDTO = (KhachHangDetailsDTO) userService.loadUserByUsername(request.getUsername());
         String jwt = JwtUtils.generateToken(khachHangDetailsDTO);
         return ResponseEntity.ok(ResponseBuilder.ok(jwt).build());
     }
@@ -46,7 +51,7 @@ public class AuthenticateController {
             System.out.println(e);
             throw new BadCredentialsException("Invalid username " + request.getUsername());
         }
-        TaiXeDetailsDTO taiXeDetailsDTO = (TaiXeDetailsDTO) taiXeService.loadUserByUsername(request.getUsername());
+        TaiXeDetailsDTO taiXeDetailsDTO = (TaiXeDetailsDTO) userService.loadUserByUsername(request.getUsername());
         String jwt = JwtUtils.generateToken(taiXeDetailsDTO);
         return ResponseEntity.ok(ResponseBuilder.ok(jwt).build());
     }
