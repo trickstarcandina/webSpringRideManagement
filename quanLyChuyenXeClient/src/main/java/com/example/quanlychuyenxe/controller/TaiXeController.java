@@ -28,14 +28,14 @@ public class TaiXeController {
 
     private TaiXe taixe;
 
-    public TaiXeController() {
-        String username = "taixe2";
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{username}",
-                ResponseBuilder.class, username);
-        ObjectMapper objectMapper = new ObjectMapper();
-        TaiXe taiXe = objectMapper.convertValue(builder.getData(), TaiXe.class);
-        this.taixe = taiXe;
-    }
+//    public TaiXeController() {
+//        String username = "taixe2";
+//        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{username}",
+//                ResponseBuilder.class, username);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        TaiXe taiXe = objectMapper.convertValue(builder.getData(), TaiXe.class);
+//        this.taixe = taiXe;
+//    }
 
     @GetMapping("")
     private String home(Model model) {
