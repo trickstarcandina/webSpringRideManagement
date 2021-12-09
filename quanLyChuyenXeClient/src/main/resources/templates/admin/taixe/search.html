@@ -175,16 +175,16 @@
                             <td>
 <!--                                <a href="#"-->
 <!--                                   class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
-                                <a th:href="@{'/admin/taixe/edit/' + ${taixe.cmtTaiXe}}"
+                                <a th:href="@{'/admin/taixe/edit/' + ${taixe.username}}"
                                    class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
 
                                 <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                        th:data-target="${'#'+taixe.cmtTaiXe}">
+                                        th:data-target="${'#'+taixe.username}">
                                     <i class="fas fa-recycle"></i>
                                 </button>
 
                                 <!-- Modal -->
-                                <div class="modal fade" th:id="${taixe.cmtTaiXe}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" th:id="${taixe.username}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -200,7 +200,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                                                <a th:href="@{'/admin/taixe/delete/' + ${taixe.cmtTaiXe}}" type="button" class="btn btn-primary">Xác nhận</a>
+                                                <a th:href="@{'/admin/taixe/delete/' + ${taixe.username}}" type="button" class="btn btn-primary">Xác nhận</a>
                                             </div>
                                         </div>
                                     </div>

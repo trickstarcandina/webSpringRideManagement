@@ -19,4 +19,10 @@ public class TongLuongController {
     public ResponseEntity addTongLuong(@RequestBody TongLuongRequest tongLuongRequest) {
         return ResponseEntity.ok().body(tongLuongService.saveTongLuong(tongLuongRequest).build());
     }
+
+    @GetMapping("/getLuongTaiXe")
+    public ResponseEntity getTongLuong(@RequestParam("username") String username,
+                                       @RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
+        return ResponseEntity.ok().body(tongLuongService.getTongLuongByDate(username, thang, nam).build());
+    }
 }

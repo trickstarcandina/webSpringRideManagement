@@ -15,6 +15,6 @@ public class ChuyenXeRequest {
     private Integer soLuongHanhKhach = 0;
     private String xe_khach_bien_so;
     private Integer tuyen_xe_id;
-    private String cmtLaiXe;
-    private String cmtPhuXe;
+    private String usernameLaiXe;
+    private String usernamePhuXe;
 }

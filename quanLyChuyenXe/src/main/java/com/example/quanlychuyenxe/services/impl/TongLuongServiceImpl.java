@@ -26,18 +26,22 @@ public class TongLuongServiceImpl implements TongLuongService  {
     public Response saveTongLuong(TongLuongRequest tongLuongRequest) {
         try {
             ChuyenXe chuyenXe = chuyenXeRepository.findById(tongLuongRequest.getChuyenXeId()).get();
-            Long luongHoaHong = 0L;
-            if(chuyenXe.getTaiXe1().getCmtTaiXe() == tongLuongRequest.getCmtTaiXeId()) {
-                luongHoaHong = chuyenXe.getTuyenXe().getDoDai() * chuyenXe.getTuyenXe().getDoPhucTapCuaTuyenDuong() * 125L;
-            } else {
-                luongHoaHong = chuyenXe.getTuyenXe().getDoDai() * chuyenXe.getTuyenXe().getDoPhucTapCuaTuyenDuong() * 88L;
-            }
-            Integer idLuongCung = luongCoBanRepository.getLuongCoBanByCmt(tongLuongRequest.getCmtTaiXeId());
-            tongLuongRepository.saveTongLuong(luongHoaHong, tongLuongRequest.getChuyenXeId(), idLuongCung);
+            Long luongLaiXe, luongPhuXe = 0L;
+            luongLaiXe = chuyenXe.getTuyenXe().getDoDai() * chuyenXe.getTuyenXe().getDoPhucTapCuaTuyenDuong() * 125L;
+            luongPhuXe = chuyenXe.getTuyenXe().getDoDai() * chuyenXe.getTuyenXe().getDoPhucTapCuaTuyenDuong() * 88L;
+            tongLuongRepository.saveTongLuong(luongLaiXe, tongLuongRequest.getChuyenXeId(),
+                    luongCoBanRepository.getLuongCoBanByUsername(chuyenXe.getTaiXe1().getUsername()));
+            tongLuongRepository.saveTongLuong(luongPhuXe, tongLuongRequest.getChuyenXeId(),
+                    luongCoBanRepository.getLuongCoBanByUsername(chuyenXe.getTaiXe2().getUsername()));
             return ResponseBuilder.ok(200, "Cập nhật thành công!");
         } catch (Exception e) {
             return ResponseBuilder.ok(100, "Lỗi lưu tổng lương!");
         }
 
+    }
+
+    @Override
+    public Response getTongLuongByDate(String username, Integer month, Integer year) {
+        return ResponseBuilder.ok(tongLuongRepository.getTongLuongNow(username, month, year));
     }
 }
