@@ -12,8 +12,8 @@ public interface ChuyenXeRepository extends JpaRepository<ChuyenXe, Integer> {
 
     List<ChuyenXe> findByTaiXe1_CmtTaiXeAndStatus(String cmtTaiXe, Integer status);
 
-    @Query(value = "SELECT * FROM chuyenxe WHERE status = ? AND (tai_xe1_cmt_tai_xe = ? OR tai_xe2_cmt_tai_xe=?)", nativeQuery = true)
-    List<ChuyenXe> searchTaiXeAndStatus(Integer status, String cmtTaiXe, String cmtPhuXe);
+    @Query(value = "SELECT * FROM chuyenxe WHERE status = ? AND (tai_xe1_username = ? OR tai_xe2_username=?)", nativeQuery = true)
+    List<ChuyenXe> searchTaiXeAndStatus(Integer status, String usernameLaiXe, String usernamePhuXe);
 
     @Modifying
     @Query(value = "UPDATE chuyenxe SET status = ? WHERE (id = ?)", nativeQuery = true)
@@ -22,10 +22,10 @@ public interface ChuyenXeRepository extends JpaRepository<ChuyenXe, Integer> {
     List<ChuyenXe> findAllByTaiXe1NullOrTaiXe2NullAndTuyenXe_DiemDauContainingAndTuyenXe_DiemCuoiContaining(String diemDau, String diemCuoi);
 
     @Modifying
-    @Query(value = "UPDATE chuyenxe SET tai_xe1_cmt_tai_xe = ? WHERE (id = ?)", nativeQuery = true)
-    void updateLaiXeById(String cmt, Integer id);
+    @Query(value = "UPDATE chuyenxe SET tai_xe1_username = ? WHERE (id = ?)", nativeQuery = true)
+    void updateLaiXeById(String username, Integer id);
 
     @Modifying
-    @Query(value = "UPDATE chuyenxe SET tai_xe2_cmt_tai_xe = ? WHERE (id = ?)", nativeQuery = true)
-    void updatePhuXeById(String cmt, Integer id);
+    @Query(value = "UPDATE chuyenxe SET tai_xe2_username = ? WHERE (id = ?)", nativeQuery = true)
+    void updatePhuXeById(String username, Integer id);
 }

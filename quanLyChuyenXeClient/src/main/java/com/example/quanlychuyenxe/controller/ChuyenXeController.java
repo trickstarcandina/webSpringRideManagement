@@ -1,11 +1,11 @@
 package com.example.quanlychuyenxe.controller;
 
-import com.example.quanlychuyenxe.model.TaiXe;
-import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.model.ChuyenXe;
+import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.model.TuyenXe;
 import com.example.quanlychuyenxe.model.XeKhach;
+import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -147,12 +146,7 @@ public class ChuyenXeController {
         String notice = "Thành công";
         chuyenXeRequest.setTuyen_xe_id(editChuyenXe.getTuyenXe().getId());
         chuyenXeRequest.setXe_khach_bien_so(editChuyenXe.getXeKhach().getBienSo());
-        if(editChuyenXe.getTaiXe1() != null) {
-            chuyenXeRequest.setCmtLaiXe(editChuyenXe.getTaiXe1().getCmtTaiXe());
-        }
-        if(editChuyenXe.getTaiXe2() != null) {
-            chuyenXeRequest.setCmtPhuXe(editChuyenXe.getTaiXe2().getCmtTaiXe());
-        }
+
 //        session.removeAttribute("xekhach");
 //        session.removeAttribute("tuyenxe");
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addChuyenXe",
@@ -214,10 +208,10 @@ public class ChuyenXeController {
         return "admin/chuyenxe/addOrEdit";
     }
 
-    @GetMapping("edit/selectlaixe/{cmtTaiXe}")
-    public String selectLaiXe(Model model, @PathVariable("cmtTaiXe") String cmtTaiXe) {
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{cmtTaiXe}",
-                ResponseBuilder.class, cmtTaiXe);
+    @GetMapping("edit/selectlaixe/{username}")
+    public String selectLaiXe(Model model, @PathVariable("username") String username) {
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{username}",
+                ResponseBuilder.class, username);
         ObjectMapper objectMapper = new ObjectMapper();
         TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
         if(editChuyenXe.getTaiXe2() != null && taixe.getCmtTaiXe().equals(editChuyenXe.getTaiXe2().getCmtTaiXe())) {
@@ -234,10 +228,10 @@ public class ChuyenXeController {
         return "admin/chuyenxe/addOrEdit";
     }
 
-    @GetMapping("edit/selectphuxe/{cmtTaiXe}")
-    public String selectPhuXe(Model model, @PathVariable("cmtTaiXe") String cmtTaiXe) {
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{cmtTaiXe}",
-                ResponseBuilder.class, cmtTaiXe);
+    @GetMapping("edit/selectphuxe/{username}")
+    public String selectPhuXe(Model model, @PathVariable("username") String username) {
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{username}",
+                ResponseBuilder.class, username);
         ObjectMapper objectMapper = new ObjectMapper();
         TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
         if(editChuyenXe.getTaiXe1() != null && taixe.getCmtTaiXe().equals(editChuyenXe.getTaiXe1().getCmtTaiXe())) {
@@ -292,10 +286,10 @@ public class ChuyenXeController {
         chuyenXeRequest.setTuyen_xe_id(editChuyenXe.getTuyenXe().getId());
         chuyenXeRequest.setXe_khach_bien_so(editChuyenXe.getXeKhach().getBienSo());
         if(editChuyenXe.getTaiXe1() != null) {
-            chuyenXeRequest.setCmtLaiXe(editChuyenXe.getTaiXe1().getCmtTaiXe());
+            chuyenXeRequest.setUsernameLaiXe(editChuyenXe.getTaiXe1().getUsername());
         }
         if(editChuyenXe.getTaiXe2() != null) {
-            chuyenXeRequest.setCmtPhuXe(editChuyenXe.getTaiXe2().getCmtTaiXe());
+            chuyenXeRequest.setUsernamePhuXe(editChuyenXe.getTaiXe2().getUsername());
         }
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateChuyenXe?id="
                  + editChuyenXe.getId(), HttpMethod.PUT, new HttpEntity<>(chuyenXeRequest, null), ResponseBuilder.class);

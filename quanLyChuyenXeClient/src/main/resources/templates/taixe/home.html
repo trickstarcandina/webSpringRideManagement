@@ -32,7 +32,7 @@
           <a th:href="@{/taixe/chonchuyenxe}">Đăng ký chuyến xe</a>
         </li>
         <li>
-          <a th:href="@{/taixe/xemluong}">Đăng ký chuyến xe</a>
+          <a th:href="@{/taixe/xemluong}">Xem lương</a>
         </li>
       </ul>
 
@@ -99,10 +99,11 @@
                 </div>
                 <div class="modal-body">
                   Chuyến xe này đã hoàn thành?
+                  <br><span th:if="${chuyenxe.taiXe1 == null or chuyenxe.taiXe2 == null}">Chưa có lái xe hoặc phụ xe?</span>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Chưa</button>
-                  <a th:href="@{'/taixe/xacnhan/' + ${chuyenxe.id}}"
+                  <a th:if="${chuyenxe.taiXe1 != null and chuyenxe.taiXe2 != null}" th:href="@{'/taixe/xacnhan/' + ${chuyenxe.id}}"
                      type="button" class="btn btn-primary">Hoàn thành</a>
                 </div>
               </div>

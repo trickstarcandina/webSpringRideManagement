@@ -34,6 +34,11 @@ public class TaiXeServiceImpl implements TaiXeService {
     }
 
     @Override
+    public Response update(TaiXe taiXe) {
+        return ResponseBuilder.ok(taiXeRepository.save(taiXe));
+    }
+
+    @Override
     public Response delete(String username) {
         taiXeRepository.deleteById(username);
         return ResponseBuilder.ok(200,"Xóa tài xế thành công");

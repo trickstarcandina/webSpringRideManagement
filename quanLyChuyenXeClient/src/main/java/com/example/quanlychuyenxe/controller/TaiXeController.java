@@ -3,11 +3,9 @@ package com.example.quanlychuyenxe.controller;
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.model.TaiXe;
-import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
+import com.example.quanlychuyenxe.model.TongLuong;
 import com.example.quanlychuyenxe.model.request.TongLuongRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +29,9 @@ public class TaiXeController {
     private TaiXe taixe;
 
     public TaiXeController() {
-        String cmtTaiXe = "CMT651231654";
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{cmtTaiXe}",
-                ResponseBuilder.class, cmtTaiXe);
+        String username = "taixe2";
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{username}",
+                ResponseBuilder.class, username);
         ObjectMapper objectMapper = new ObjectMapper();
         TaiXe taiXe = objectMapper.convertValue(builder.getData(), TaiXe.class);
         this.taixe = taiXe;
@@ -42,7 +40,7 @@ public class TaiXeController {
     @GetMapping("")
     private String home(Model model) {
         UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchTaiXe")
-                .queryParam("cmtTaiXe", taixe.getCmtTaiXe())
+                .queryParam("username", taixe.getUsername())
                 .queryParam("status", 0);
         ResponseBuilder responseBuilder = rest.getForObject(urlBuilder.build().encode().toUri(), ResponseBuilder.class);
         List<ChuyenXe> listchuyenxe = (List<ChuyenXe>) responseBuilder.getData();
@@ -62,7 +60,7 @@ public class TaiXeController {
 
         // Thêm vào bảng tổng lương
         TongLuongRequest tongLuongRequest = new TongLuongRequest();
-        tongLuongRequest.setCmtTaiXeId(taixe.getCmtTaiXe());
+        tongLuongRequest.setUsernameTaiXe(taixe.getUsername());
         tongLuongRequest.setChuyenXeId(id);
         ResponseEntity<ResponseBuilder> responseAdd = rest.exchange("http://localhost:8080/api/tongluong/save",
                 HttpMethod.POST, new HttpEntity<>(tongLuongRequest, null), ResponseBuilder.class);
@@ -94,7 +92,7 @@ public class TaiXeController {
     private String chonLaiXe(Model model, @PathVariable("id") String id) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/updateLaiXe")
                 .queryParam("id", id)
-                .queryParam("cmt", taixe.getCmtTaiXe());
+                .queryParam("username", taixe.getUsername());
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange(builder.build().encode().toUri() ,
                 HttpMethod.PUT, null, ResponseBuilder.class);
         model.addAttribute("notice", responseEntity.getBody().getMessage());
@@ -104,9 +102,9 @@ public class TaiXeController {
 
     @GetMapping("chonchuyenxe/phuxe/{id}")
     private String chonPhuXe(Model model, @PathVariable("id") String id) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/updateLaiXe")
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/updatePhuXe")
                 .queryParam("id", id)
-                .queryParam("cmt", taixe.getCmtTaiXe());
+                .queryParam("username", taixe.getUsername());
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange(builder.build().encode().toUri() ,
                 HttpMethod.PUT, null, ResponseBuilder.class);
         model.addAttribute("notice", responseEntity.getBody().getMessage());
@@ -114,10 +112,11 @@ public class TaiXeController {
         return "taixe/registerRide";
     }
 
+    // Chức năng lương
     @GetMapping("xemluong")
     public String showLuong(Model model) {
         UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchTaiXe")
-                .queryParam("cmtTaiXe", taixe.getCmtTaiXe())
+                .queryParam("username", taixe.getUsername())
                 .queryParam("status", 1);
         ResponseBuilder responseBuilder = rest.getForObject(urlBuilder.build().encode().toUri(), ResponseBuilder.class);
         List<ChuyenXe> listchuyenxe = (List<ChuyenXe>) responseBuilder.getData();
@@ -125,4 +124,19 @@ public class TaiXeController {
         model.addAttribute("listchuyenxe", listchuyenxe);
         return "taixe/showSalary";
     }
+
+    @GetMapping("xemluong/search")
+    public String searchLuong(Model model, @RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/tongluong/getLuongTaiXe")
+                .queryParam("username", taixe.getUsername())
+                .queryParam("thang", thang).queryParam("nam", nam);
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange(builder.build().encode().toUri() ,
+                HttpMethod.GET, null, ResponseBuilder.class);
+
+        List<TongLuong> listtongluong = (List<TongLuong>) responseEntity.getBody();
+
+        model.addAttribute("taixe", taixe);
+        return "taixe/registerRide";
+    }
+
 }

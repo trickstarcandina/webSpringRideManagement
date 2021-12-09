@@ -12,7 +12,7 @@ public interface ChuyenXeService {
     Response searchByTuyenXe(String diemDau, String diemCuoi);
 
     // Lái xe
-    Response searchLaiXeByStatus(String cmtTaiXe, Integer status);
+    Response searchLaiXeByStatus(String username, Integer status);
     Response updateStatus(Integer id, Integer status);
     Response findChuyenXeThieuTaiXe(String diemDau, String diemCuoi);
     Response updateLaiXeById(Integer id, String cmt);

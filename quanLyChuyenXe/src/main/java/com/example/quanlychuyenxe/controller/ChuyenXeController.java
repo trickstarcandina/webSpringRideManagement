@@ -17,8 +17,8 @@ public class ChuyenXeController {
     }
 
     @GetMapping("/searchTaiXe")
-    public  ResponseEntity searchTaiXe(@RequestParam("cmtTaiXe") String cmtTaiXe, @RequestParam("status") Integer status) {
-        return ResponseEntity.ok().body(chuyenXeService.searchLaiXeByStatus(cmtTaiXe, status).build());
+    public  ResponseEntity searchTaiXe(@RequestParam("username") String username, @RequestParam("status") Integer status) {
+        return ResponseEntity.ok().body(chuyenXeService.searchLaiXeByStatus(username, status).build());
     }
 
     @PutMapping("/updateStatus")
@@ -32,12 +32,12 @@ public class ChuyenXeController {
     }
 
     @PutMapping("/updateLaiXe")
-    public ResponseEntity updateLaiXe(@RequestParam("id") Integer id, @RequestParam("cmt") String cmt) {
-        return ResponseEntity.ok().body(chuyenXeService.updateLaiXeById(id, cmt).build());
+    public ResponseEntity updateLaiXe(@RequestParam("id") Integer id, @RequestParam("username") String username) {
+        return ResponseEntity.ok().body(chuyenXeService.updateLaiXeById(id, username).build());
     }
 
     @PutMapping("/updatePhuXe")
-    public ResponseEntity updatePhuXe(@RequestParam("id") Integer id, @RequestParam("cmt") String cmt) {
-        return ResponseEntity.ok().body(chuyenXeService.updatePhuXeById(id, cmt).build());
+    public ResponseEntity updatePhuXe(@RequestParam("id") Integer id, @RequestParam("username") String username) {
+        return ResponseEntity.ok().body(chuyenXeService.updatePhuXeById(id, username).build());
     }
 }

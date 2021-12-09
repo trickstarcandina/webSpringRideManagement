@@ -130,10 +130,10 @@ public class AdminController {
         return "admin/taixe/addOrEdit";
     }
 
-    @GetMapping("taixe/edit/{cmtTaiXe}")
-    public String editTaiXe(Model model, @PathVariable("cmtTaiXe") String cmtTaiXe) {
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{cmtTaiXe}",
-                ResponseBuilder.class, cmtTaiXe);
+    @GetMapping("taixe/edit/{username}")
+    public String editTaiXe(Model model, @PathVariable("username") String username) {
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{username}",
+                ResponseBuilder.class, username);
         ObjectMapper objectMapper = new ObjectMapper();
         TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
         taixe.setIsEdit(true);
@@ -141,9 +141,9 @@ public class AdminController {
         return "admin/taixe/addOrEdit";
     }
 
-    @GetMapping("taixe/delete/{cmtTaiXe}")
-    public ModelAndView deleteTaiXe(ModelMap model, @PathVariable("cmtTaiXe") String cmtTaiXe) {
-        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteTaiXe/" + cmtTaiXe,
+    @GetMapping("taixe/delete/{username}")
+    public ModelAndView deleteTaiXe(ModelMap model, @PathVariable("username") String username) {
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteTaiXe/" + username,
                 HttpMethod.DELETE, null, ResponseBuilder.class);
         if(responseEntity.getStatusCode() == HttpStatus.OK) {
             model.addAttribute("deleteNotice", "Xóa thành công");
@@ -157,7 +157,7 @@ public class AdminController {
             return "admin/taixe/addOrEdit";
         }
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateTaiXe/"
-                        + taiXe.getCmtTaiXe(), HttpMethod.PUT, new HttpEntity<>(taiXe, null), ResponseBuilder.class);
+                        + taiXe.getUsername(), HttpMethod.PUT, new HttpEntity<>(taiXe, null), ResponseBuilder.class);
         String noticeUpdate = "";
         if(responseEntity.getStatusCode() == HttpStatus.OK) {
             noticeUpdate = "Cập nhật thành công!";
@@ -171,21 +171,28 @@ public class AdminController {
     @PostMapping("taixe/save")
     public String saveTaiXe(Model model, @Valid @ModelAttribute("taixe") TaiXe taiXe, Errors errors) {
         if(errors.hasErrors()) {
+            model.addAttribute("noticeDanger", "Lỗi!!!");
             return "admin/taixe/addOrEdit";
         }
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{cmtTaiXe}",
-                ResponseBuilder.class, taiXe.getCmtTaiXe());
-        ObjectMapper objectMapper = new ObjectMapper();
-        TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
-        String notice = "";
-        if(!ObjectUtils.isEmpty(taixe)) {
-            notice = "Thẻ căn cước công dân đã tồn tại!";
+//        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{cmtTaiXe}",
+//                ResponseBuilder.class, taiXe.getCmtTaiXe());
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
+//        String notice = "";
+//        if(!ObjectUtils.isEmpty(taixe)) {
+//            notice = "Thẻ căn cước công dân đã tồn tại!";
+//        } else {
+//            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addTaiXe",
+//                    HttpMethod.POST, new HttpEntity<>(taiXe, null), ResponseBuilder.class);
+//            notice = "Thành công!";
+//        }
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addTaiXe",
+                HttpMethod.POST, new HttpEntity<>(taiXe, null), ResponseBuilder.class);
+        if(responseEntity.getBody().getStatus() != 200) {
+            model.addAttribute("noticeDanger", responseEntity.getBody().getMessage());
         } else {
-            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addTaiXe",
-                    HttpMethod.POST, new HttpEntity<>(taiXe, null), ResponseBuilder.class);
-            notice = "Thành công!";
+            model.addAttribute("noticeSuccess", "Thành công!!!");
         }
-        model.addAttribute("notice", notice);
         return "admin/taixe/addOrEdit";
     }
 }

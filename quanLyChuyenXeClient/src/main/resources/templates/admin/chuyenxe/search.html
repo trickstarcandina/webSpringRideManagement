@@ -171,8 +171,7 @@
                         <thead class="thead-inverse">
                         <tr>
                             <th>Tên xe</th>
-                            <th>Điểm bắt đầu</th>
-                            <th>Điểm cuối</th>
+                            <th>Quãng đường</th>
                             <th>Độ dài</th>
                             <th>Số ghế</th>
                             <th>Giá vé</th>
@@ -187,8 +186,7 @@
                         <tbody>
                         <tr th:each="chuyenxe : ${listchuyenxe}">
                             <td th:text="${chuyenxe.xeKhach.tenXeKhach}"></td>
-                            <td scope="row" th:text="${chuyenxe.tuyenXe.diemDau}"></td>
-                            <td th:text="${chuyenxe.tuyenXe.diemCuoi}"></td>
+                            <td scope="row" th:text="${chuyenxe.tuyenXe.diemDau + ' - ' + chuyenxe.tuyenXe.diemCuoi}"></td>
                             <td th:text="${chuyenxe.tuyenXe.doDai}"></td>
                             <td th:text="${chuyenxe.xeKhach.soGhe}"></td>
                             <td th:text="${chuyenxe.giaVe}"></td>

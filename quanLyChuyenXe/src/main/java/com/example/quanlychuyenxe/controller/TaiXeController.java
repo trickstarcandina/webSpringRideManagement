@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/taixe")
 @AllArgsConstructor
-
 public class TaiXeController {
 
     private final TaiXeService taiXeService;

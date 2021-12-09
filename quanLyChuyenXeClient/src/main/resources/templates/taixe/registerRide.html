@@ -32,7 +32,7 @@
           <a th:href="@{/taixe/chonchuyenxe}">Đăng ký chuyến xe</a>
         </li>
         <li>
-          <a th:href="@{/taixe/xemluong}">Đăng ký chuyến xe</a>
+          <a th:href="@{/taixe/xemluong}">Xem lương</a>
         </li>
       </ul>
 
@@ -120,15 +120,15 @@
                     </div>
                     <div class="modal-body">
                       <span>Bạn muốn đăng ký tham gia vào chuyến xe này?</span><br><br>
-                      <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe1 != null and taixe.cmtTaiXe == chuyenxe.taiXe1.cmtTaiXe) ? 'Bạn đang là lái xe' : ''}"></span>
-                      <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe2 != null and taixe.cmtTaiXe == chuyenxe.taiXe2.cmtTaiXe) ? 'Bạn đang là phụ xe' : ''}"></span>
+                      <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe1 != null and taixe.username == chuyenxe.taiXe1.username) ? 'Bạn đang là lái xe' : ''}"></span>
+                      <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe2 != null and taixe.username == chuyenxe.taiXe2.username) ? 'Bạn đang là phụ xe' : ''}"></span>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ
                       </button>
-                      <a th:if="${chuyenxe.taiXe2 == null and (chuyenxe.taiXe1 == null or taixe.cmtTaiXe != chuyenxe.taiXe1.cmtTaiXe)}" th:href="@{'/taixe/chonchuyenxe/phuxe/' + ${chuyenxe.id}}"
+                      <a th:if="${chuyenxe.taiXe2 == null and (chuyenxe.taiXe1 == null or taixe.username != chuyenxe.taiXe1.username)}" th:href="@{'/taixe/chonchuyenxe/phuxe/' + ${chuyenxe.id}}"
                          type="button" class="btn btn-info">Phụ xe</a>
-                      <a th:if="${chuyenxe.taiXe1 == null and (chuyenxe.taiXe2 == null or taixe.cmtTaiXe != chuyenxe.taiXe2.cmtTaiXe)}" th:href="@{'/taixe/chonchuyenxe/laixe/' + ${chuyenxe.id}}"
+                      <a th:if="${chuyenxe.taiXe1 == null and (chuyenxe.taiXe2 == null or taixe.username != chuyenxe.taiXe2.username)}" th:href="@{'/taixe/chonchuyenxe/laixe/' + ${chuyenxe.id}}"
                          type="button" class="btn btn-success">Lái xe</a>
                     </div>
                   </div>

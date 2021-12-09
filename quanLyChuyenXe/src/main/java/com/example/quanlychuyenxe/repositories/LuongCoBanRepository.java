@@ -10,6 +10,6 @@ import java.util.List;
 public interface LuongCoBanRepository extends JpaRepository<LuongCoBan, Integer> {
     List<LuongCoBan> findByLuongContaining(Long luong);
 
-    @Query(value = "SELECT luongcoban.id FROM luongcoban WHERE tai_xe_cmt_tai_xe = ? ORDER BY thang_luong desc LIMIT 1", nativeQuery = true)
-    Integer getLuongCoBanByCmt(String cmt);
+    @Query(value = "SELECT luongcoban.id FROM luongcoban WHERE tai_xe_username = ? ORDER BY thang_luong desc LIMIT 1", nativeQuery = true)
+    Integer getLuongCoBanByUsername(String username);
 }

@@ -5,4 +5,5 @@ import com.example.quanlychuyenxe.model.request.TongLuongRequest;
 
 public interface TongLuongService {
     Response saveTongLuong(TongLuongRequest tongLuongRequest);
+    Response getTongLuongByDate(String username, Integer month, Integer year);
 }

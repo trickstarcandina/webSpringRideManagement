@@ -6,5 +6,5 @@ import lombok.Data;
 public class TongLuongRequest {
     private Integer chuyenXeId;
     private Integer luongCoBanId;
-    private String cmtTaiXeId;
+    private String usernameTaiXe;
 }

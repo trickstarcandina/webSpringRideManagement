@@ -32,7 +32,7 @@
           <a th:href="@{/taixe/chonchuyenxe}">Đăng ký chuyến xe</a>
         </li>
         <li>
-          <a th:href="@{/taixe/xemluong}">Đăng ký chuyến xe</a>
+          <a th:href="@{/taixe/xemluong}">Xem lương</a>
         </li>
       </ul>
 
@@ -57,17 +57,13 @@
       <div class="card mb-4">
         <div class="row mt-2 mb-2">
           <div class="col" style="display: flex; justify-content: space-between;">
-            <form th:action="@{/taixe/chonchuyenxe/search}">
+            <form th:action="@{/taixe/xemluong/search}">
               <div class="form-inline float-left" style="display: flex">
-                <label class="ml-4" for="diemDau">Điểm đầu: </label>
-                <input type="text" class="form-control ml-2" name="diemDau"
-                       id="diemDau"
-                       aria-describedby="helpId">
+                <label class="ml-4">Nhập tháng: </label>
+                <input type="number" class="form-control ml-2" name="thang" id="thang" describedby="thangId">
 
-                <label class="ml-4" for="diemCuoi">Điểm cuối: </label>
-                <input type="text" class="form-control ml-2" name="diemCuoi"
-                       id="diemCuoi"
-                       aria-describedby="helpId">
+                <label class="ml-4">Nhập năm: </label>
+                <input type="number" class="form-control ml-2" name="nam" id="nam" aria-describedby="helpId">
 
                 <button class="btn btn-outline-primary ml-4">Tìm kiếm</button>
               </div>
@@ -99,42 +95,7 @@
             <td th:text="${chuyenxe.thoiGianKetThuc}"></td>
             <td th:text="${(chuyenxe.taiXe1 == null) ? 'Không có' : chuyenxe.taiXe1.ten}"></td>
             <td th:text="${(chuyenxe.taiXe2 == null) ? 'Không có' : chuyenxe.taiXe2.ten}"></td>
-            <td>
-
-              <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                      th:data-target="${'#chuyenxe'+chuyenxe.id}">
-                <i class="far fa-registered"></i>
-              </button>
-
-              <!-- Modal -->
-              <div class="modal fade" th:id="${'chuyenxe'+chuyenxe.id}" tabindex="-1" role="dialog"
-                   aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Đăng ký tham gia</h5>
-                      <button type="button" class="close" data-dismiss="modal"
-                              aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <span>Bạn muốn đăng ký tham gia vào chuyến xe này?</span><br><br>
-                      <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe1 != null and taixe.cmtTaiXe == chuyenxe.taiXe1.cmtTaiXe) ? 'Bạn đang là lái xe' : ''}"></span>
-                      <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe2 != null and taixe.cmtTaiXe == chuyenxe.taiXe2.cmtTaiXe) ? 'Bạn đang là phụ xe' : ''}"></span>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ
-                      </button>
-                      <a th:if="${chuyenxe.taiXe2 == null and (chuyenxe.taiXe1 == null or taixe.cmtTaiXe != chuyenxe.taiXe1.cmtTaiXe)}" th:href="@{'/taixe/chonchuyenxe/phuxe/' + ${chuyenxe.id}}"
-                         type="button" class="btn btn-info">Phụ xe</a>
-                      <a th:if="${chuyenxe.taiXe1 == null and (chuyenxe.taiXe2 == null or taixe.cmtTaiXe != chuyenxe.taiXe2.cmtTaiXe)}" th:href="@{'/taixe/chonchuyenxe/laixe/' + ${chuyenxe.id}}"
-                         type="button" class="btn btn-success">Lái xe</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </td>
+            <td></td>
 
           </tr>
           </tbody>

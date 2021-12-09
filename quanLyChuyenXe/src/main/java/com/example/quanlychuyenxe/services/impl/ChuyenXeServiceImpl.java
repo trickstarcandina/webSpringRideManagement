@@ -38,12 +38,12 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
         chuyenXe.setSoLuongHanhKhach(chuyenXeRequest.getSoLuongHanhKhach());
         chuyenXe.setStatus(0);
 
-        if(chuyenXeRequest.getCmtLaiXe() != null) {
-            TaiXe laixe = taiXeRepository.findById(chuyenXeRequest.getCmtLaiXe()).get();
+        if(chuyenXeRequest.getUsernameLaiXe() != null) {
+            TaiXe laixe = taiXeRepository.findById(chuyenXeRequest.getUsernameLaiXe()).get();
             chuyenXe.setTaiXe1(laixe);
         }
-        if(chuyenXeRequest.getCmtPhuXe() != null) {
-            TaiXe phuxe = taiXeRepository.findById(chuyenXeRequest.getCmtPhuXe()).get();
+        if(chuyenXeRequest.getUsernamePhuXe() != null) {
+            TaiXe phuxe = taiXeRepository.findById(chuyenXeRequest.getUsernamePhuXe()).get();
             chuyenXe.setTaiXe2(phuxe);
         }
         if(chuyenXeRequest.getTuyen_xe_id() != null) {
@@ -82,8 +82,8 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
     }
 
     @Override
-    public Response searchLaiXeByStatus(String cmtTaiXe, Integer status) {
-        return ResponseBuilder.ok(chuyenXeRepository.searchTaiXeAndStatus(status, cmtTaiXe, cmtTaiXe));
+    public Response searchLaiXeByStatus(String username, Integer status) {
+        return ResponseBuilder.ok(chuyenXeRepository.searchTaiXeAndStatus(status, username, username));
     }
 
     @Override
@@ -103,9 +103,9 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
     }
 
     @Override
-    public Response updateLaiXeById(Integer id, String cmt) {
+    public Response updateLaiXeById(Integer id, String username) {
         try {
-            chuyenXeRepository.updateLaiXeById(cmt, id);
+            chuyenXeRepository.updateLaiXeById(username, id);
             return ResponseBuilder.ok(200, "Đăng ký thành công!");
         } catch (Exception e) {
             return ResponseBuilder.ok(100, "Lỗi!!");
@@ -113,9 +113,9 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
     }
 
     @Override
-    public Response updatePhuXeById(Integer id, String cmt) {
+    public Response updatePhuXeById(Integer id, String username) {
         try {
-            chuyenXeRepository.updatePhuXeById(cmt, id);
+            chuyenXeRepository.updatePhuXeById(username, id);
             return ResponseBuilder.ok(200, "Đăng ký thành công!");
         } catch (Exception e) {
             return ResponseBuilder.ok(100, "Lỗi!!");

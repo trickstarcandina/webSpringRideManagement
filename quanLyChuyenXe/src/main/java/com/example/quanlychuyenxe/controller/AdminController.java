@@ -104,7 +104,7 @@ public class AdminController {
     @PutMapping("/updateTaiXe/{username}")
     public ResponseEntity updateTaiXe(@PathVariable("username") String username, @RequestBody TaiXe taiXe) {
         if (taiXe.getUsername().equals(username)) {
-            return ResponseEntity.ok().body(taiXeService.create(taiXe).build());
+            return ResponseEntity.ok().body(taiXeService.update(taiXe).build());
         }
         throw new IllegalStateException("Error");
     }
