@@ -120,9 +120,9 @@
                         <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
                         </div>
 
-                        <form th:action="${taixe.isEdit}? @{/admin/drivers/update} : @{/admin/drivers/save}"
+                        <form th:action="${taixe.isEdit}? @{/admin/taixe/update} : @{/admin/taixe/save}"
                                th:object="${taixe}" method="POST">
-<!--                            th:action="@{/admin/drivers/save}"-->
+<!--                            th:action="@{/admin/taixe/save}"-->
                             <div class="card">
                                 <div class="card-header">
                                     <h2 th:text="${taixe.isEdit ? 'Sửa thông tin tài xế' : 'Thêm tài xế'}" />
@@ -213,7 +213,7 @@
 
                                 <div class="card-footer text-muted">
                                     <button type="reset" class="btn btn-secondary">Reset</button>
-                                    <a th:href="@{/admin/drivers}" class="btn btn-success">Xem danh sách</a>
+                                    <a th:href="@{/admin/taixe}" class="btn btn-success">Xem danh sách</a>
                                     <button class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>

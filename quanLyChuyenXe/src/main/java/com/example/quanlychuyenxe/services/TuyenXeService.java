@@ -10,5 +10,6 @@ public interface TuyenXeService {
     Response delete(String idTuyenXe);
     Response searchTuyenXeDiemDauDiemCuoi(String diemDau, String diemCuoi);
     Response showTuyenXe(String idTuyenXe, Pageable pageable);
-
+    Response search(String diemDau, String diemCuoi);
+    Response showTuyenXeById(Integer id);
 }

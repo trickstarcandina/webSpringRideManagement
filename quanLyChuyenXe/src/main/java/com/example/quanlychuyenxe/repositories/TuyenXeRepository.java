@@ -17,5 +17,5 @@ public interface TuyenXeRepository extends JpaRepository<TuyenXe, Integer> {
     @Query(value = "select * from tuyenxe", nativeQuery = true)
     Page<TuyenXe> findAllTuyenXe(Pageable pageable);
 
-
+    List<TuyenXe> findAllByDiemDauContainingAndDiemCuoiContaining(String diemDau, String diemCuoi);
 }

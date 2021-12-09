@@ -127,7 +127,7 @@
                 <div class="card mb-4">
                     <div class="row mt-2 mb-2">
                         <div class="col" style="display: flex; justify-content: space-between;">
-                            <form th:action="@{/admin/drivers/search}">
+                            <form th:action="@{/admin/khachhang/search}">
                                 <div class="form-inline float-left" style="display: flex">
                                     <label for="name">Name: </label>
                                     <input type="text" class="form-control ml-2" name="name" id="name"
@@ -137,7 +137,7 @@
                                 </div>
                             </form>
                             <div class="float-right">
-                                <a th:href="@{/admin/drivers/add}" class="btn btn-outline-primary">Thêm tài xế</a>
+                                <a th:href="@{/admin/khachhang/add}" class="btn btn-outline-primary">Thêm khách hàng</a>
                             </div>
                         </div>
                     </div>
@@ -155,36 +155,32 @@
                         <tr>
                             <th>CMT</th>
                             <th>Tên</th>
-                            <th>Mã số bằng lái</th>
-                            <th>Loại bằng lái</th>
                             <th>Địa chỉ</th>
-                            <th>Ngày sinh</th>
-                            <th>Thâm niên</th>
+                            <th>Tuổi</th>
+                            <th>Ghi chú</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="taixe : ${listtaixe}">
-                            <td scope="row" th:text="${taixe.cmtTaiXe}"></td>
-                            <td th:text="${taixe.ten}"></td>
-                            <td th:text="${taixe.maSoBangLai}"></td>
-                            <td th:text="${taixe.loaiBangLai}"></td>
-                            <td th:text="${taixe.diaChi}"></td>
-                            <td th:text="${taixe.ngaySinh}"></td>
-                            <td th:text="${taixe.thamNien}"></td>
+                        <tr th:each="khachhang : ${listkhachhang}">
+                            <td scope="row" th:text="${khachhang.cmtKhachHang}"></td>
+                            <td th:text="${khachhang.ten}"></td>
+                            <td th:text="${khachhang.diaChi}"></td>
+                            <td th:text="${khachhang.tuoi}"></td>
+                            <td th:text="${khachhang.ghiChu}"></td>
                             <td>
                                 <!--<a th:href="@{'/admin/categories/view/'}"
                                    class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
-                                <a th:href="@{'/admin/drivers/edit/' + ${taixe.cmtTaiXe}}"
+                                <a th:href="@{'/admin/khachhang/edit/' + ${khachhang.cmtKhachHang}}"
                                    class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
 
                                 <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                        th:data-target="${'#'+taixe.cmtTaiXe}">
+                                        th:data-target="${'#'+khachhang.cmtKhachHang}">
                                     <i class="fas fa-recycle"></i>
                                 </button>
 
                                 <!-- Modal -->
-                                <div class="modal fade" th:id="${taixe.cmtTaiXe}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" th:id="${khachhang.cmtKhachHang}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -194,13 +190,13 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <span th:text="${'Tên: ' + taixe.ten}" /><br>
-                                                <span th:text="${'Địa chỉ: ' + taixe.diaChi}" /><br>
-                                                <span th:text="${'Tuổi: ' + taixe.ngaySinh}" /><br>
+                                                <span th:text="${'Tên: ' + khachhang.ten}" /><br>
+                                                <span th:text="${'Địa chỉ: ' + khachhang.diaChi}" /><br>
+                                                <span th:text="${'Tuổi: ' + khachhang.tuoi}" /><br>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                                                <a th:href="@{'/admin/drivers/delete/' + ${taixe.cmtTaiXe}}" type="button" class="btn btn-primary">Xác nhận</a>
+                                                <a th:href="@{'/admin/khachhang/delete/' + ${khachhang.cmtKhachHang}}" type="button" class="btn btn-primary">Xác nhận</a>
                                             </div>
                                         </div>
                                     </div>
@@ -211,45 +207,7 @@
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
-
-<!--                <div class="card-footer text-muted">-->
-
-<!--                    <form action="">-->
-<!--                        <div class="form-inline float-left">-->
-<!--                            <label for="size">Page size: </label>-->
-<!--                            <select name="size" id="size" class="form-control" onchange="this.form.submit()">-->
-<!--                                <option th:selected="${categoryPage.size==5}" value="5">5</option>-->
-<!--                                <option th:selected="${categoryPage.size==10}" value="10">10</option>-->
-<!--                                <option th:selected="${categoryPage.size==15}" value="15">15</option>-->
-<!--                                <option th:selected="${categoryPage.size==20}" value="20">20</option>-->
-<!--                                <option th:selected="${categoryPage.size==30}" value="30">30</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </form>-->
-
-<!--                    <nav aria-label="Page navigation" th:if="${categoryPage.totalPages > 0}">-->
-<!--                        <ul class="pagination justify-content-center">-->
-<!--                            <li th:class="${1== categoryPage.number + 1} ? 'page-item active' : 'page-item'">-->
-<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${1})}"-->
-<!--                                   class="page-link">&laquo;</a>-->
-<!--                            </li>-->
-
-<!--                            <li class="page-item active" th:each="pageNumber : ${pageNumbers}"-->
-<!--                                th:if="${categoryPage.totalPages > 1}"-->
-<!--                                th:class="${pageNumber==categoryPage.number+1} ? 'page-item active' : 'page-item'">-->
-<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${pageNumber})}"-->
-<!--                                   class="page-link" th:text="${pageNumber}"></a>-->
-<!--                            </li>-->
-
-<!--                            <li th:class="${categoryPage.totalPages==categoryPage.number + 1} ? 'page-item active' : 'page-item'">-->
-<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${categoryPage.totalPages})}"-->
-<!--                                   class="page-link">&raquo;</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </nav>-->
-<!--                </div>-->
 
             </div>
         </main>
