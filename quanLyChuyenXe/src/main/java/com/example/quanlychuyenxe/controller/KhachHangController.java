@@ -1,7 +1,6 @@
 package com.example.quanlychuyenxe.controller;
 
-import com.example.quanlychuyenxe.base.entity.BaseEntityUser;
-import com.example.quanlychuyenxe.dto.UserDetailsDTO;
+import com.example.quanlychuyenxe.dto.KhachHangDetailsDTO;
 import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.services.KhachHangService;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/khachhang")
 @AllArgsConstructor
 public class KhachHangController {
 
@@ -19,9 +18,9 @@ public class KhachHangController {
     private BCryptPasswordEncoder encoder;
 
     @GetMapping
-    public ResponseEntity<BaseEntityUser> getUser() {
-        UserDetailsDTO userDetailsDTO = (UserDetailsDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(userDetailsDTO.getUser());
+    public ResponseEntity getKhachHang() {
+        KhachHangDetailsDTO khachHangDetailsDTO = (KhachHangDetailsDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(khachHangDetailsDTO.getKhachHang());
     }
 
     @PostMapping(value = "createNewAccount")

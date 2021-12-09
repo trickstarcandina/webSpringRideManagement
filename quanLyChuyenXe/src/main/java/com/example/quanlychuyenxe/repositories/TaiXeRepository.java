@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface TaiXeRepository extends JpaRepository<TaiXe, String> {
     List<TaiXe> findByTenContaining(String ten);
+
+    @Query(value = "select count(*) from taixe where username = ?", nativeQuery = true)
+    Integer checkUserNameExists(String username);
 }

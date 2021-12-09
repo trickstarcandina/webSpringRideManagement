@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface KhachHangService extends UserDetailsService {
     Response create(KhachHang khachHang);
-    Response delete(String cmtKhachHang);
+    Response delete(String username);
     Response searchByName(String ten);
-    Response searchById(String cmt);
+    Response searchById(String username);
 }

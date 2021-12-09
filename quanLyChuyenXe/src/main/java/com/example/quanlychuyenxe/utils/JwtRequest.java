@@ -1,6 +1,6 @@
 package com.example.quanlychuyenxe.utils;
 
-import com.example.quanlychuyenxe.dto.UserDetailsDTO;
+import com.example.quanlychuyenxe.dto.KhachHangDetailsDTO;
 import com.example.quanlychuyenxe.services.KhachHangService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,9 +27,9 @@ public class JwtRequest extends OncePerRequestFilter {
         if (header != null && header.startsWith(JwtConfig.JWT_TOKEN_PREFIX)){
             String token = header.substring(JwtConfig.JWT_TOKEN_PREFIX.length());
             String username = JwtUtils.extractUsername(token);
-            UserDetailsDTO userDetailsDTO = (UserDetailsDTO) khachHangService.loadUserByUsername(username);
-            if (JwtUtils.validateToken(token, userDetailsDTO)) {
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetailsDTO, null , userDetailsDTO.getAuthorities());
+            KhachHangDetailsDTO khachHangDetailsDTO = (KhachHangDetailsDTO) khachHangService.loadUserByUsername(username);
+            if (JwtUtils.validateToken(token, khachHangDetailsDTO)) {
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(khachHangDetailsDTO, null , khachHangDetailsDTO.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
