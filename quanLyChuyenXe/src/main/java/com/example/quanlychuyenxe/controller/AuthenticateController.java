@@ -4,7 +4,6 @@ import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.dto.AuthenticationRequest;
 import com.example.quanlychuyenxe.dto.KhachHangDetailsDTO;
 import com.example.quanlychuyenxe.dto.TaiXeDetailsDTO;
-import com.example.quanlychuyenxe.dto.UserDetailsDTO;
 import com.example.quanlychuyenxe.services.KhachHangService;
 import com.example.quanlychuyenxe.services.TaiXeService;
 import com.example.quanlychuyenxe.services.UserService;
@@ -29,7 +28,7 @@ public class AuthenticateController {
     private UserService userService;
 
     @PostMapping("/authenticateKhachHang")
-    public ResponseEntity authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity authenticateKhachHang(@RequestBody AuthenticationRequest request) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         }

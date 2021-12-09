@@ -2,8 +2,6 @@ package com.example.quanlychuyenxe.utils;
 
 import com.example.quanlychuyenxe.dto.KhachHangDetailsDTO;
 import com.example.quanlychuyenxe.dto.TaiXeDetailsDTO;
-import com.example.quanlychuyenxe.dto.UserDetailsDTO;
-import com.example.quanlychuyenxe.services.KhachHangService;
 import com.example.quanlychuyenxe.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
