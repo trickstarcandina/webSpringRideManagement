@@ -48,14 +48,4 @@ public class KhachHangServiceImpl implements KhachHangService {
         return ResponseBuilder.ok(khachHangRepository.findById(username));
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        KhachHang khachHang = khachHangRepository.findById(s).get();
-        if(khachHang == null) {
-            throw new UsernameNotFoundException("Not found username : " + s);
-        }
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        return new KhachHangDetailsDTO(khachHang.getUsername(), khachHang.getPassword(), true, true,
-                true, true , authorities, khachHang);
-    }
 }

@@ -54,15 +54,4 @@ public class TaiXeServiceImpl implements TaiXeService {
         return ResponseBuilder.ok(taiXeRepository.findById(username));
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        TaiXe taiXe = taiXeRepository.findById(s).get();
-        if(taiXe == null) {
-            throw new UsernameNotFoundException("Not found username : " + s);
-        }
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        return new TaiXeDetailsDTO(taiXe.getUsername(), taiXe.getPassword(), true, true,
-                true, true , authorities, taiXe);
-//        return null;
-    }
 }
