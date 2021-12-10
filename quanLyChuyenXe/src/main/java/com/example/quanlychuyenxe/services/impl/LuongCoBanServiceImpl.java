@@ -37,4 +37,9 @@ public class LuongCoBanServiceImpl implements LuongCoBanService {
         return ResponseBuilder.ok(luongCoBanRepository.findByLuongContaining(luong));
     }
 
+    @Override
+    public Response findLaterLuong(String username) {
+        return ResponseBuilder.ok(luongCoBanRepository.getLuongCuoiByUsername(username));
+    }
+
 }

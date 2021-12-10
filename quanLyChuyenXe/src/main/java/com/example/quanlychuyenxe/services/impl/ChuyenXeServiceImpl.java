@@ -121,4 +121,9 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
             return ResponseBuilder.ok(100, "Lỗi!!");
         }
     }
+
+    @Override
+    public Response findChuyenXeByStatus(String diemDau, String diemCuoi, Integer status) {
+        return ResponseBuilder.ok(chuyenXeRepository.findAllByTuyenXe_DiemDauContainingAndTuyenXe_DiemCuoiContainingAndStatus(diemDau, diemCuoi, status));
+    }
 }
