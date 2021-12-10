@@ -49,7 +49,7 @@
   <div id="content" class="p-4 p-md-5">
 
     <div class="container-fluid px-4">
-      <h1 class="mt-4 mb-4">Đăng ký chuyến xe</h1>
+      <h1 class="mt-4 mb-4">Xem thông tin lương</h1>
 
       <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
       </div>
@@ -71,35 +71,35 @@
           </div>
         </div>
 
-        <table class="table table-striped table-inverse">
-          <thead class="thead-inverse">
-          <tr>
-            <th>Tên xe khách</th>
-            <th>Điểm bắt đầu</th>
-            <th>Điểm cuối</th>
-            <th>Giá vé</th>
-            <th>Thời gian khởi hành</th>
-            <th>Thời gian kết thúc</th>
-            <th>Lái xe</th>
-            <th>Phụ xe</th>
-            <th></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="chuyenxe : ${listchuyenxe}">
-            <td th:text="${chuyenxe.xeKhach.tenXeKhach}"></td>
-            <td scope="row" th:text="${chuyenxe.tuyenXe.diemDau}"></td>
-            <td th:text="${chuyenxe.tuyenXe.diemCuoi}"></td>
-            <td th:text="${chuyenxe.giaVe}"></td>
-            <td th:text="${chuyenxe.thoiGianKhoiHanh}"></td>
-            <td th:text="${chuyenxe.thoiGianKetThuc}"></td>
-            <td th:text="${(chuyenxe.taiXe1 == null) ? 'Không có' : chuyenxe.taiXe1.ten}"></td>
-            <td th:text="${(chuyenxe.taiXe2 == null) ? 'Không có' : chuyenxe.taiXe2.ten}"></td>
-            <td></td>
+        <div th:if="${listchuyenxe != null}">
+          <h4 style="margin-top: 72px !important;margin-bottom: 32px !important;">Các chuyến xe đã tham gia</h4>
+          <table class="table table-striped table-inverse">
+            <thead class="thead-inverse">
+            <tr>
+              <th>Tên xe khách</th>
+              <th>Tuyến đường</th>
+              <th>Giá vé</th>
+              <th>Thời gian khởi hành</th>
+              <th>Thời gian kết thúc</th>
+              <th>Chức vụ</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="chuyenxe : ${listchuyenxe}">
+              <td th:text="${chuyenxe.xeKhach.tenXeKhach}"></td>
+              <td th:text="${chuyenxe.tuyenXe.diemDau + ' - ' + chuyenxe.tuyenXe.diemCuoi}"></td>
+              <td th:text="${chuyenxe.giaVe}"></td>
+              <td th:text="${chuyenxe.thoiGianKhoiHanh}"></td>
+              <td th:text="${chuyenxe.thoiGianKetThuc}"></td>
+              <td th:text="${(chuyenxe.taiXe1.username == taixe.username) ? 'Lái xe' : 'Phụ xe'}"></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
 
-          </tr>
-          </tbody>
-        </table>
+        <div><h4 class="float-right" style="margin-top: 56px;" th:text="${'Tổng lương: ' + tongluong}"></h4></div>
       </div>
 
     </div>

@@ -27,6 +27,7 @@ public class AdminController {
     private KhachHangService khachHangService;
     private TaiXeService taiXeService;
     private ChuyenXeService chuyenXeService;
+    private TongLuongService tongLuongService;
 
     private BCryptPasswordEncoder encoder;
 
@@ -43,8 +44,9 @@ public class AdminController {
 
     @PutMapping("/updateTuyenXe/{idTuyenXe}")
     public ResponseEntity updateTuyenXe(@PathVariable("idTuyenXe") String idTuyenXe, @RequestBody TuyenXe tuyenXe) {
-        if (tuyenXe.getId().equals(idTuyenXe)) {
-            return ResponseEntity.ok().body(tuyenXeService.create(tuyenXe).build());
+        Integer id = Integer.parseInt(idTuyenXe);
+        if (tuyenXe.getId().equals(id)) {
+            return ResponseEntity.ok().body(tuyenXeService.update(tuyenXe).build());
         }
         return ResponseEntity.ok().body(ResponseBuilder.ok(200, "Cập nhật thất bại"));
     }
@@ -140,6 +142,7 @@ public class AdminController {
         throw new IllegalStateException("Error");
     }
 
+
     @GetMapping("/searchXeKhach")
     public ResponseEntity searchXeKhachByTen(@RequestParam("tenxekhach") String tenxekhach) {
         return ResponseEntity.ok().body(xeKhachService.searchByName(tenxekhach).build());
@@ -178,7 +181,6 @@ public class AdminController {
     // Chuyen Xe
     @PostMapping(value = "/addChuyenXe")
     public ResponseEntity addChuyenXe(@RequestBody ChuyenXeRequest chuyenXeRequest) {
-
         return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
     }
 
@@ -201,5 +203,11 @@ public class AdminController {
     public ResponseEntity updateChuyenXe(@RequestParam("id") Integer id, @RequestBody ChuyenXeRequest chuyenXeRequest) {
         chuyenXeRequest.setId(id);
         return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
+    }
+
+    // Thong ke tong luong
+    @GetMapping("/thongke/luongtaixe")
+    public ResponseEntity thongkeTongLuong(@RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
+        return ResponseEntity.ok().body(tongLuongService.getAllTongLuongByDate(thang, nam).build());
     }
 }

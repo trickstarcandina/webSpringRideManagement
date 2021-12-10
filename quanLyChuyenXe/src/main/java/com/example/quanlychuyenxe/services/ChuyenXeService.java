@@ -17,4 +17,7 @@ public interface ChuyenXeService {
     Response findChuyenXeThieuTaiXe(String diemDau, String diemCuoi);
     Response updateLaiXeById(Integer id, String cmt);
     Response updatePhuXeById(Integer id, String cmt);
+
+    // Khách hàng
+    Response findChuyenXeByStatus(String diemDau, String diemCuoi, Integer status);
 }

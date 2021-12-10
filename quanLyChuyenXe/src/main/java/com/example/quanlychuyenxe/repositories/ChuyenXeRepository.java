@@ -15,6 +15,8 @@ public interface ChuyenXeRepository extends JpaRepository<ChuyenXe, Integer> {
     @Query(value = "SELECT * FROM chuyenxe WHERE status = ? AND (tai_xe1_username = ? OR tai_xe2_username=?)", nativeQuery = true)
     List<ChuyenXe> searchTaiXeAndStatus(Integer status, String usernameLaiXe, String usernamePhuXe);
 
+    List<ChuyenXe> findAllByTuyenXe_DiemDauContainingAndTuyenXe_DiemCuoiContainingAndStatus(String diemDau, String diemCuoi, Integer status);
+
     @Modifying
     @Query(value = "UPDATE chuyenxe SET status = ? WHERE (id = ?)", nativeQuery = true)
     void updateStatusById(Integer status, Integer id);

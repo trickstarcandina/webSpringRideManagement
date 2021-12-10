@@ -40,4 +40,10 @@ public class ChuyenXeController {
     public ResponseEntity updatePhuXe(@RequestParam("id") Integer id, @RequestParam("username") String username) {
         return ResponseEntity.ok().body(chuyenXeService.updatePhuXeById(id, username).build());
     }
+
+    @GetMapping("/khachhang/search")
+    public ResponseEntity searchChuyenXe(@RequestParam("diemDau") String diemDau, @RequestParam("diemCuoi") String diemCuoi
+            , @RequestParam("status") Integer status) {
+        return ResponseEntity.ok().body(chuyenXeService.findChuyenXeByStatus(diemDau, diemCuoi, status).build());
+    }
 }
