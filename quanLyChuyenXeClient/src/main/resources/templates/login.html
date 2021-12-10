@@ -41,14 +41,14 @@
 					
 <!--					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">-->
 					<div class="wrap-input100 validate-input">
-						<input class="input100" type="text" name="username">
+						<input class="input100" type="text" name="username" th:field="*{username}">
 						<span class="focus-input100"></span>
 						<span class="label-input100">Username</span>
 					</div>
 					
 					
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input100" type="password" name="pass">
+						<input class="input100" type="password" name="pass" th:field="*{password}">
 						<span class="focus-input100"></span>
 						<span class="label-input100">Password</span>
 					</div>
@@ -74,22 +74,30 @@
 							Login
 						</button>
 					</div>
-					
+
 					<div class="text-center p-t-46 p-b-20">
 						<span class="txt2">
-							or sign up using
+							hoặc đăng nhập với
 						</span>
 					</div>
 
-					<div class="login100-form-social flex-c-m">
-						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">
-							<i class="fa fa-facebook-f" aria-hidden="true"></i>
-						</a>
-
-						<a href="#" class="login100-form-social-item flex-c-m bg2 m-r-5">
-							<i class="fa fa-twitter" aria-hidden="true"></i>
-						</a>
+					<div class="container-login100-form-btn">
+						<button id="myButton" class="" >
+							Đăng nhập với tư cách tài xế
+						</button>
 					</div>
+
+<!--					<div class="login100-form-social flex-c-m">-->
+<!--						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">-->
+<!--							<i class="fa fa-facebook-f" aria-hidden="true"></i>-->
+<!--						</a>-->
+
+<!--						<a href="#" class="login100-form-social-item flex-c-m bg2 m-r-5">-->
+<!--							<i class="fa fa-twitter" aria-hidden="true"></i>-->
+<!--						</a>-->
+<!--					</div>-->
+
+
 				</form>
 <!--				<img th:src="@{resources/static/images/bg-01.jpg}">-->
 <!--				<div class="login100-more" style="background-image: url(/images/bg-01.jpg);"></div>-->
@@ -97,11 +105,15 @@
 			</div>
 		</div>
 	</div>
-	
-	
 
-	
-	
+
+
+
+	<script type="text/javascript">
+		document.getElementById("myButton").onclick = function () {
+			location.href = "logintaixe";
+		};
+	</script>
 <!--===============================================================================================-->
 	<script th:src="@{../vendor/jquery/jquery-3.2.1.min.js}"></script>
 <!--===============================================================================================-->
