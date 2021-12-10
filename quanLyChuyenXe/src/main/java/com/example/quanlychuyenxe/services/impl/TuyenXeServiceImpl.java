@@ -31,6 +31,11 @@ public class TuyenXeServiceImpl implements TuyenXeService {
     }
 
     @Override
+    public Response search(String diemDau, String diemCuoi) {
+        return ResponseBuilder.ok(tuyenXeRepository.findAllByDiemDauContainingAndDiemCuoiContaining(diemDau, diemCuoi));
+    }
+
+    @Override
     public Response searchTuyenXeDiemDauDiemCuoi(String diemDau, String diemCuoi) {
         return ResponseBuilder.ok(tuyenXeRepository.searchTuyenXeDiemDauDiemCuoi(diemDau, diemCuoi));
     }
@@ -44,12 +49,14 @@ public class TuyenXeServiceImpl implements TuyenXeService {
     }
 
     @Override
-    public Response search(String diemDau, String diemCuoi) {
-        return ResponseBuilder.ok(tuyenXeRepository.findAllByDiemDauContainingAndDiemCuoiContaining(diemDau, diemCuoi));
+    public Response showTuyenXeById(Integer id) {
+        return ResponseBuilder.ok(tuyenXeRepository.findById(id));
     }
 
     @Override
-    public Response showTuyenXeById(Integer id) {
-        return ResponseBuilder.ok(tuyenXeRepository.findById(id));
+    public Response update(TuyenXe tuyenXe) {
+        tuyenXeRepository.updateTuyenXe(tuyenXe.getDiemDau(),
+                tuyenXe.getDiemCuoi(), tuyenXe.getDoDai(), tuyenXe.getDoPhucTapCuaTuyenDuong(), tuyenXe.getId());
+        return ResponseBuilder.ok(200, "Cập nhật thành công");
     }
 }
