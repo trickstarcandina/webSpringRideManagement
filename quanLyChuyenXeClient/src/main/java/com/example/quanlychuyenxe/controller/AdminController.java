@@ -2,7 +2,9 @@ package com.example.quanlychuyenxe.controller;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.model.KhachHang;
+import com.example.quanlychuyenxe.model.LuongCoBan;
 import com.example.quanlychuyenxe.model.TaiXe;
+import com.example.quanlychuyenxe.model.XeKhach;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.asm.TypeReference;
 import org.springframework.http.*;
@@ -187,5 +189,165 @@ public class AdminController {
         }
         model.addAttribute("notice", notice);
         return "admin/drivers/addOrEdit";
+    }
+
+    //luong co ban
+    @GetMapping("luongcoban")
+    public String homeSalary() {
+        return "redirect:salarys/search?name=";
+    }
+
+//    @GetMapping("salarys/search")
+//    public String searchSalary(ModelMap model, @RequestParam("name") String name) {
+//        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/searchTaiXe?tenTaiXe=" + name,
+//                ResponseBuilder.class);
+//        List<TaiXe> drivers = (List<TaiXe>) builder.getData();
+//        model.addAttribute("listtaixe", drivers);
+//        return "admin/drivers/search";
+//    }
+
+    @GetMapping("drivers/salarys/add")
+    public String addSalary(Model model) {
+        model.addAttribute("luongcoban", new LuongCoBan ());
+        return "admin/drivers/addOrEdit";
+    }
+
+//    @GetMapping("salarys/edit/{id}")
+//    public String editSalary(Model model, @PathVariable("id") Integer id) {
+//        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showLuongCoBan/{id}",
+//                ResponseBuilder.class, id);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        LuongCoBan salary = objectMapper.convertValue(builder.getData(), LuongCoBan.class);
+////        salary.setIsEdit(true);
+//        model.addAttribute("taixe", salary);
+//        return "admin/salarys/addOrEdit";
+//    }
+
+//    @GetMapping("salarys/delete/{id}")
+//    public ModelAndView deleteDriver(ModelMap model, @PathVariable("cmtTaiXe") String cmtTaiXe) {
+//        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteTaiXe/" + cmtTaiXe,
+//                HttpMethod.DELETE, null, ResponseBuilder.class);
+//        if(responseEntity.getStatusCode() == HttpStatus.OK) {
+//            model.addAttribute("deleteNotice", "Xóa thành công");
+//        }
+//        return new ModelAndView("admin/drivers/search", model);
+//    }
+
+//    @PostMapping("drivers/salarys/update")
+//    public String updateSalary(Model model, @Valid @ModelAttribute("luongcoban") LuongCoBan luongCoBan, Errors errors) {
+//        if(errors.hasErrors()) {
+//            return "admin/salarys/addOrEdit";
+//        }
+//        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateLuongCoBan/"
+//                + luongCoBan.getCmtTaiXe(), HttpMethod.PUT, new HttpEntity<>(luongCoBan, null), ResponseBuilder.class);
+//        String noticeUpdate = "";
+//        if(responseEntity.getStatusCode() == HttpStatus.OK) {
+//            noticeUpdate = "Cập nhật thành công!";
+//        } else {
+//            noticeUpdate = "Cập nhật thất bại!";
+//        }
+//        model.addAttribute("noticeUpdate", noticeUpdate);
+//        return "admin/salarys/search";
+//    }
+
+//    @PostMapping("drivers/save")
+//    public String saveSalary(Model model, @Valid @ModelAttribute("luongcoban") LuongCoBan luongCoBan, Errors errors) {
+//        if(errors.hasErrors()) {
+//            return "admin/salarys/addOrEdit";
+//        }
+//        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showLuongCoBan/{Id}",
+//                ResponseBuilder.class, luongCoBan.getId ());
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        TaiXe driver = objectMapper.convertValue(builder.getData(), TaiXe.class);
+//        String notice = "";
+//        if(!ObjectUtils.isEmpty(driver)) {
+//            notice = "ID đã tồn tại!";
+//        } else {
+//            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addLuongCoBan",
+//                    HttpMethod.POST, new HttpEntity<>(luongCoBan, null), ResponseBuilder.class);
+//            notice = "Thành công!";
+//        }
+//        model.addAttribute("notice", notice);
+//        return "admin/salarys/addOrEdit";
+//    }
+
+    //XE KHACH
+    @GetMapping("coachs")
+    public String homeCoach() {
+        return "redirect:coachs/search?name=";
+    }
+
+    @GetMapping("coachs/search")
+    public String searchCoach(ModelMap model, @RequestParam("name") String name) {
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/searchXeKhach/?tenxekhach=" + name,
+                ResponseBuilder.class);
+        List<XeKhach> coachs = (List<XeKhach>) builder.getData();
+        model.addAttribute("listxekhach", coachs);
+        return "admin/coachs/search";
+    }
+
+    @GetMapping("coachs/add")
+    public String addCoach(Model model) {
+        model.addAttribute("xekhach", new XeKhach ());
+        return "admin/coachs/addOrEdit";
+    }
+
+    @GetMapping("coachs/edit/{bienSo}")
+    public String editCoach(Model model, @PathVariable("bienSo") String bienSo) {
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showXeKhachByID/{bienSo}",
+                ResponseBuilder.class, bienSo);
+        ObjectMapper objectMapper = new ObjectMapper();
+        XeKhach coach = objectMapper.convertValue(builder.getData(), XeKhach.class);
+        coach.setIsEdit(true);
+        model.addAttribute("xekhach", coach);
+        return "admin/coachs/addOrEdit";
+    }
+
+    @GetMapping("coachs/delete/{bienSo}")
+    public ModelAndView deleteCoach(ModelMap model, @PathVariable("bienSo") String bienSo) {
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteXeKhach/" + bienSo,
+                HttpMethod.DELETE, null, ResponseBuilder.class);
+        if(responseEntity.getStatusCode() == HttpStatus.OK) {
+            model.addAttribute("deleteNotice", "Xóa thành công");
+        }
+        return new ModelAndView("admin/coachs/search", model);
+    }
+
+    @PostMapping("coachs/update")
+    public String updateCoach(Model model, @Valid @ModelAttribute("xekhach") XeKhach xeKhach, Errors errors) {
+        if(errors.hasErrors()) {
+            return "admin/coachs/addOrEdit";
+        }
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateXeKhach/"
+                + xeKhach.getBienSo (), HttpMethod.PUT, new HttpEntity<>(xeKhach, null), ResponseBuilder.class);
+        String noticeUpdate = "";
+        if(responseEntity.getStatusCode() == HttpStatus.OK) {
+            noticeUpdate = "Cập nhật thành công!";
+        } else {
+            noticeUpdate = "Cập nhật thất bại!";
+        }
+        model.addAttribute("noticeUpdate", noticeUpdate);
+        return "admin/coachs/search";
+    }
+
+    @PostMapping("coachs/save")
+    public String saveCoach(Model model, @Valid @ModelAttribute("xekhach") XeKhach xeKhach, Errors errors) {
+        if(errors.hasErrors()) {
+            return "admin/coachs/addOrEdit";
+        }
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showXeKhachByID/{bienSo}",
+                ResponseBuilder.class, xeKhach.getBienSo ());
+        ObjectMapper objectMapper = new ObjectMapper();
+        XeKhach driver = objectMapper.convertValue(builder.getData(), XeKhach.class);
+        String notice = "";
+        if(!ObjectUtils.isEmpty(driver)) {
+            notice = "Biển số đã tồn tại!";
+        } else {
+            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addXeKhach",
+                    HttpMethod.POST, new HttpEntity<>(xeKhach, null), ResponseBuilder.class);
+            notice = "Thành công!";
+        }
+        model.addAttribute("notice", notice);
+        return "admin/coachs/addOrEdit";
     }
 }
