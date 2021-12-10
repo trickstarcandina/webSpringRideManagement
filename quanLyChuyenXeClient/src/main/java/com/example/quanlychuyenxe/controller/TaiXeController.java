@@ -4,7 +4,9 @@ import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.model.TongLuong;
+import com.example.quanlychuyenxe.model.request.LuongTrongThangRequest;
 import com.example.quanlychuyenxe.model.request.TongLuongRequest;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -133,10 +136,13 @@ public class TaiXeController {
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange(builder.build().encode().toUri() ,
                 HttpMethod.GET, null, ResponseBuilder.class);
 
-        List<TongLuong> listtongluong = (List<TongLuong>) responseEntity.getBody();
+        ObjectMapper mapper = new ObjectMapper();
+        LuongTrongThangRequest luongTrongThangRequest = mapper.convertValue(responseEntity.getBody().getData(), LuongTrongThangRequest.class);
 
+        model.addAttribute("listchuyenxe", luongTrongThangRequest.getChuyenXe());
+        model.addAttribute("tongluong", luongTrongThangRequest.getLuong());
         model.addAttribute("taixe", taixe);
-        return "taixe/registerRide";
+        return "taixe/showSalary";
     }
 
 }

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Sidebar 01</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+  <link th:href="@{../css/taixe/styles.css}" rel="stylesheet"/>
+  <link th:href="@{/css/taixe/styles.css}" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+        integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<div class="wrapper d-flex align-items-stretch">
+  <nav id="sidebar">
+    <div class="p-4 pt-5">
+      <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);margin-bottom: 20px !important;"></a>
+      <span style="display: flex; justify-content: center; color: #d2b308; margin-bottom: 62px;" th:text="${'Xin chào, ' +  khachhang.ten}"></span>
+      <ul style="margin-bottom: 165px !important;" class="list-unstyled components mb-5">
+        <li>
+          <a th:href="@{/khachhang}">Trang chủ</a>
+        </li>
+        <li>
+          <a th:href="@{/khachhang/chonchuyenxe}">Đăng ký chuyến xe</a>
+        </li>
+      </ul>
+
+      <div class="footer" style="color: #d1cfcf;">
+        <span>Liên lạc,</span><br>
+        <span>Sđt: 0954983728</span><br>
+        <span>Email: webprogramming@ptit.com</span>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Page Content  -->
+  <div id="content" class="p-4 p-md-5">
+    <h2 th:text="${'Xin chào, ' +  khachhang.ten}" style="padding-top: 44px;padding-bottom: 12px;"></h2>
+
+    <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
+    </div>
+    <div th:if="${noticeError != null}" class="alert alert-info" role="alert" th:text="${noticeError}">
+    </div>
+
+    <h3>Danh sách các chuyến xe mà bạn đăng ký tham gia!</h3>
+    <table class="table table-striped table-inverse">
+      <thead class="thead-inverse">
+      <tr>
+        <th>Tên xe khách</th>
+        <th>Điểm bắt đầu</th>
+        <th>Điểm cuối</th>
+        <th>Giá vé</th>
+        <th>Thời gian khởi hành</th>
+        <th>Thời gian kết thúc</th>
+        <th>Lái xe</th>
+        <th>Phụ xe</th>
+<!--        <th></th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="chuyenxe : ${listchuyenxe}">
+        <td th:text="${chuyenxe.xeKhach.tenXeKhach}"></td>
+        <td scope="row" th:text="${chuyenxe.tuyenXe.diemDau}"></td>
+        <td th:text="${chuyenxe.tuyenXe.diemCuoi}"></td>
+        <td th:text="${chuyenxe.giaVe}"></td>
+        <td th:text="${#dates.format(chuyenxe.thoiGianKhoiHanh, 'HH:mm dd/MM/yyyy')}"></td>
+        <td th:text="${#dates.format(chuyenxe.thoiGianKetThuc, 'HH:mm dd/MM/yyyy')}"></td>
+        <td th:text="${(chuyenxe.taiXe1 == null) ? 'Không có' : chuyenxe.taiXe1.ten}"></td>
+        <td th:text="${(chuyenxe.taiXe2 == null) ? 'Không có' : chuyenxe.taiXe2.ten}"></td>
+<!--        <td>-->
+<!--          <button type="button" class="btn btn-outline-info" data-toggle="modal"-->
+<!--                  th:data-target="${'#chuyenxe'+chuyenxe.id}">-->
+<!--            <i class="fas fa-check"></i>-->
+<!--          </button>-->
+
+<!--          &lt;!&ndash; Modal &ndash;&gt;-->
+<!--          <div class="modal fade" th:id="${'chuyenxe'+chuyenxe.id}" tabindex="-1" role="dialog"-->
+<!--               aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--            <div class="modal-dialog" role="document">-->
+<!--              <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                  <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-question" style="font-size: 25px;"></i></h5>-->
+<!--                  <button type="button" class="close" data-dismiss="modal"-->
+<!--                          aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                  </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                  Chuyến xe này đã hoàn thành?-->
+<!--                  <br><span th:if="${chuyenxe.taiXe1 == null or chuyenxe.taiXe2 == null}">Chưa có lái xe hoặc phụ xe?</span>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Chưa</button>-->
+<!--                  <a th:if="${chuyenxe.taiXe1 != null and chuyenxe.taiXe2 != null}" th:href="@{'/taixe/xacnhan/' + ${chuyenxe.id}}"-->
+<!--                     type="button" class="btn btn-primary">Hoàn thành</a>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </td>-->
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script th:src="@{../js/taixe/jquery.min.js}"></script>
+<script th:src="@{/js/taixe/jquery.min.js}"></script>
+<script th:src="@{../js/taixe/popper.js}"></script>
+<script th:src="@{/js/taixe/popper.js}"></script>
+<script th:src="@{../js/taixe/bootstrap.min.js}"></script>
+<script th:src="@{/js/taixe/bootstrap.min.js}"></script>
+<script th:src="@{../js/taixe/main.js}"></script>
+<script th:src="@{/js/taixe/main.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

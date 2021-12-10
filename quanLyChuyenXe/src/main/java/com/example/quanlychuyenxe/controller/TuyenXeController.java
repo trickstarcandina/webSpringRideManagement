@@ -18,6 +18,7 @@ public class TuyenXeController {
 //    public ResponseEntity searchTuyenXeByName(@RequestParam("diemDau") String diemDau, @RequestParam("dieuCuoi") String diemCuoi) {
 //        return ResponseEntity.ok().body(tuyenXeService.searchTuyenXeDiemDauDiemCuoi(diemDau, diemCuoi).build());
 //    }
+
 //
 //    @GetMapping("/showTuyenXe/{idTuyenXe}")
 //    public ResponseEntity searchTuyenXeByID(@PathVariable("idTuyenXe") String idTuyenXe,

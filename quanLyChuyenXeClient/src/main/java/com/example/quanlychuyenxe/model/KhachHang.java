@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -26,7 +27,7 @@ public class KhachHang {
     private String username;
     private String password;
 
-    private List<ChuyenXe> chuyenXeList;
+    private Set<ChuyenXe> chuyenXeList;
 
     private Boolean isEdit = false;
 }

@@ -29,4 +29,8 @@ public class KhachHangController {
         return ResponseEntity.ok(khachHangService.create(khachHang).build());
     }
 
+    @GetMapping("/getChuyenXe/{username}")
+    public ResponseEntity getChuyenXe(@PathVariable("username") String username) {
+        return ResponseEntity.ok(khachHangService.getKhachHangChuyenXe(username).build());
+    }
 }

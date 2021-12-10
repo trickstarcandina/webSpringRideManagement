@@ -2,11 +2,8 @@ package com.example.quanlychuyenxe.services.impl;
 
 import com.example.quanlychuyenxe.base.response.Response;
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
-import com.example.quanlychuyenxe.model.ChuyenXe;
-import com.example.quanlychuyenxe.model.TaiXe;
+import com.example.quanlychuyenxe.model.*;
 import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
-import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.model.XeKhach;
 import com.example.quanlychuyenxe.repositories.ChuyenXeRepository;
 import com.example.quanlychuyenxe.repositories.TaiXeRepository;
 import com.example.quanlychuyenxe.repositories.TuyenXeRepository;
@@ -19,6 +16,9 @@ import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -119,6 +119,34 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
             return ResponseBuilder.ok(200, "Đăng ký thành công!");
         } catch (Exception e) {
             return ResponseBuilder.ok(100, "Lỗi!!");
+        }
+    }
+
+    @Override
+    public Response findChuyenXeByStatus(String diemDau, String diemCuoi, Integer status) {
+        return ResponseBuilder.ok(chuyenXeRepository.findAllByTuyenXe_DiemDauContainingAndTuyenXe_DiemCuoiContainingAndStatus(diemDau, diemCuoi, status));
+    }
+
+    @Override
+    public Response update(ChuyenXe chuyenXe) {
+        return ResponseBuilder.ok(chuyenXeRepository.save(chuyenXe));
+    }
+
+    @Override
+    public Response allKhachHang(Integer id) {
+        ChuyenXe chuyenXe = chuyenXeRepository.findById(id).get();
+        Set<KhachHang> khachHangList = (Set<KhachHang>) chuyenXe.getKhachHangList();
+        chuyenXe.setKhachHangList(khachHangList);
+        return ResponseBuilder.ok(chuyenXe);
+    }
+
+    @Override
+    public Response updateKhachHang(String username, Integer id) {
+        try {
+            chuyenXeRepository.saveKhachHangChuyenXe(username, id);
+            return ResponseBuilder.ok(200, "Success");
+        } catch (Exception e) {
+            return ResponseBuilder.ok(100, "Error");
         }
     }
 }
