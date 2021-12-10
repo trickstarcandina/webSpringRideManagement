@@ -30,4 +30,8 @@ public interface ChuyenXeRepository extends JpaRepository<ChuyenXe, Integer> {
     @Modifying
     @Query(value = "UPDATE chuyenxe SET tai_xe2_username = ? WHERE (id = ?)", nativeQuery = true)
     void updatePhuXeById(String username, Integer id);
+
+    @Modifying
+    @Query(value = "INSERT INTO khachhang_chuyenxe (khach_hang_username, chuyenxe_id) VALUES (?, ?)", nativeQuery = true)
+    void saveKhachHangChuyenXe(String username, Integer id);
 }

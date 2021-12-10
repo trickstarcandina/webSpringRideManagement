@@ -76,7 +76,7 @@ public class AdminController {
     @PutMapping("/updateKhachHang/{username}")
     public ResponseEntity updateKhachHang(@PathVariable("username") String username, @RequestBody KhachHang khachHang) {
         if (khachHang.getUsername().equals(username)) {
-            return ResponseEntity.ok().body(khachHangService.create(khachHang).build());
+            return ResponseEntity.ok().body(khachHangService.update(khachHang).build());
         }
         throw new IllegalStateException("Error");
     }

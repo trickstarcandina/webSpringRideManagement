@@ -3,15 +3,13 @@ package com.example.quanlychuyenxe.model;
 import com.example.quanlychuyenxe.base.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.CustomLog;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "chuyenxe")
@@ -44,12 +42,15 @@ public class ChuyenXe extends BaseEntity {
     @ManyToOne
     private TaiXe taiXe2;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+//    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "khachhang_chuyenxe",
             joinColumns = @JoinColumn(name = "chuyenxe_id"),
             inverseJoinColumns = @JoinColumn(name = "khach_hang_username"))
-    private List<KhachHang> khachHangList;
+    private Set<KhachHang> khachHangList;
+
 
 //    @JsonIgnore
 //    @ManyToMany(fetch = FetchType.EAGER)
