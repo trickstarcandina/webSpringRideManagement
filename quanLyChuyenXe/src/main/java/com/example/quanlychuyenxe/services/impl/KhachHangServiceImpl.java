@@ -3,6 +3,7 @@ package com.example.quanlychuyenxe.services.impl;
 import com.example.quanlychuyenxe.base.response.Response;
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.dto.KhachHangDetailsDTO;
+import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.repositories.KhachHangRepository;
 import com.example.quanlychuyenxe.services.KhachHangService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -48,4 +50,18 @@ public class KhachHangServiceImpl implements KhachHangService {
         return ResponseBuilder.ok(khachHangRepository.findById(username));
     }
 
+    @Override
+    public Response update(KhachHang khachHang) {
+        if(khachHang.getUsername() != null) {
+            return ResponseBuilder.ok(khachHangRepository.save(khachHang));
+        }
+        return ResponseBuilder.ok(100, "Error");
+    }
+
+    @Override
+    public Response getKhachHangChuyenXe(String username) {
+        KhachHang khachHang = khachHangRepository.findById(username).get();
+        Set<ChuyenXe> chuyenXeList = (Set<ChuyenXe>) khachHang.getChuyenXeList();
+        return ResponseBuilder.ok(chuyenXeList);
+    }
 }

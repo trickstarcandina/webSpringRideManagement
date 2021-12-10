@@ -31,9 +31,6 @@
         <li>
           <a th:href="@{/khachhang/chonchuyenxe}">Đăng ký chuyến xe</a>
         </li>
-        <li>
-          <a th:href="@{/khachhang/xemluong}">Xem lương</a>
-        </li>
       </ul>
 
       <div class="footer" style="color: #d1cfcf;">
@@ -49,10 +46,14 @@
   <div class="container-fluid px-4">
     <h1 class="mt-4 mb-4">Tìm kiếm chuyến xe</h1>
 
-    <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
-    </div>
-
     <div class="card mb-4">
+
+      <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
+      </div>
+
+      <div th:if="${noticeDanger != null}" class="alert alert-danger" role="alert" th:text="${noticeDanger}">
+      </div>
+
       <div class="row mt-2 mb-2">
         <div class="col" style="display: flex; justify-content: space-between;">
           <form th:action="@{/khachhang/chonchuyenxe/search}">
@@ -121,7 +122,7 @@
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ
                     </button>
-                    <a th:href="@{'/taixe/chonchuyenxe/dangky/' + ${chuyenxe.id}}"
+                    <a th:href="@{'/khachhang/chonchuyenxe/dangky/' + ${chuyenxe.id}}"
                        type="button" class="btn btn-info">Đăng ký</a>
                 </div>
               </div>

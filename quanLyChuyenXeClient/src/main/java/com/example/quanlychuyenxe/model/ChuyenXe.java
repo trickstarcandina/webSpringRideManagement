@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -36,13 +37,7 @@ public class ChuyenXe extends BaseEntity {
     private TaiXe taiXe1;
     private TaiXe taiXe2;
 
-    private List<KhachHang> khachHangList;
+    private Set<KhachHang> khachHangList;
 
     private Boolean isEdit = false;
-//    @JsonIgnore
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "tongluong",
-//            joinColumns = @JoinColumn(name = "chuyenxe_id"),
-//            inverseJoinColumns = @JoinColumn(name = "luongcoban_id"))
-//    private List<LuongCoBan> luongCoBanList;
 }

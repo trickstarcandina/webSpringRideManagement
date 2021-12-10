@@ -11,5 +11,4 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, String>{
 
     @Query(value = "select count(*) from khachhang where username = ?", nativeQuery = true)
     Integer checkUserNameExists(String username);
-
 }
