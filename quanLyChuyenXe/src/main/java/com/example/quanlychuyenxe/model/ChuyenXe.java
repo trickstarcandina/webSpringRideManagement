@@ -48,7 +48,7 @@ public class ChuyenXe extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "khachhang_chuyenxe",
             joinColumns = @JoinColumn(name = "chuyenxe_id"),
-            inverseJoinColumns = @JoinColumn(name = "cmtKhachHang"))
+            inverseJoinColumns = @JoinColumn(name = "khach_hang_username"))
     private List<KhachHang> khachHangList;
 
 //    @JsonIgnore

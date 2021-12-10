@@ -44,13 +44,11 @@ public class LoginController {
                     HttpMethod.POST, new HttpEntity<>(authenticationRequest, null), ResponseBuilder.class);
             if(responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody().getData() != null) {
                 model.addAttribute("notice", notice);
-                return "logintaixe";
+                return "redirect:/khachhang";
             }
         }
         catch (Exception e) {
             System.out.println(e);
-            model.addAttribute("notice", fail);
-            return "login";
         }
         model.addAttribute("notice", fail);
         return "login";

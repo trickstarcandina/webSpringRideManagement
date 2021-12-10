@@ -21,7 +21,7 @@ public class KhachHang extends BaseEntityUser {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "khachhang_chuyenxe",
-            joinColumns = @JoinColumn(name = "cmtKhachHang"),
+            joinColumns = @JoinColumn(name = "khach_hang_username"),
             inverseJoinColumns = @JoinColumn(name = "chuyenxe_id"))
     private List<ChuyenXe> chuyenXeList;
 }
