@@ -20,7 +20,9 @@ public interface TuyenXeRepository extends JpaRepository<TuyenXe, Integer> {
 
     List<TuyenXe> findAllByDiemDauContainingAndDiemCuoiContaining(String diemDau, String diemCuoi);
 
+
     @Modifying
     @Query(value = "UPDATE tuyenxe SET diem_dau = ?, diem_cuoi = ?, do_dai = ?, do_phuc_tap_cua_tuyen_duong = ? WHERE id = ?",  nativeQuery = true)
     void updateTuyenXe(String diemDau, String diemCuoi, Integer doDai, Integer doPhucTapCuaTuyenDuong ,Integer id);
+
 }

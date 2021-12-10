@@ -14,8 +14,6 @@ import java.util.List;
 @Getter
 @Data
 public class KhachHang extends BaseEntityUser {
-    @Id
-    private String cmtKhachHang;
     private String ten;
     private String diaChi;
     private Integer tuoi;

@@ -16,6 +16,7 @@ import java.util.Date;
 public class XeKhach {
     @Id
     private String bienSo;
+    private String tenXeKhach;
     private String mauXe;
     private String hangSanXuat;
     private Integer doiXe; //2018

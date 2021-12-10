@@ -27,6 +27,7 @@ public class TuyenXeController {
 //        return ResponseEntity.ok().body(tuyenXeService.showTuyenXe(idTuyenXe, pageable).build());
 //    }
 
+
     @GetMapping("/searchTuyenXe")
     public ResponseEntity searchTuyenXe(@RequestParam("diemDau") String diemDau, @RequestParam("diemCuoi") String diemCuoi) {
         return ResponseEntity.ok().body(tuyenXeService.search(diemDau, diemCuoi).build());

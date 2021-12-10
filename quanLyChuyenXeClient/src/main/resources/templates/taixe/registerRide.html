@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Sidebar 01</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+  <link th:href="@{../css/taixe/styles.css}" rel="stylesheet"/>
+  <link th:href="@{/css/taixe/styles.css}" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+        integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<div class="wrapper d-flex align-items-stretch">
+  <nav id="sidebar">
+    <div class="p-4 pt-5">
+      <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(/images/logo.jpg);margin-bottom: 20px !important;"></a>
+      <span style="display: flex; justify-content: center; color: #d2b308; margin-bottom: 62px;" th:text="${'Xin chào, ' +  taixe.ten}"></span>
+      <ul style="margin-bottom: 165px !important;" class="list-unstyled components mb-5">
+        <li>
+          <a th:href="@{/taixe}">Trang chủ</a>
+        </li>
+        <li>
+          <a th:href="@{/taixe/chonchuyenxe}">Đăng ký chuyến xe</a>
+        </li>
+        <li>
+          <a th:href="@{/taixe/xemluong}">Xem lương</a>
+        </li>
+      </ul>
+
+      <div class="footer" style="color: #d1cfcf;">
+        <span>Liên lạc,</span><br>
+        <span>Sđt: 0954983728</span><br>
+        <span>Email: webprogramming@ptit.com</span>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Page Content  -->
+  <div id="content" class="p-4 p-md-5">
+
+    <div class="container-fluid px-4">
+      <h1 class="mt-4 mb-4">Đăng ký chuyến xe</h1>
+
+      <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
+      </div>
+
+      <div class="card mb-4">
+        <div class="row mt-2 mb-2">
+          <div class="col" style="display: flex; justify-content: space-between;">
+            <form th:action="@{/taixe/chonchuyenxe/search}">
+              <div class="form-inline float-left" style="display: flex">
+                <label class="ml-4" for="diemDau">Điểm đầu: </label>
+                <input type="text" class="form-control ml-2" name="diemDau"
+                       id="diemDau"
+                       aria-describedby="helpId">
+
+                <label class="ml-4" for="diemCuoi">Điểm cuối: </label>
+                <input type="text" class="form-control ml-2" name="diemCuoi"
+                       id="diemCuoi"
+                       aria-describedby="helpId">
+
+                <button class="btn btn-outline-primary ml-4">Tìm kiếm</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <table class="table table-striped table-inverse">
+          <thead class="thead-inverse">
+          <tr>
+            <th>Tên xe khách</th>
+            <th>Điểm bắt đầu</th>
+            <th>Điểm cuối</th>
+            <th>Giá vé</th>
+            <th>Thời gian khởi hành</th>
+            <th>Thời gian kết thúc</th>
+            <th>Lái xe</th>
+            <th>Phụ xe</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="chuyenxe : ${listchuyenxe}">
+            <td th:text="${chuyenxe.xeKhach.tenXeKhach}"></td>
+            <td scope="row" th:text="${chuyenxe.tuyenXe.diemDau}"></td>
+            <td th:text="${chuyenxe.tuyenXe.diemCuoi}"></td>
+            <td th:text="${chuyenxe.giaVe}"></td>
+            <td th:text="${chuyenxe.thoiGianKhoiHanh}"></td>
+            <td th:text="${chuyenxe.thoiGianKetThuc}"></td>
+            <td th:text="${(chuyenxe.taiXe1 == null) ? 'Không có' : chuyenxe.taiXe1.ten}"></td>
+            <td th:text="${(chuyenxe.taiXe2 == null) ? 'Không có' : chuyenxe.taiXe2.ten}"></td>
+            <td>
+
+              <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                      th:data-target="${'#chuyenxe'+chuyenxe.id}">
+                <i class="far fa-registered"></i>
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" th:id="${'chuyenxe'+chuyenxe.id}" tabindex="-1" role="dialog"
+                   aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Đăng ký tham gia</h5>
+                      <button type="button" class="close" data-dismiss="modal"
+                              aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <span>Bạn muốn đăng ký tham gia vào chuyến xe này?</span><br><br>
+                      <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe1 != null and taixe.username == chuyenxe.taiXe1.username) ? 'Bạn đang là lái xe' : ''}"></span>
+                      <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe2 != null and taixe.username == chuyenxe.taiXe2.username) ? 'Bạn đang là phụ xe' : ''}"></span>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ
+                      </button>
+                      <a th:if="${chuyenxe.taiXe2 == null and (chuyenxe.taiXe1 == null or taixe.username != chuyenxe.taiXe1.username)}" th:href="@{'/taixe/chonchuyenxe/phuxe/' + ${chuyenxe.id}}"
+                         type="button" class="btn btn-info">Phụ xe</a>
+                      <a th:if="${chuyenxe.taiXe1 == null and (chuyenxe.taiXe2 == null or taixe.username != chuyenxe.taiXe2.username)}" th:href="@{'/taixe/chonchuyenxe/laixe/' + ${chuyenxe.id}}"
+                         type="button" class="btn btn-success">Lái xe</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script th:src="@{../js/taixe/jquery.min.js}"></script>
+<script th:src="@{/js/taixe/jquery.min.js}"></script>
+<script th:src="@{../js/taixe/popper.js}"></script>
+<script th:src="@{/js/taixe/popper.js}"></script>
+<script th:src="@{../js/taixe/bootstrap.min.js}"></script>
+<script th:src="@{/js/taixe/bootstrap.min.js}"></script>
+<script th:src="@{../js/taixe/main.js}"></script>
+<script th:src="@{/js/taixe/main.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
