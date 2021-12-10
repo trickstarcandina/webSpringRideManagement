@@ -8,4 +8,6 @@ public interface LuongCoBanService {
     Response delete(Integer id);
     Response searchById(Integer id);
     Response searchByLuong(Long luong);
+
+    Response findLaterLuong(String username);
 }

@@ -1,10 +1,13 @@
 package com.example.quanlychuyenxe.controller;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
+import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.model.TaiXe;
+import com.example.quanlychuyenxe.model.request.LuongTrongThangRequest;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.asm.TypeReference;
+import com.fasterxml.jackson.databind.type.ReferenceType;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +18,14 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -174,18 +180,6 @@ public class AdminController {
             model.addAttribute("noticeDanger", "Lỗi!!!");
             return "admin/taixe/addOrEdit";
         }
-//        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{cmtTaiXe}",
-//                ResponseBuilder.class, taiXe.getCmtTaiXe());
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        TaiXe taixe = objectMapper.convertValue(builder.getData(), TaiXe.class);
-//        String notice = "";
-//        if(!ObjectUtils.isEmpty(taixe)) {
-//            notice = "Thẻ căn cước công dân đã tồn tại!";
-//        } else {
-//            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addTaiXe",
-//                    HttpMethod.POST, new HttpEntity<>(taiXe, null), ResponseBuilder.class);
-//            notice = "Thành công!";
-//        }
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addTaiXe",
                 HttpMethod.POST, new HttpEntity<>(taiXe, null), ResponseBuilder.class);
         if(responseEntity.getBody().getStatus() != 200) {
@@ -194,5 +188,34 @@ public class AdminController {
             model.addAttribute("noticeSuccess", "Thành công!!!");
         }
         return "admin/taixe/addOrEdit";
+    }
+
+    // Thống kê
+    @GetMapping("thongke/luong")
+    public String homeTKLuong() {
+        return "admin/thongke/salaryDriver";
+    }
+
+    @GetMapping("thongke/luong/search")
+    public String searchLuong(Model model, @RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
+        if (thang < 1 || nam < 2000 || thang > 12 || nam > 2030) {
+            model.addAttribute("dangerNotice", "Nhập sai tháng và năm");
+        } else {
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/admin/thongke/luongtaixe")
+                    .queryParam("thang", thang)
+                    .queryParam("nam", nam);
+            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange(builder.build().encode().toUri() ,
+                    HttpMethod.GET, null, ResponseBuilder.class);
+            if(responseEntity.getBody().getStatus() != 200) {
+                model.addAttribute("dangerNotice", "Không có dữ liệu");
+            } else {
+                ObjectMapper mapper = new ObjectMapper();
+                List<LuongTrongThangRequest> listluong = mapper.convertValue(responseEntity.getBody().getData(),
+                        new TypeReference<List<LuongTrongThangRequest>>() { });
+                model.addAttribute("listluong", listluong);
+            }
+        }
+
+        return "admin/thongke/salaryDriver";
     }
 }

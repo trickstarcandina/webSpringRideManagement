@@ -27,6 +27,7 @@ public class AdminController {
     private KhachHangService khachHangService;
     private TaiXeService taiXeService;
     private ChuyenXeService chuyenXeService;
+    private TongLuongService tongLuongService;
 
     private BCryptPasswordEncoder encoder;
 
@@ -178,7 +179,6 @@ public class AdminController {
     // Chuyen Xe
     @PostMapping(value = "/addChuyenXe")
     public ResponseEntity addChuyenXe(@RequestBody ChuyenXeRequest chuyenXeRequest) {
-
         return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
     }
 
@@ -201,5 +201,11 @@ public class AdminController {
     public ResponseEntity updateChuyenXe(@RequestParam("id") Integer id, @RequestBody ChuyenXeRequest chuyenXeRequest) {
         chuyenXeRequest.setId(id);
         return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
+    }
+
+    // Thong ke tong luong
+    @GetMapping("/thongke/luongtaixe")
+    public ResponseEntity thongkeTongLuong(@RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
+        return ResponseEntity.ok().body(tongLuongService.getAllTongLuongByDate(thang, nam).build());
     }
 }
