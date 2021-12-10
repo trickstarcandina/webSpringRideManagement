@@ -2,6 +2,7 @@ package com.example.quanlychuyenxe.controller;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.model.ChuyenXe;
+import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.model.TongLuong;
 import com.example.quanlychuyenxe.model.request.LuongTrongThangRequest;
@@ -9,6 +10,7 @@ import com.example.quanlychuyenxe.model.request.TongLuongRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("taixe")
@@ -31,17 +35,17 @@ public class TaiXeController {
 
     private TaiXe taixe;
 
-//    public TaiXeController() {
-//        String username = "taixe2";
-//        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{username}",
-//                ResponseBuilder.class, username);
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        TaiXe taiXe = objectMapper.convertValue(builder.getData(), TaiXe.class);
-//        this.taixe = taiXe;
-//    }
-
     @GetMapping("")
-    private String home(Model model) {
+    private String home(Model model, HttpSession session) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization",  session.getAttribute("Token").toString());
+
+        ResponseEntity responseEntity = rest.exchange("http://localhost:8080/api/taixe", HttpMethod.GET,
+                new HttpEntity<>(null,httpHeaders), Map.class);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        taixe = objectMapper.convertValue(responseEntity.getBody(), TaiXe.class);
+
         UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchTaiXe")
                 .queryParam("username", taixe.getUsername())
                 .queryParam("status", 0);

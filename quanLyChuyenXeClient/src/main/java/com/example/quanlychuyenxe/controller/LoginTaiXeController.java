@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -29,7 +30,7 @@ public class LoginTaiXeController {
     }
 
     @PostMapping("taixe")
-    public String loginKhachHang(Model model, @Valid @ModelAttribute("authenticationRequest") AuthenticationRequest authenticationRequest) {
+    public String loginKhachHang(Model model, @Valid @ModelAttribute("authenticationRequest") AuthenticationRequest authenticationRequest, HttpSession session) {
         String notice = "Thành công";
         String fail = "Sai mật khẩu hoặc tài khoản";
 
@@ -38,6 +39,7 @@ public class LoginTaiXeController {
                     HttpMethod.POST, new HttpEntity<>(authenticationRequest, null), ResponseBuilder.class);
             if(responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody().getData() != null) {
                 model.addAttribute("notice", notice);
+                session.setAttribute("Token", responseEntity.getBody().getData());
                 return "redirect:/taixe";
             }
         }

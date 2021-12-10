@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -35,15 +36,15 @@ public class LoginController {
     }
 
     @PostMapping("khachhang")
-    public String loginKhachHang(Model model, @Valid @ModelAttribute("authenticationRequest") AuthenticationRequest authenticationRequest) {
+    public String loginKhachHang(Model model, @Valid @ModelAttribute("authenticationRequest") AuthenticationRequest authenticationRequest, HttpSession session) {
         String notice = "Thành công";
         String fail = "Sai mật khẩu hoặc tài khoản";
-
         try {
             ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/authenticateKhachHang",
                     HttpMethod.POST, new HttpEntity<>(authenticationRequest, null), ResponseBuilder.class);
             if(responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody().getData() != null) {
                 model.addAttribute("notice", notice);
+                session.setAttribute("Token", responseEntity.getBody().getData());
                 return "redirect:/khachhang";
             }
         }
