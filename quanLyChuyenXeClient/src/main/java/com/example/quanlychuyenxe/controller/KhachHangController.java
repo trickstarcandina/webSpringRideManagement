@@ -5,9 +5,12 @@ import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.model.TaiXe;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
@@ -38,13 +41,14 @@ public class KhachHangController {
     }
 
     @GetMapping("chonchuyenxe")
-    private String dangKyChuyenXe() {
+    private String dangKyChuyenXe(Model model) {
+        model.addAttribute("khachhang", khachhang);
         return "khachhang/registerTrip";
     }
 
     @GetMapping("chonchuyenxe/search")
     private String searchChuyenXe(Model model, @RequestParam("diemDau") String diemDau, @RequestParam("diemCuoi") String diemCuoi) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/khachhang")
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/khachhang/search")
                 .queryParam("diemDau", diemDau)
                 .queryParam("diemCuoi", diemCuoi)
                 .queryParam("status", 0);
@@ -53,5 +57,14 @@ public class KhachHangController {
         model.addAttribute("khachhang", khachhang);
         model.addAttribute("listchuyenxe", listchuyenxe);
         return "khachhang/registerTrip";
+    }
+
+    @GetMapping("chonchuyenxe/dangky/{id}")
+    private String dangKyChuyenXe(Model model, @PathVariable("id") String id) {
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showChuyenXe/{id}", ResponseBuilder.class, id);
+        
+//        model.addAttribute("notice", responseEntity.getBody().getMessage());
+        model.addAttribute("khachhang", khachhang);
+        return "taixe/registerRide";
     }
 }

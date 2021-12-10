@@ -22,7 +22,7 @@
 <div class="wrapper d-flex align-items-stretch">
   <nav id="sidebar">
     <div class="p-4 pt-5">
-      <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);margin-bottom: 20px !important;"></a>
+      <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(/images/logo.jpg);margin-bottom: 20px !important;"></a>
       <span style="display: flex; justify-content: center; color: #d2b308; margin-bottom: 62px;" th:text="${'Xin chào, ' +  khachhang.ten}"></span>
       <ul style="margin-bottom: 165px !important;" class="list-unstyled components mb-5">
         <li>
@@ -117,17 +117,12 @@
                   </div>
                   <div class="modal-body">
                     <span>Bạn muốn đăng ký tham gia vào chuyến xe này?</span><br><br>
-                    <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe1 != null and taixe.username == chuyenxe.taiXe1.username) ? 'Bạn đang là lái xe' : ''}"></span>
-                    <span style="font-size: 20px;" th:text="${(chuyenxe.taiXe2 != null and taixe.username == chuyenxe.taiXe2.username) ? 'Bạn đang là phụ xe' : ''}"></span>
-                  </div>
+                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ
                     </button>
-                    <a th:if="${chuyenxe.taiXe2 == null and (chuyenxe.taiXe1 == null or taixe.username != chuyenxe.taiXe1.username)}" th:href="@{'/taixe/chonchuyenxe/phuxe/' + ${chuyenxe.id}}"
-                       type="button" class="btn btn-info">Phụ xe</a>
-                    <a th:if="${chuyenxe.taiXe1 == null and (chuyenxe.taiXe2 == null or taixe.username != chuyenxe.taiXe2.username)}" th:href="@{'/taixe/chonchuyenxe/laixe/' + ${chuyenxe.id}}"
-                       type="button" class="btn btn-success">Lái xe</a>
-                  </div>
+                    <a th:href="@{'/taixe/chonchuyenxe/dangky/' + ${chuyenxe.id}}"
+                       type="button" class="btn btn-info">Đăng ký</a>
                 </div>
               </div>
             </div>
