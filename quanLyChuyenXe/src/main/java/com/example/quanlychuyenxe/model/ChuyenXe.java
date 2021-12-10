@@ -51,7 +51,6 @@ public class ChuyenXe extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "khach_hang_username"))
     private Set<KhachHang> khachHangList;
 
-
 //    @JsonIgnore
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    @JoinTable(name = "tongluong",
