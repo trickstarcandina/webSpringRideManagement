@@ -3,9 +3,11 @@ package com.example.quanlychuyenxe.controller;
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.model.KhachHang;
+import com.example.quanlychuyenxe.model.LuongCoBan;
 import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.model.request.LuongTrongThangRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.example.quanlychuyenxe.model.TuyenXe;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.ReferenceType;
 import org.springframework.http.*;
@@ -24,6 +26,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -33,6 +37,180 @@ import java.util.Optional;
 public class AdminController {
 
     private RestTemplate rest = new RestTemplate();
+
+    // Tuyến xe
+    @GetMapping("carriageways")
+    public String homeCarriageway() {
+//        return "redirect:carriageways/search?name=";
+        return "admin/carriageways/search";
+    }
+
+    @GetMapping("carriageways/search")
+    public String searchTuyenXe(Model model, @RequestParam("diemDau") String diemDau, @RequestParam("diemCuoi") String diemCuoi) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/tuyenxe/searchTuyenXe")
+                .queryParam("diemDau", diemDau)
+                .queryParam("diemCuoi", diemCuoi);
+        ResponseBuilder responseBuilder = rest.getForObject(builder.build().encode().toUri(), ResponseBuilder.class);
+        List<TuyenXe> listtuyenxe = (List<TuyenXe>) responseBuilder.getData();
+        model.addAttribute("listTuyenXe", listtuyenxe);
+        return "admin/carriageways/search";
+    }
+
+    @GetMapping("carriageways/add")
+    public String addCarriageway(Model model) {
+        model.addAttribute("tuyenXe", new TuyenXe());
+        return "admin/carriageways/addOrEdit";
+    }
+
+    @GetMapping("carriageways/edit/{idTuyenXe}")
+    public String editCarriageway(Model model, @PathVariable("idTuyenXe") String idTuyenXe) {
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/tuyenxe/showTuyenXeByID/{idTuyenXe}",
+                ResponseBuilder.class, idTuyenXe);
+        ObjectMapper objectMapper = new ObjectMapper();
+        TuyenXe carriageway = objectMapper.convertValue(builder.getData(), TuyenXe.class);
+        carriageway.setIsEdit(true);
+        model.addAttribute("tuyenXe", carriageway);
+        return "admin/carriageways/addOrEdit";
+    }
+
+    @GetMapping("carriageways/delete/{idTuyenXe}")
+    public ModelAndView deleteCarriageway(ModelMap model, @PathVariable("idTuyenXe") String idTuyenXe) {
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteTuyenXe/" + idTuyenXe,
+                HttpMethod.DELETE, null, ResponseBuilder.class);
+        if(responseEntity.getStatusCode() == HttpStatus.OK) {
+            model.addAttribute("deleteNotice", "Xóa thành công");
+        }
+        return new ModelAndView("admin/carriageways/search", model);
+    }
+
+    @PostMapping("carriageways/update")
+    public String updateCarriageway(Model model, @Valid @ModelAttribute("tuyenXe") TuyenXe tuyenXe, Errors errors) {
+        if(errors.hasErrors()) {
+            return "admin/carriageways/search";
+        }
+//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/admin/updateTuyenXe/{idTuyenXe}");
+//        Map<String, Integer> maps = new HashMap<>();
+//        maps.put("idTuyenXe", tuyenXe.getId());
+
+
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateTuyenXe/" + tuyenXe.getId(),
+                HttpMethod.PUT, new HttpEntity<>(tuyenXe, null), ResponseBuilder.class);
+        String noticeUpdate = "";
+        if(responseEntity.getStatusCode() == HttpStatus.OK) {
+            noticeUpdate = "Cập nhật thành công!";
+        } else {
+            noticeUpdate = "Cập nhật thất bại!";
+        }
+        model.addAttribute("noticeUpdate", noticeUpdate);
+        return "admin/carriageways/search";
+    }
+
+    @PostMapping("carriageways/save")
+    public String saveCarriageway(Model model, @Valid @ModelAttribute("tuyenXe") TuyenXe tuyenXe, Errors errors) {
+//        if(errors.hasErrors()) {
+//            return "admin/carriageways/addOrEdit";
+//        }
+//        rest.getForObject("http://localhost:8080/api/tuyenxe/showTuyenXeByID/{idTuyenXe}",
+//                ResponseBuilder.class, tuyenXe.getId());
+//        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/tuyenxe/showTuyenXeByID/{idTuyenXe}",
+//                ResponseBuilder.class, tuyenXe.getId());
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        TuyenXe carriageway = objectMapper.convertValue(builder.getData(), TuyenXe.class);
+//        String notice = "";
+//        if(!ObjectUtils.isEmpty(carriageway)) {
+//            notice = "ID tuyến xe đã tồn tại!";
+//        } else {
+            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addTuyenXe",
+                    HttpMethod.POST, new HttpEntity<>(tuyenXe, null), ResponseBuilder.class);
+            String notice = "Thành công!";
+//        }
+        model.addAttribute("notice", notice);
+        return "admin/carriageways/addOrEdit";
+    }
+
+
+    // Luong Co Ban
+
+    @GetMapping("salarys")
+    public String homeSalarys(){
+        return "redirect:salarys/search?salary=";
+    }
+
+    @GetMapping("salarys/search")
+    public String searchSalary(ModelMap model, @RequestParam("salary") Long salary){
+        ResponseEntity<ResponseBuilder> responseEntity = rest.getForEntity("http://localhost:8080/api/admin/searchLuongCoBan?luong="
+                + salary, ResponseBuilder.class);
+        List<LuongCoBan> salarys = (List<LuongCoBan>) responseEntity.getBody().getData();
+        model.addAttribute("listLuongCoBan", salarys);
+        return "admin/salarys/search";
+    }
+
+    @GetMapping("salarys/add")
+    public String addSalary(Model model){
+        model.addAttribute("luongCoBan", new LuongCoBan());
+        return "admin/salarys/addOrEdit";
+    }
+
+    @GetMapping("salarys/edit/{id}")
+    public String editSalary(Model model, @PathVariable("id") Integer id) {
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showLuongCoBan/{id}",
+                ResponseBuilder.class, id);
+        ObjectMapper objectMapper = new ObjectMapper();
+        LuongCoBan salary = objectMapper.convertValue(builder.getData(), LuongCoBan.class);
+        salary.setIsEdit(true);
+        model.addAttribute("luongCoBan", salary);
+        return "admin/salarys/addOrEdit";
+    }
+
+
+    @GetMapping("salarys/delete/{id}")
+    public ModelAndView deleteSalary(ModelMap model, @PathVariable("id") Integer id) {
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteLuongCoBan/" + id,
+                HttpMethod.DELETE, null, ResponseBuilder.class);
+        if(responseEntity.getStatusCode() == HttpStatus.OK) {
+            model.addAttribute("deleteNotice", "Xóa thành công");
+        }
+        return new ModelAndView("admin/salarys/search", model);
+    }
+
+    @PostMapping("salarys/update")
+    public String updateSalary(Model model, @Valid @ModelAttribute("luongCoBan") LuongCoBan luongCoBan, Errors errors) {
+        if(errors.hasErrors()) {
+            return "admin/salarys/search";
+        }
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateLuongCoBan/" + luongCoBan.getId(),
+                HttpMethod.PUT, new HttpEntity<>(luongCoBan, null), ResponseBuilder.class);
+        String noticeUpdate = "";
+        if(responseEntity.getStatusCode() == HttpStatus.OK) {
+            noticeUpdate = "Cập nhật thành công!";
+        } else {
+            noticeUpdate = "Cập nhật thất bại!";
+        }
+        model.addAttribute("noticeUpdate", noticeUpdate);
+        return "admin/salarys/search";
+    }
+
+    @PostMapping("salarys/save")
+    public String saveSalary(Model model, @Valid @ModelAttribute("luongCoBan") LuongCoBan luongCoBan, Errors errors) {
+        if(errors.hasErrors()) {
+            return "admin/salarys/addOrEdit";
+        }
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showLuongCoBan/{id}",
+                ResponseBuilder.class, luongCoBan.getId());
+        ObjectMapper objectMapper = new ObjectMapper();
+        LuongCoBan salary = objectMapper.convertValue(builder.getData(), LuongCoBan.class);
+        String notice = "";
+        if(!ObjectUtils.isEmpty(salary)) {
+            notice = "Id lương cơ bản đã tồn tại";
+        } else {
+            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addLuongCoBan",
+                    HttpMethod.POST, new HttpEntity<>(luongCoBan, null), ResponseBuilder.class);
+            notice = "Thành công!";
+        }
+        model.addAttribute("notice", notice);
+        return "admin/salarys/addOrEdit";
+    }
+
 
     // Khách hàng
     @GetMapping("khachhang")

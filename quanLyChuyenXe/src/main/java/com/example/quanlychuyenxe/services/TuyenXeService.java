@@ -12,4 +12,5 @@ public interface TuyenXeService {
     Response showTuyenXe(String idTuyenXe, Pageable pageable);
     Response search(String diemDau, String diemCuoi);
     Response showTuyenXeById(Integer id);
+    Response update(TuyenXe tuyenXe);
 }

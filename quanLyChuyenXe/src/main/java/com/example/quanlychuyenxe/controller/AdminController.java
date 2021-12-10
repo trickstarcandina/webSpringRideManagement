@@ -44,8 +44,9 @@ public class AdminController {
 
     @PutMapping("/updateTuyenXe/{idTuyenXe}")
     public ResponseEntity updateTuyenXe(@PathVariable("idTuyenXe") String idTuyenXe, @RequestBody TuyenXe tuyenXe) {
-        if (tuyenXe.getId().equals(idTuyenXe)) {
-            return ResponseEntity.ok().body(tuyenXeService.create(tuyenXe).build());
+        Integer id = Integer.parseInt(idTuyenXe);
+        if (tuyenXe.getId().equals(id)) {
+            return ResponseEntity.ok().body(tuyenXeService.update(tuyenXe).build());
         }
         return ResponseEntity.ok().body(ResponseBuilder.ok(200, "Cập nhật thất bại"));
     }
@@ -140,6 +141,7 @@ public class AdminController {
         }
         throw new IllegalStateException("Error");
     }
+
 
     @GetMapping("/searchXeKhach")
     public ResponseEntity searchXeKhachByTen(@RequestParam("tenxekhach") String tenxekhach) {
