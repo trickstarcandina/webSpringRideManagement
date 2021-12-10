@@ -29,22 +29,28 @@ public class LoginController {
     private AuthenticationRequest authenticationRequest = null;
 
     @GetMapping
-    private String home() {
+    private String home(Model model) {
+        model.addAttribute("authenticationRequest", new AuthenticationRequest());
         return "login";
     }
 
-    @PostMapping("login/khachhang")
+    @PostMapping("khachhang")
     public String loginKhachHang(Model model, @Valid @ModelAttribute("authenticationRequest") AuthenticationRequest authenticationRequest) {
-
-        authenticationRequest.setUsername("");
-        authenticationRequest.setPassword("");
         String notice = "Thành công";
         String fail = "Sai mật khẩu hoặc tài khoản";
-        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("localhost:8080/authenticateKhachHang",
-                HttpMethod.POST, new HttpEntity<>(authenticationRequest, null), ResponseBuilder.class);
-        if(responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody().getData() != null) {
-            model.addAttribute("notice", notice);
-            return "logintaixe";
+
+        try {
+            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/authenticateKhachHang",
+                    HttpMethod.POST, new HttpEntity<>(authenticationRequest, null), ResponseBuilder.class);
+            if(responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody().getData() != null) {
+                model.addAttribute("notice", notice);
+                return "logintaixe";
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            model.addAttribute("notice", fail);
+            return "login";
         }
         model.addAttribute("notice", fail);
         return "login";

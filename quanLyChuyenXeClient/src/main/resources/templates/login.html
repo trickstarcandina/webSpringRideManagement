@@ -33,7 +33,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" method="post" th:object="${authenticationRequest}" th:action="@{/login/khachhang}">
 					<span class="login100-form-title p-b-43">
 						Login to continue
 					</span>
@@ -82,9 +82,9 @@
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button id="myButton" class="" >
+						<a id="myButton" class="" >
 							Đăng nhập với tư cách tài xế
-						</button>
+						</a>
 					</div>
 
 <!--					<div class="login100-form-social flex-c-m">-->
