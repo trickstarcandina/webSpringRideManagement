@@ -117,7 +117,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Quản lý khách hàng</h1>
+                <h1 class="mt-4">Quản lý tuyến xe</h1>
 
                 <div th:if="${deleteNotice != null}" class="alert alert-info" role="alert" th:text="${deleteNotice}">
                 </div>
@@ -127,17 +127,21 @@
                 <div class="card mb-4">
                     <div class="row mt-2 mb-2">
                         <div class="col" style="display: flex; justify-content: space-between;">
-                            <form th:action="@{/admin/customers/search}">
+                            <form th:action="@{/admin/carriageways/search}">
                                 <div class="form-inline float-left" style="display: flex">
-                                    <label for="name">Name: </label>
-                                    <input type="text" class="form-control ml-2" name="name" id="name"
+                                    <label>Điểm đầu: </label>
+                                    <input type="text" class="form-control ml-2" name="diemDau"
+                                           aria-describedby="helpId">
+
+                                    <label>Điểm cuối: </label>
+                                    <input type="text" class="form-control ml-2" name="diemCuoi"
                                            aria-describedby="helpId">
 
                                 <button class="btn btn-outline-primary ml-2">Search</button>
                                 </div>
                             </form>
                             <div class="float-right">
-                                <a th:href="@{/admin/customers/add}" class="btn btn-outline-primary">Thêm khách hàng</a>
+                                <a th:href="@{/admin/carriageways/add}" class="btn btn-outline-primary">Thêm tuyến xe</a>
                             </div>
                         </div>
                     </div>
@@ -153,34 +157,36 @@
 <!--                        th:if="${categoryPage.hasContent()}"-->
                         <thead class="thead-inverse">
                         <tr>
-                            <th>CMT</th>
-                            <th>Tên</th>
-                            <th>Địa chỉ</th>
-                            <th>Tuổi</th>
-                            <th>Ghi chú</th>
+                        <tr>
+                            <th>Điểm đầu</th>
+                            <th>Điểm cuối</th>
+                            <th>Độ dài</th>
+                            <th>Độ phức tạp của tuyến đường</th>
+                            <th></th>
+                        </tr>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="khachhang : ${listkhachhang}">
-                            <td scope="row" th:text="${khachhang.cmtKhachHang}"></td>
-                            <td th:text="${khachhang.ten}"></td>
-                            <td th:text="${khachhang.diaChi}"></td>
-                            <td th:text="${khachhang.tuoi}"></td>
-                            <td th:text="${khachhang.ghiChu}"></td>
+                        <tr th:each="tuyenXe : ${listTuyenXe}">
+                            <td scope="row" th:text="${tuyenXe.diemDau}"></td>
+                            <td th:text="${tuyenXe.diemCuoi}"></td>
+                            <td th:text="${tuyenXe.doDai}"></td>
+                            <td th:text="${tuyenXe.doPhucTapCuaTuyenDuong}"></td>
                             <td>
-                                <!--<a th:href="@{'/admin/categories/view/'}"
-                                   class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
-                                <a th:href="@{'/admin/customers/edit/' + ${khachhang.cmtKhachHang}}"
+<!--                                <a th:href="@{'/admin/categories/view/'}"-->
+<!--                                   class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
+                                <a th:href="@{'/admin/carriageways/edit/' + ${tuyenXe.id}}"
                                    class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
 
                                 <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                        th:data-target="${'#'+khachhang.cmtKhachHang}">
+                                        th:data-target="${'#tuyenXe'+tuyenXe.id}">
                                     <i class="fas fa-recycle"></i>
                                 </button>
 
+
                                 <!-- Modal -->
-                                <div class="modal fade" th:id="${khachhang.cmtKhachHang}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" th:id="${'tuyenXe'+tuyenXe.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -190,13 +196,14 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <span th:text="${'Tên: ' + khachhang.ten}" /><br>
-                                                <span th:text="${'Địa chỉ: ' + khachhang.diaChi}" /><br>
-                                                <span th:text="${'Tuổi: ' + khachhang.tuoi}" /><br>
+                                                <span th:text="${'Điểm đầu: ' + tuyenXe.diemDau}" /><br>
+                                                <span th:text="${'Điểm cuối: ' + tuyenXe.diemCuoi}" /><br>
+                                                <span th:text="${'Độ dài: ' + tuyenXe.doDai}" /><br>
+                                                <span th:text="${'Độ phức tạp tuyến đường: ' + tuyenXe.doPhucTapCuaTuyenDuong}" /><br>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                                                <a th:href="@{'/admin/customers/delete/' + ${khachhang.cmtKhachHang}}" type="button" class="btn btn-primary">Xác nhận</a>
+                                                <a th:href="@{'/admin/carriageways/delete/' + ${tuyenXe.id}}" type="button" class="btn btn-primary">Xác nhận</a>
                                             </div>
                                         </div>
                                     </div>

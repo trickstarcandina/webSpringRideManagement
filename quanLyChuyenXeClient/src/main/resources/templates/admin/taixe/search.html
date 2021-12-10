@@ -134,7 +134,7 @@
             <div class="container-fluid px-4">
                 <h1 class="mt-4">Quản lý khách hàng</h1>
 
-                <div th:if="${deleteNotice != null}" class="alert alert-info" role="alert" th:text="${deleteNotice}">
+                <div th:if="${deleteNotice != null}" class="alert alert-danger" role="alert" th:text="${deleteNotice}">
                 </div>
                 <div th:if="${noticeUpdate != null}" class="alert alert-info" role="alert" th:text="${noticeUpdate}">
                 </div>
@@ -142,7 +142,7 @@
                 <div class="card mb-4">
                     <div class="row mt-2 mb-2">
                         <div class="col" style="display: flex; justify-content: space-between;">
-                            <form th:action="@{/admin/drivers/search}">
+                            <form th:action="@{/admin/taixe/search}">
                                 <div class="form-inline float-left" style="display: flex">
                                     <label for="name">Name: </label>
                                     <input type="text" class="form-control ml-2" name="name" id="name"
@@ -152,7 +152,7 @@
                                 </div>
                             </form>
                             <div class="float-right">
-                                <a th:href="@{/admin/drivers/add}" class="btn btn-outline-primary">Thêm tài xế</a>
+                                <a th:href="@{/admin/taixe/add}" class="btn btn-outline-primary">Thêm tài xế</a>
                             </div>
                         </div>
                     </div>
@@ -199,33 +199,65 @@
                             <td th:text="${taixe.ngaySinh}"></td>
                             <td th:text="${taixe.thamNien}"></td>
                             <td>
+
                                 <!--<a th:href="@{'/admin/categories/view/'}"
                                    class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
 
-                                <a href="#" data-toggle="modal"
-                                   th:data-target="${'#'+luongcoban.id}"
-                                   class="btn btn-outline-success"><i class="fas fa-cog"></i></a>
+<!--                                <a href="#" data-toggle="modal"-->
+<!--                                   th:data-target="${'#'+luongcoban.id}"-->
+<!--                                   class="btn btn-outline-success"><i class="fas fa-cog"></i></a>-->
 
-                                <div class="modal fade">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Thêm lương</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <span th:text="${'Tên xe khách: ' + luongcoban.tenXeKhach}"/><br>
-                                            <span th:text="${'Màu xe: ' + xekhach.mauXe}"/><br>
-                                            <span th:text="${'Hãng sản xuất: ' + xekhach.hangSanXuat}"/><br>
-                                            <span th:text="${'Đời xe: ' + xekhach.doiXe}"/><br>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy
-                                                bỏ
-                                            </button>
-                                            <a th:href="@{'/admin/coachs/delete/' + ${xekhach.bienSo}}" type="button"
-                                               class="btn btn-primary">Xác nhận</a>
+<!--                                <div class="modal fade">-->
+<!--                                    <div class="modal-content">-->
+<!--                                        <div class="modal-header">-->
+<!--                                            <h5 class="modal-title">Thêm lương</h5>-->
+<!--                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                                                <span aria-hidden="true">&times;</span>-->
+<!--                                            </button>-->
+<!--                                        </div>-->
+<!--                                        <div class="modal-body">-->
+<!--                                            <span th:text="${'Tên xe khách: ' + luongcoban.tenXeKhach}"/><br>-->
+<!--                                            <span th:text="${'Màu xe: ' + xekhach.mauXe}"/><br>-->
+<!--                                            <span th:text="${'Hãng sản xuất: ' + xekhach.hangSanXuat}"/><br>-->
+<!--                                            <span th:text="${'Đời xe: ' + xekhach.doiXe}"/><br>-->
+<!--                                        </div>-->
+<!--                                        <div class="modal-footer">-->
+<!--                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy-->
+<!--                                                bỏ-->
+<!--                                            </button>-->
+<!--                                            <a th:href="@{'/admin/coachs/delete/' + ${xekhach.bienSo}}" type="button"-->
+<!--                                               class="btn btn-primary">Xác nhận</a>-->
+
+
+<!--                                <a href="#"-->
+<!--                                   class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
+                                <a th:href="@{'/admin/taixe/edit/' + ${taixe.username}}"
+                                   class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
+
+                                <button type="button" class="btn btn-outline-danger" data-toggle="modal"
+                                        th:data-target="${'#'+taixe.username}">
+                                    <i class="fas fa-recycle"></i>
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" th:id="${taixe.username}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Chắc chắn xóa?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <span th:text="${'Tên: ' + taixe.ten}" /><br>
+                                                <span th:text="${'Địa chỉ: ' + taixe.diaChi}" /><br>
+                                                <span th:text="${'Tuổi: ' + taixe.ngaySinh}" /><br>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                                                <a th:href="@{'/admin/taixe/delete/' + ${taixe.username}}" type="button" class="btn btn-primary">Xác nhận</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

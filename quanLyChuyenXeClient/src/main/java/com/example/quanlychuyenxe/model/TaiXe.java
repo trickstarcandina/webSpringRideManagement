@@ -35,8 +35,11 @@ public class TaiXe {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
     private Date ngaySinh;
 
+    @NotNull(message = "Thiếu thâm niên")
     private Integer thamNien;
+    @NotEmpty(message = "Thiếu username")
     private String username;
+    @NotEmpty(message = "Thiếu password")
     private String password;
 
     private Boolean isEdit = false;

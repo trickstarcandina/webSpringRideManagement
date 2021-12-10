@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
@@ -14,6 +15,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class BaseEntityUser {
+    @Id
+    @Column(unique = true)
+    protected String username;
+
+    protected String password;
+
+    protected String role;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     protected LocalDateTime createdAt;
@@ -21,11 +30,4 @@ public class BaseEntityUser {
     @UpdateTimestamp
     @Column(name = "updated_at")
     protected LocalDateTime updatedAt;
-
-    @Column(unique = true)
-    protected String username;
-
-    protected String password;
-
-    protected String role;
 }

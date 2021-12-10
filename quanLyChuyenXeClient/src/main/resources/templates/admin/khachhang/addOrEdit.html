@@ -120,9 +120,9 @@
                         <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
                         </div>
 
-                        <form th:action="${khachhang.isEdit}? @{/admin/customers/update} : @{/admin/customers/save}"
+                        <form th:action="${khachhang.isEdit}? @{/admin/khachhang/update} : @{/admin/khachhang/save}"
                                th:object="${khachhang}" method="POST">
-<!--                            th:action="@{/admin/customers/save}"-->
+<!--                            th:action="@{/admin/khachhang/save}"-->
                             <div class="card">
                                 <div class="card-header">
                                     <h2 th:text="${khachhang.isEdit?'Sửa thông tin khách hàng' : 'Thêm khách hàng'}" />
@@ -191,7 +191,7 @@
 
                                 <div class="card-footer text-muted">
                                     <button type="reset" class="btn btn-secondary">Reset</button>
-                                    <a th:href="@{/admin/customers}" class="btn btn-success">Xem danh sách</a>
+                                    <a th:href="@{/admin/khachhang}" class="btn btn-success">Xem danh sách</a>
                                     <button class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>

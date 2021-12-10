@@ -128,13 +128,154 @@
                   <h2 th:text="${taixe.isEdit ? 'Sửa thông tin tài xế' : 'Thêm tài xế'}" />
                 </div>
 
-                <div>
-                  <div th:if="${success == 1}" class="alert alert-primary" role="alert">
-                    Lưu khách hàng thành công!
-                  </div>
-                  <div th:if="${success == 0}" class="alert alert-primary" role="alert">
-                    Lỗi!
-                  </div>
+<!--                <div>-->
+<!--                  <div th:if="${success == 1}" class="alert alert-primary" role="alert">-->
+<!--                    Lưu khách hàng thành công!-->
+<!--                  </div>-->
+<!--                  <div th:if="${success == 0}" class="alert alert-primary" role="alert">-->
+<!--                    Lỗi!-->
+<!--                  </div>-->
+
+                        <div th:if="${noticeSuccess != null}" class="alert alert-success" role="alert" th:text="${noticeSuccess}">
+                        </div>
+                        <div th:if="${noticeDanger != null}" class="alert alert-danger" role="alert" th:text="${noticeDanger}">
+                        </div>
+
+                        <form th:action="${taixe.isEdit}? @{/admin/taixe/update} : @{/admin/taixe/save}"
+                               th:object="${taixe}" method="POST">
+<!--                            th:action="@{/admin/taixe/save}"-->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2 th:text="${taixe.isEdit ? 'Sửa thông tin tài xế' : 'Thêm tài xế'}" />
+                                </div>
+
+                                <div>
+                                    <div th:if="${success == 1}" class="alert alert-primary" role="alert">
+                                        Lưu khách hàng thành công!
+                                    </div>
+                                    <div th:if="${success == 0}" class="alert alert-primary" role="alert">
+                                        Lỗi!
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="cmtTaiXe">Cmt / Căn cước công dân</label>
+                                        <input th:if="*{!isEdit}" th:value="*{cmtTaiXe}" type="text"
+                                               th:class="${#fields.hasErrors('cmtTaiXe')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="cmtTaiXe" aria-describedby="cmtTaiXeId" placeholder="" >
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('cmtTaiXe')}"
+                                              th:errors="*{cmtTaiXe}">Error</span>
+
+                                        <input th:if="*{isEdit}" th:value="*{cmtTaiXe}" type="text"
+                                               class="form-control" name="cmtTaiXe" aria-describedby="cmtTaiXeId" placeholder="" readonly >
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="ten">Họ và tên</label>
+                                      <input th:value="*{ten}" type="text"
+                                             th:class="${#fields.hasErrors('ten')} ? 'validationInputError form-control' : 'form-control'"
+                                             name="ten" id="ten" aria-describedby="tenId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('ten')}"
+                                              th:errors="*{ten}">Error</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="maSoBangLai">Mã số bằng lái</label>
+                                        <input th:value="*{maSoBangLai}" type="text"
+                                               th:class="${#fields.hasErrors('maSoBangLai')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="maSoBangLai" id="maSoBangLai" aria-describedby="maSoBangLaiId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('maSoBangLai')}"
+                                              th:errors="*{maSoBangLai}"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="loaiBangLai">Loại bằng lái</label>
+                                        <input th:value="*{loaiBangLai}" type="text"
+                                               th:class="${#fields.hasErrors('loaiBangLai')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="loaiBangLai" id="loaiBangLai" aria-describedby="loaiBangLaiId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('loaiBangLai')}"
+                                              th:errors="*{loaiBangLai}">Error</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="diaChi">Địa chỉ</label>
+                                        <input th:value="*{diaChi}" type="text"
+                                               th:class="${#fields.hasErrors('diaChi')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="diaChi" id="diaChi" aria-describedby="diaChiId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('diaChi')}"
+                                              th:errors="*{diaChi}">Error</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="ngaySinh">Ngày sinh</label>
+                                        <input th:value="${#dates.format(taixe.ngaySinh, 'dd/MM/yyyy')}" type="text"
+                                               th:class="${#fields.hasErrors('ngaySinh')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="ngaySinh" id="ngaySinh" aria-describedby="ngaySinhId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('ngaySinh')}">Sai định dạng dd/MM/yyyy</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="thamNien">Thâm niên</label>
+                                        <input th:value="*{thamNien}" type="number"
+                                               th:class="${#fields.hasErrors('thamNien')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="thamNien" id="thamNien" aria-describedby="thamNienId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('thamNien')}"
+                                              th:errors="*{thamNien}">Error</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input th:if="*{!isEdit}" th:value="*{username}" type="text"
+                                               th:class="${#fields.hasErrors('username')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="username" aria-describedby="username" placeholder="" >
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('username')}"
+                                              th:errors="*{username}">Error</span>
+
+                                        <input th:if="*{isEdit}" th:value="*{username}" type="text"
+                                               class="form-control" name="username" aria-describedby="usernameId" placeholder="" readonly >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password">password</label>
+                                        <input type="text"
+                                               th:class="${#fields.hasErrors('password')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="password" id="password" aria-describedby="passwordId" placeholder="">
+                                        <span class="validationError"
+                                              th:if="${#fields.hasErrors('password')}"
+                                              th:errors="*{password}">Error</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer text-muted">
+                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                    <a th:href="@{/admin/taixe}" class="btn btn-success">Xem danh sách</a>
+                                    <button class="btn btn-primary">Lưu</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
                 </div>
 
                 <div class="card-body">

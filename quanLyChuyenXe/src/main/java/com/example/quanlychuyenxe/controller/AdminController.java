@@ -1,26 +1,19 @@
 package com.example.quanlychuyenxe.controller;
 
 
-import com.example.quanlychuyenxe.model.LuongCoBan;
-import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.services.LuongCoBanService;
+import com.example.quanlychuyenxe.model.*;
+import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
+import com.example.quanlychuyenxe.services.*;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
-import com.example.quanlychuyenxe.model.KhachHang;
-import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.model.XeKhach;
-
-import com.example.quanlychuyenxe.services.KhachHangService;
-import com.example.quanlychuyenxe.services.TaiXeService;
 
 
-import com.example.quanlychuyenxe.services.TuyenXeService;
-import com.example.quanlychuyenxe.services.XeKhachService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,6 +26,10 @@ public class AdminController {
     private XeKhachService xeKhachService;
     private KhachHangService khachHangService;
     private TaiXeService taiXeService;
+    private ChuyenXeService chuyenXeService;
+    private TongLuongService tongLuongService;
+
+    private BCryptPasswordEncoder encoder;
 
    //tuyen xe
     @PostMapping("/addTuyenXe")
@@ -47,8 +44,9 @@ public class AdminController {
 
     @PutMapping("/updateTuyenXe/{idTuyenXe}")
     public ResponseEntity updateTuyenXe(@PathVariable("idTuyenXe") String idTuyenXe, @RequestBody TuyenXe tuyenXe) {
-        if (tuyenXe.getId().equals(idTuyenXe)) {
-            return ResponseEntity.ok().body(tuyenXeService.create(tuyenXe).build());
+        Integer id = Integer.parseInt(idTuyenXe);
+        if (tuyenXe.getId().equals(id)) {
+            return ResponseEntity.ok().body(tuyenXeService.update(tuyenXe).build());
         }
         return ResponseEntity.ok().body(ResponseBuilder.ok(200, "Cập nhật thất bại"));
     }
@@ -56,12 +54,13 @@ public class AdminController {
     // Khach Hang
     @PostMapping("/addKhachHang")
     public ResponseEntity addKhachHang(@RequestBody KhachHang khachHang) {
+        khachHang.setPassword(encoder.encode(khachHang.getPassword()));
         return ResponseEntity.ok().body(khachHangService.create(khachHang).build());
     }
 
-    @DeleteMapping("/deleteKhachHang/{cmtKhachHang}")
-    public ResponseEntity deleteKhachHang(@PathVariable("cmtKhachHang") String cmtKhachHang) {
-        return ResponseEntity.ok().body(khachHangService.delete(cmtKhachHang).build());
+    @DeleteMapping("/deleteKhachHang/{username}")
+    public ResponseEntity deleteKhachHang(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(khachHangService.delete(username).build());
     }
 
     @GetMapping("/searchKhachHang")
@@ -69,14 +68,14 @@ public class AdminController {
         return ResponseEntity.ok().body(khachHangService.searchByName(tenKhachHang).build());
     }
 
-    @GetMapping("/showKhachHang/{cmtKhachHang}")
-    public ResponseEntity searchKhachHangByID(@PathVariable("cmtKhachHang") String cmtKhachHang) {
-        return ResponseEntity.ok().body(khachHangService.searchById(cmtKhachHang).build());
+    @GetMapping("/showKhachHang/{username}")
+    public ResponseEntity searchKhachHangByID(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(khachHangService.searchById(username).build());
     }
 
-    @PutMapping("/updateKhachHang/{cmtKhachHang}")
-    public ResponseEntity updateKhachHang(@PathVariable("cmtKhachHang") String cmtKhachHang, @RequestBody KhachHang khachHang) {
-        if (khachHang.getCmtKhachHang().equals(cmtKhachHang)) {
+    @PutMapping("/updateKhachHang/{username}")
+    public ResponseEntity updateKhachHang(@PathVariable("username") String username, @RequestBody KhachHang khachHang) {
+        if (khachHang.getUsername().equals(username)) {
             return ResponseEntity.ok().body(khachHangService.create(khachHang).build());
         }
         throw new IllegalStateException("Error");
@@ -85,12 +84,13 @@ public class AdminController {
     // Tai Xe
     @PostMapping("/addTaiXe")
     public ResponseEntity addTaiXe(@RequestBody TaiXe taiXe) {
+        taiXe.setPassword(encoder.encode(taiXe.getPassword()));
         return ResponseEntity.ok().body(taiXeService.create(taiXe).build());
     }
 
-    @DeleteMapping("/deleteTaiXe/{cmtTaiXe}")
-    public ResponseEntity deleteTaiXe(@PathVariable("cmtTaiXe") String cmtTaiXe) {
-        return ResponseEntity.ok().body(taiXeService.delete(cmtTaiXe).build());
+    @DeleteMapping("/deleteTaiXe/{username}")
+    public ResponseEntity deleteTaiXe(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(taiXeService.delete(username).build());
     }
 
     @GetMapping("/searchTaiXe")
@@ -98,15 +98,15 @@ public class AdminController {
         return ResponseEntity.ok().body(taiXeService.searchByName(tenTaiXe).build());
     }
 
-    @GetMapping("/showTaiXe/{cmtTaiXe}")
-    public ResponseEntity searchTaiXeByID(@PathVariable("cmtTaiXe") String cmtTaiXe) {
-        return ResponseEntity.ok().body(taiXeService.searchById(cmtTaiXe).build());
+    @GetMapping("/showTaiXe/{username}")
+    public ResponseEntity searchTaiXeByID(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(taiXeService.searchById(username).build());
     }
 
-    @PutMapping("/updateTaiXe/{cmtTaiXe}")
-    public ResponseEntity updateTaiXe(@PathVariable("cmtTaiXe") String cmtTaiXe, @RequestBody TaiXe taiXe) {
-        if (taiXe.getCmtTaiXe().equals(cmtTaiXe)) {
-            return ResponseEntity.ok().body(taiXeService.create(taiXe).build());
+    @PutMapping("/updateTaiXe/{username}")
+    public ResponseEntity updateTaiXe(@PathVariable("username") String username, @RequestBody TaiXe taiXe) {
+        if (taiXe.getUsername().equals(username)) {
+            return ResponseEntity.ok().body(taiXeService.update(taiXe).build());
         }
         throw new IllegalStateException("Error");
     }
@@ -175,5 +175,38 @@ public class AdminController {
             return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
         }
         throw new IllegalStateException("Error");
+    }
+
+    // Chuyen Xe
+    @PostMapping(value = "/addChuyenXe")
+    public ResponseEntity addChuyenXe(@RequestBody ChuyenXeRequest chuyenXeRequest) {
+        return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
+    }
+
+    @DeleteMapping("/deleteChuyenXe/{id}")
+    public ResponseEntity deleteChuyenXe(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(chuyenXeService.delete(id).build());
+    }
+
+    @GetMapping("/allChuyenXe")
+    public ResponseEntity allChuyenXe() {
+        return ResponseEntity.ok().body(chuyenXeService.getAll().build());
+    }
+
+    @GetMapping("/showChuyenXe/{id}")
+    public ResponseEntity searchChuyenXeByID(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(chuyenXeService.searchById(id).build());
+    }
+
+    @PutMapping("/updateChuyenXe")
+    public ResponseEntity updateChuyenXe(@RequestParam("id") Integer id, @RequestBody ChuyenXeRequest chuyenXeRequest) {
+        chuyenXeRequest.setId(id);
+        return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
+    }
+
+    // Thong ke tong luong
+    @GetMapping("/thongke/luongtaixe")
+    public ResponseEntity thongkeTongLuong(@RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
+        return ResponseEntity.ok().body(tongLuongService.getAllTongLuongByDate(thang, nam).build());
     }
 }
