@@ -123,19 +123,24 @@ public class AdminController {
     }
 
     @GetMapping("/searchXeKhach")
-    public ResponseEntity searchXeKhachByID(@RequestParam("bienSo") String bienSo) {
+    public ResponseEntity searchXeKhachByTen(@RequestParam("tenxekhach") String tenxekhach) {
+        return ResponseEntity.ok().body(xeKhachService.searchByName(tenxekhach).build());
+    }
+
+//    @GetMapping("/showXeKhach/{id}")
+//    public ResponseEntity searchXeKhach(@PathVariable("id") String id,
+//                                        @RequestParam int page, @RequestParam int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        return ResponseEntity.ok().body(xeKhachService.showXeKhach(id, pageable).build());
+//    }
+
+    @GetMapping("/showXeKhachByID/{bienSo}")
+    public ResponseEntity showXeKhach(@PathVariable("bienSo") String bienSo) {
         return ResponseEntity.ok().body(xeKhachService.searchById(bienSo).build());
     }
 
-    @GetMapping("/showXeKhach/{id}")
-    public ResponseEntity searchXeKhach(@PathVariable("id") String id,
-                                        @RequestParam int page, @RequestParam int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok().body(xeKhachService.showXeKhach(id, pageable).build());
-    }
-
     @PutMapping("/updateXeKhach/{bienSo}")
-    public ResponseEntity updateKhachHang(@PathVariable("bienSo") String bienSo, @RequestBody XeKhach xeKhach) {
+    public ResponseEntity updateXeKhach(@PathVariable("bienSo") String bienSo, @RequestBody XeKhach xeKhach) {
         if (xeKhach.getBienSo().equals(bienSo)) {
             return ResponseEntity.ok().body(xeKhachService.create(xeKhach).build());
         }
@@ -149,20 +154,20 @@ public class AdminController {
         return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
     }
 
-    @DeleteMapping("/deleteLuongCoBan/{id}")
-    public ResponseEntity deleteLuongCoBan(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok().body(luongCoBanService.delete(id).build());
-    }
+//    @DeleteMapping("/deleteLuongCoBan/{id}")
+//    public ResponseEntity deleteLuongCoBan(@PathVariable("id") Integer id) {
+//        return ResponseEntity.ok().body(luongCoBanService.delete(id).build());
+//    }
 
-    @GetMapping("/searchLuongCoBan")
-    public ResponseEntity searchLuongCoBanByLuong(@RequestParam("luong") Long luong) {
-        return ResponseEntity.ok().body(luongCoBanService.searchByLuong(luong));
-    }
+//    @GetMapping("/searchLuongCoBan")
+//    public ResponseEntity searchLuongCoBanByLuong(@RequestParam("luong") Long luong) {
+//        return ResponseEntity.ok().body(luongCoBanService.searchByLuong(luong));
+//    }
 
-    @GetMapping("/showLuongCoBan")
-    public ResponseEntity searchLuongCoBanById(@RequestParam("id") Integer id) {
-        return ResponseEntity.ok().body(luongCoBanService.searchById(id));
-    }
+//    @GetMapping("/showLuongCoBan")
+//    public ResponseEntity searchLuongCoBanById(@RequestParam("id") Integer id) {
+//        return ResponseEntity.ok().body(luongCoBanService.searchById(id));
+//    }
 
     @PutMapping("/updateLuongCoBan/{id}")
     public ResponseEntity updateLuongCoBan(@PathVariable("id") Integer id, @RequestBody LuongCoBan luongCoBan) {

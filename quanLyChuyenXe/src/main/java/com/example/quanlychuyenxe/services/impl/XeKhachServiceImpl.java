@@ -34,10 +34,15 @@ public class XeKhachServiceImpl implements XeKhachService {
     }
 
     @Override
-    public Response showXeKhach(String id, Pageable pageable) {
-        if(id == null) {
-            return ResponseBuilder.ok(xeKhachRepository.findAllTuyenXe(pageable));
-        }
-        return ResponseBuilder.ok(xeKhachRepository.findById(id));
+    public Response searchByName(String tenXeKhach) {
+        return ResponseBuilder.ok(xeKhachRepository.findByTenXeKhachContaining (tenXeKhach));
     }
+
+//    @Override
+//    public Response showXeKhach(String id, Pageable pageable) {
+//        if(id == null) {
+//            return ResponseBuilder.ok(xeKhachRepository.findAllTuyenXe(pageable));
+//        }
+//        return ResponseBuilder.ok(xeKhachRepository.findById(id));
+//    }
 }
