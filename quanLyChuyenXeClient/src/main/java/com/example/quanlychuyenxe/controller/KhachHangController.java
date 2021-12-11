@@ -4,12 +4,10 @@ import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.model.TaiXe;
+import com.example.quanlychuyenxe.model.request.KhachHangRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -19,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -106,6 +105,20 @@ public class KhachHangController {
 
     @GetMapping("formregister")
     private String formregister(Model model) {
+        model.addAttribute("khachhangRequest", new KhachHangRequest());
         return "khachhang/formregister";
+    }
+
+    @PostMapping("registersuccess")
+    private String registersuccess(Model model, @Valid @ModelAttribute("khachhangRequest") KhachHangRequest khachHangRequest) {
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/khachhang/createNewAccount"
+                , HttpMethod.POST, new HttpEntity<>(khachHangRequest, null), ResponseBuilder.class);
+        String notice = "";
+        if(responseEntity.getStatusCode() == HttpStatus.OK) {
+            notice = "Đăng ký thành công!";
+        } else {
+            notice = "Đăng ký thất bại!";
+        }
+        return "khachhang/registersuccess";
     }
 }

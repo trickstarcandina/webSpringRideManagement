@@ -31,30 +31,36 @@
                 <div class="card-heading"></div>
                 <div class="card-body">
                     <h2 class="title">Registration Info</h2>
-                    <form method="POST">
+                    <form method="POST" th:object="${khachhangRequest}" th:action="@{/khachhang/registersuccess}">
                         <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Name" name="name">
+                            <input class="input--style-3" type="text" placeholder="Họ tên" name="name" th:field="*{ten}">
+                        </div>
+<!--                        <div class="input-group">-->
+<!--                            <input class="input&#45;&#45;style-3 js-datepicker" type="text" placeholder="Birthdate" name="birthday">-->
+<!--                            <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>-->
+<!--                        </div>-->
+<!--                        <div class="input-group">-->
+<!--                            <div class="rs-select2 js-select-simple select&#45;&#45;no-search">-->
+<!--                                <select name="gender">-->
+<!--                                    <option disabled="disabled" selected="selected">Gender</option>-->
+<!--                                    <option>Male</option>-->
+<!--                                    <option>Female</option>-->
+<!--                                    <option>Other</option>-->
+<!--                                </select>-->
+<!--                                <div class="select-dropdown"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="input-group">
+                            <input class="input--style-3" type="text" placeholder="Địa chỉ" name="address" th:field="*{diaChi}">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-3 js-datepicker" type="text" placeholder="Birthdate" name="birthday">
-                            <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                            <input class="input--style-3" type="text" placeholder="Tuổi" name="old" th:field="*{tuoi}">
                         </div>
                         <div class="input-group">
-                            <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="gender">
-                                    <option disabled="disabled" selected="selected">Gender</option>
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                    <option>Other</option>
-                                </select>
-                                <div class="select-dropdown"></div>
-                            </div>
+                            <input class="input--style-3" type="text" placeholder="Username" name="usernam" th:field="*{username}">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-3" type="email" placeholder="Email" name="email">
-                        </div>
-                        <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Phone" name="phone">
+                            <input class="input--style-3" type="text" placeholder="Password" name="password" th:field="*{password}">
                         </div>
                         <div class="p-t-10">
                             <button class="btn btn--pill btn--green" type="submit">Submit</button>
