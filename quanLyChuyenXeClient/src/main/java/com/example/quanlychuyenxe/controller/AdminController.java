@@ -5,6 +5,7 @@ import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.model.LuongCoBan;
 import com.example.quanlychuyenxe.model.TaiXe;
+import com.example.quanlychuyenxe.model.request.LuongCoBanRequest;
 import com.example.quanlychuyenxe.model.request.LuongTrongThangRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.example.quanlychuyenxe.model.TuyenXe;
@@ -25,12 +26,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("admin")
@@ -127,90 +124,6 @@ public class AdminController {
         model.addAttribute("notice", notice);
         return "admin/carriageways/addOrEdit";
     }
-
-
-    // Luong Co Ban
-
-    @GetMapping("salarys")
-    public String homeSalarys(){
-        return "redirect:salarys/search?salary=";
-    }
-
-    @GetMapping("salarys/search")
-    public String searchSalary(ModelMap model, @RequestParam("salary") Long salary){
-        ResponseEntity<ResponseBuilder> responseEntity = rest.getForEntity("http://localhost:8080/api/admin/searchLuongCoBan?luong="
-                + salary, ResponseBuilder.class);
-        List<LuongCoBan> salarys = (List<LuongCoBan>) responseEntity.getBody().getData();
-        model.addAttribute("listLuongCoBan", salarys);
-        return "admin/salarys/search";
-    }
-
-    @GetMapping("salarys/add")
-    public String addSalary(Model model){
-        model.addAttribute("luongCoBan", new LuongCoBan());
-        return "admin/salarys/addOrEdit";
-    }
-
-    @GetMapping("salarys/edit/{id}")
-    public String editSalary(Model model, @PathVariable("id") Integer id) {
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showLuongCoBan/{id}",
-                ResponseBuilder.class, id);
-        ObjectMapper objectMapper = new ObjectMapper();
-        LuongCoBan salary = objectMapper.convertValue(builder.getData(), LuongCoBan.class);
-        salary.setIsEdit(true);
-        model.addAttribute("luongCoBan", salary);
-        return "admin/salarys/addOrEdit";
-    }
-
-
-    @GetMapping("salarys/delete/{id}")
-    public ModelAndView deleteSalary(ModelMap model, @PathVariable("id") Integer id) {
-        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteLuongCoBan/" + id,
-                HttpMethod.DELETE, null, ResponseBuilder.class);
-        if(responseEntity.getStatusCode() == HttpStatus.OK) {
-            model.addAttribute("deleteNotice", "Xóa thành công");
-        }
-        return new ModelAndView("admin/salarys/search", model);
-    }
-
-    @PostMapping("salarys/update")
-    public String updateSalary(Model model, @Valid @ModelAttribute("luongCoBan") LuongCoBan luongCoBan, Errors errors) {
-        if(errors.hasErrors()) {
-            return "admin/salarys/search";
-        }
-        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateLuongCoBan/" + luongCoBan.getId(),
-                HttpMethod.PUT, new HttpEntity<>(luongCoBan, null), ResponseBuilder.class);
-        String noticeUpdate = "";
-        if(responseEntity.getStatusCode() == HttpStatus.OK) {
-            noticeUpdate = "Cập nhật thành công!";
-        } else {
-            noticeUpdate = "Cập nhật thất bại!";
-        }
-        model.addAttribute("noticeUpdate", noticeUpdate);
-        return "admin/salarys/search";
-    }
-
-    @PostMapping("salarys/save")
-    public String saveSalary(Model model, @Valid @ModelAttribute("luongCoBan") LuongCoBan luongCoBan, Errors errors) {
-        if(errors.hasErrors()) {
-            return "admin/salarys/addOrEdit";
-        }
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showLuongCoBan/{id}",
-                ResponseBuilder.class, luongCoBan.getId());
-        ObjectMapper objectMapper = new ObjectMapper();
-        LuongCoBan salary = objectMapper.convertValue(builder.getData(), LuongCoBan.class);
-        String notice = "";
-        if(!ObjectUtils.isEmpty(salary)) {
-            notice = "Id lương cơ bản đã tồn tại";
-        } else {
-            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addLuongCoBan",
-                    HttpMethod.POST, new HttpEntity<>(luongCoBan, null), ResponseBuilder.class);
-            notice = "Thành công!";
-        }
-        model.addAttribute("notice", notice);
-        return "admin/salarys/addOrEdit";
-    }
-
 
     // Khách hàng
     @GetMapping("khachhang")
@@ -368,6 +281,41 @@ public class AdminController {
             model.addAttribute("noticeSuccess", "Thành công!!!");
         }
         return "admin/taixe/addOrEdit";
+    }
+
+    // Lương cơ bản
+    @GetMapping("taixe/editLuong/{username}")
+    public ModelAndView showLuong(ModelMap model, @PathVariable("username") String username) {
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/luongcoban/findByTaiXe?username="
+                        + username, HttpMethod.GET, null, ResponseBuilder.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        LuongCoBanRequest luongCoBanRequest = objectMapper.convertValue(responseEntity.getBody().getData(), LuongCoBanRequest.class);
+        if(luongCoBanRequest != null) {
+            luongCoBanRequest.setIsEdit(true);
+            if(luongCoBanRequest.getThangLuong().getDay() != new Date().getDay()
+                    || luongCoBanRequest.getThangLuong().getMonth() != new Date().getMonth()
+                    || luongCoBanRequest.getThangLuong().getYear() != new Date().getYear()) {
+                luongCoBanRequest.setId(null);
+            }
+        } else {
+            luongCoBanRequest = new LuongCoBanRequest();
+        }
+        luongCoBanRequest.setThangLuong(new Date());
+        model.addAttribute("luongcoban", luongCoBanRequest);
+        return new ModelAndView("admin/taixe/editSalary", model);
+    }
+
+    @PostMapping("taixe/editLuong/save")
+    public String saveLuong(Model model, @ModelAttribute LuongCoBanRequest luongcoban) {
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addLuongCoBan",
+                HttpMethod.POST, new HttpEntity<>(luongcoban, null), ResponseBuilder.class);
+        model.addAttribute("luongcoban", luongcoban);
+        if(responseEntity.getBody().getStatus() != 200) {
+            model.addAttribute("noticeDanger", "Lỗi");
+        } else {
+            model.addAttribute("noticeSuccess", "Thành công!");
+        }
+        return "admin/taixe/editSalary";
     }
 
     // Thống kê

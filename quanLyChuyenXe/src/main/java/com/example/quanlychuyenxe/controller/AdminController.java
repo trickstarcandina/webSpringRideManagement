@@ -3,6 +3,7 @@ package com.example.quanlychuyenxe.controller;
 
 import com.example.quanlychuyenxe.model.*;
 import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
+import com.example.quanlychuyenxe.model.request.LuongCoBanRequest;
 import com.example.quanlychuyenxe.services.*;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
@@ -151,18 +152,13 @@ public class AdminController {
     // luong co ban
 
     @PostMapping("/addLuongCoBan")
-    public ResponseEntity addLuongCoBan(@RequestBody LuongCoBan luongCoBan) {
-        return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
+    public ResponseEntity addLuongCoBan(@RequestBody LuongCoBanRequest luongCoBanRequest) {
+        return ResponseEntity.ok().body(luongCoBanService.create(luongCoBanRequest).build());
     }
 
     @DeleteMapping("/deleteLuongCoBan/{id}")
     public ResponseEntity deleteLuongCoBan(@PathVariable("id") Integer id) {
         return ResponseEntity.ok().body(luongCoBanService.delete(id).build());
-    }
-
-    @GetMapping("/searchLuongCoBan")
-    public ResponseEntity searchLuongCoBanByLuong(@RequestParam("luong") Long luong) {
-        return ResponseEntity.ok().body(luongCoBanService.searchByLuong(luong));
     }
 
     @GetMapping("/showLuongCoBan")
@@ -171,11 +167,16 @@ public class AdminController {
     }
 
     @PutMapping("/updateLuongCoBan/{id}")
-    public ResponseEntity updateLuongCoBan(@PathVariable("id") Integer id, @RequestBody LuongCoBan luongCoBan) {
-        if (luongCoBan.getId().equals(id)) {
-            return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
+    public ResponseEntity updateLuongCoBan(@PathVariable("id") Integer id, @RequestBody LuongCoBanRequest luongCoBanRequest) {
+        if (luongCoBanRequest.getId().equals(id)) {
+            return ResponseEntity.ok().body(luongCoBanService.create(luongCoBanRequest).build());
         }
         throw new IllegalStateException("Error");
+    }
+
+    @GetMapping("/luongcoban/findByTaiXe")
+    public ResponseEntity findByTaiXe(@RequestParam("username") String username) {
+        return ResponseEntity.ok().body(luongCoBanService.findLuongByTaiXe(username).build());
     }
 
     // Chuyen Xe
