@@ -8,21 +8,21 @@
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" th:href="@{../images/icons/favicon.ico}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../vendor/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../vendor/login/bootstrap/css/bootstrap.min.css}">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" th:href="@{../fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" th:href="@{../fonts/Linearicons-Free-v1.0.0/icon-font.min.css}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../vendor/animate/animate.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../vendor/login/animate/animate.css}">
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" th:href="@{../vendor/css-hamburgers/hamburgers.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../vendor/login/css-hamburgers/hamburgers.min.css}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../vendor/animsition/css/animsition.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../vendor/login/animsition/css/animsition.min.css}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../vendor/select2/select2.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../vendor/login/select2/select2.min.css}">
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" th:href="@{../vendor/daterangepicker/daterangepicker.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../vendor/login/daterangepicker/daterangepicker.css}">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" th:href="@{../css/login/util.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{../css/login/main.css}">
@@ -90,6 +90,18 @@
 						</button>
 					</div>
 
+					<div class="text-center p-t-46 p-b-20">
+						<span class="txt2">
+							Bạn chưa có tài khoản ?
+						</span>
+					</div>
+
+					<div class="container-login100-form-btn-2">
+						<button id="myButton2" class="login100-form-btn-2">
+							Đăng ký ngay
+						</button>
+					</div>
+
 <!--					<div class="login100-form-social flex-c-m">-->
 <!--						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">-->
 <!--							<i class="fa fa-facebook-f" aria-hidden="true"></i>-->
@@ -117,20 +129,27 @@
 			location.href = "logintaixe";
 		};
 	</script>
+
+	<script type="text/javascript">
+		document.getElementById("myButton2").onclick = function () {
+			location.href = "khachhang/formregister";
+		};
+	</script>
+
 <!--===============================================================================================-->
-	<script th:src="@{../vendor/jquery/jquery-3.2.1.min.js}"></script>
+	<script th:src="@{../vendor/login/jquery/jquery-3.2.1.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{../vendor/animsition/js/animsition.min.js}"></script>
+	<script th:src="@{../vendor/login/animsition/js/animsition.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{../vendor/bootstrap/js/popper.js}"></script>
-	<script th:src="@{../vendor/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{../vendor/login/bootstrap/js/popper.js}"></script>
+	<script th:src="@{../vendor/login/bootstrap/js/bootstrap.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{../vendor/select2/select2.min.js}"></script>
+	<script th:src="@{../vendor/login/select2/select2.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{../vendor/daterangepicker/moment.min.js}"></script>
-	<script th:src="@{../vendor/daterangepicker/daterangepicker.js}"></script>
+	<script th:src="@{../vendor/login/daterangepicker/moment.min.js}"></script>
+	<script th:src="@{../vendor/login/daterangepicker/daterangepicker.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{../vendor/countdowntime/countdowntime.js}"></script>
+	<script th:src="@{../vendor/login/countdowntime/countdowntime.js}"></script>
 <!--===============================================================================================-->
 	<script th:src="@{../js/login/main.js}"></script>
 
