@@ -234,10 +234,10 @@ public class AdminController {
         return "admin/khachhang/addOrEdit";
     }
 
-    @GetMapping("khachhang/edit/{cmtKhachHang}")
-    public String editKhachHang(Model model, @PathVariable("cmtKhachHang") String cmtKhachHang) {
+    @GetMapping("khachhang/edit/{username}")
+    public String editKhachHang(Model model, @PathVariable("username") String username) {
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showKhachHang/{cmtKhachHang}",
-                ResponseBuilder.class, cmtKhachHang);
+                ResponseBuilder.class, username);
         ObjectMapper objectMapper = new ObjectMapper();
         KhachHang khachhang = objectMapper.convertValue(builder.getData(), KhachHang.class);
         khachhang.setIsEdit(true);
@@ -245,9 +245,9 @@ public class AdminController {
         return "admin/khachhang/addOrEdit";
     }
 
-    @GetMapping("khachhang/delete/{cmtKhachHang}")
-    public ModelAndView deleteKhachHang(ModelMap model, @PathVariable("cmtKhachHang") String cmtKhachHang) {
-        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteKhachHang/" + cmtKhachHang,
+    @GetMapping("khachhang/delete/{username}")
+    public ModelAndView deleteKhachHang(ModelMap model, @PathVariable("username") String username) {
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/deleteKhachHang/" + username,
                 HttpMethod.DELETE, null, ResponseBuilder.class);
         if(responseEntity.getStatusCode() == HttpStatus.OK) {
             model.addAttribute("deleteNotice", "Xóa thành công");
@@ -258,10 +258,12 @@ public class AdminController {
     @PostMapping("khachhang/update")
     public String updateKhachHang(Model model, @Valid @ModelAttribute("khachhang") KhachHang khachHang, Errors errors) {
         if(errors.hasErrors()) {
-            return "admin/khachhang/search";
+            khachHang.setIsEdit(true);
+            model.addAttribute("khachhang", khachHang);
+            return "admin/khachhang/addOrEdit";
         }
-        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateKhachHang/" + khachHang.getCmtKhachHang(),
-                HttpMethod.PUT, new HttpEntity<>(khachHang, null), ResponseBuilder.class);
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateKhachHang/"
+                        + khachHang.getUsername(), HttpMethod.PUT, new HttpEntity<>(khachHang, null), ResponseBuilder.class);
         String noticeUpdate = "";
         if(responseEntity.getStatusCode() == HttpStatus.OK) {
             noticeUpdate = "Cập nhật thành công!";
@@ -278,7 +280,7 @@ public class AdminController {
             return "admin/khachhang/addOrEdit";
         }
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showKhachHang/{cmtKhachHang}",
-                ResponseBuilder.class, khachHang.getCmtKhachHang());
+                ResponseBuilder.class, khachHang.getUsername());
         ObjectMapper objectMapper = new ObjectMapper();
         KhachHang khachhang = objectMapper.convertValue(builder.getData(), KhachHang.class);
         String notice = "";

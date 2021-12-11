@@ -1,10 +1,7 @@
 package com.example.quanlychuyenxe.controller;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
-import com.example.quanlychuyenxe.model.ChuyenXe;
-import com.example.quanlychuyenxe.model.TaiXe;
-import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.model.XeKhach;
+import com.example.quanlychuyenxe.model.*;
 import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
@@ -23,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("admin/chuyenxe")
@@ -44,14 +42,49 @@ public class ChuyenXeController {
 
     // Tìm kiếm - search
     @GetMapping("search")
-    public String searchChuyenXe(Model model, @RequestParam("diemDau") String diemDau, @RequestParam("diemCuoi") String diemCuoi) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchChuyenXe")
-                .queryParam("diemDau", diemDau)
-                .queryParam("diemCuoi", diemCuoi);
+    public String searchChuyenXe(Model model, @RequestParam("diemDau") String diemDau, @RequestParam("diemCuoi") String diemCuoi,
+                                 @RequestParam("chooseType") String chooseType) {
+        UriComponentsBuilder builder;
+        switch (chooseType) {
+            case "all": {
+                builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchChuyenXe")
+                        .queryParam("diemDau", diemDau)
+                        .queryParam("diemCuoi", diemCuoi);
+                break;
+            }
+            case "done": {
+                builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/khachhang/search")
+                        .queryParam("diemDau", diemDau)
+                        .queryParam("diemCuoi", diemCuoi)
+                        .queryParam("status", 1);
+                break;
+            }
+            case "none": {
+                builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/khachhang/search")
+                        .queryParam("diemDau", diemDau)
+                        .queryParam("diemCuoi", diemCuoi)
+                        .queryParam("status", 0);
+                break;
+            }
+            default:
+                throw new IllegalStateException("Unexpected value: " + chooseType);
+        }
         ResponseBuilder responseBuilder = rest.getForObject(builder.build().encode().toUri(), ResponseBuilder.class);
         List<ChuyenXe> listchuyenxe = (List<ChuyenXe>) responseBuilder.getData();
         model.addAttribute("listchuyenxe", listchuyenxe);
         return "admin/chuyenxe/search";
+    }
+
+    // Xem chi tiết
+    @GetMapping("detail/{id}")
+    public String showKhachHang(Model model, @PathVariable("id") Integer id) {
+        ResponseBuilder chuyenxeBuilder = rest.getForObject("http://localhost:8080/api/chuyenxe/allkhachhang/{id}",
+                ResponseBuilder.class, id);
+        ObjectMapper objectMapper = new ObjectMapper();
+        ChuyenXe chuyenXe = objectMapper.convertValue(chuyenxeBuilder.getData(), ChuyenXe.class);
+        Set<KhachHang> khachHangs = chuyenXe.getKhachHangList();
+        model.addAttribute("listkhachhang", khachHangs);
+        return "admin/chuyenxe/showDetail";
     }
 
     // Thêm chuyến xe - add
@@ -158,7 +191,7 @@ public class ChuyenXeController {
 
     // Sửa chuyến xe - update
     @GetMapping("edit/{id}")
-    public String editDriver(Model model, @PathVariable("id") int id) {
+    public String editDriver(Model model, @PathVariable("id") Integer id) {
         ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showChuyenXe/{id}",
                 ResponseBuilder.class, id);
         ObjectMapper objectMapper = new ObjectMapper();
