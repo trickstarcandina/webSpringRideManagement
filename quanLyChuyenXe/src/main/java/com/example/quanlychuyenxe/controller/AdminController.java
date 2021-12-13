@@ -1,6 +1,7 @@
 package com.example.quanlychuyenxe.controller;
 
 
+import com.example.quanlychuyenxe.dto.AuthenticationRequest;
 import com.example.quanlychuyenxe.model.*;
 import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
 import com.example.quanlychuyenxe.model.request.LuongCoBanRequest;
@@ -17,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/admin")
 @AllArgsConstructor
@@ -29,6 +32,7 @@ public class AdminController {
     private TaiXeService taiXeService;
     private ChuyenXeService chuyenXeService;
     private TongLuongService tongLuongService;
+    private AdminService adminService;
 
     private BCryptPasswordEncoder encoder;
 
@@ -220,5 +224,21 @@ public class AdminController {
     @GetMapping("/thongke/taixe")
     public ResponseEntity thongkeTaiXe() {
         return ResponseEntity.ok().body(chuyenXeService.thongkeTaiXe().build());
+    }
+
+    //auth
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody AuthenticationRequest authenticationRequest) {
+        return ResponseEntity.ok().body(adminService.findUser(authenticationRequest.getUsername(), authenticationRequest.getPassword()).build());
+    }
+
+    @PostMapping("/authen")
+    public ResponseEntity authen(@RequestBody AuthenticationRequest authenticationRequest, @RequestParam("code") String code) throws IOException {
+        return ResponseEntity.ok().body(adminService.authen(authenticationRequest.getUsername(), authenticationRequest.getPassword(), code).build());
+    }
+
+    @PostMapping("/showQRCode")
+    public ResponseEntity showQRCode(@RequestParam("displayName") String displayName) {
+        return ResponseEntity.ok().body(adminService.showQRCode(displayName).build());
     }
 }
