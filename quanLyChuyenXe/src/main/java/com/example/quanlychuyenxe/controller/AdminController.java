@@ -129,40 +129,35 @@ public class AdminController {
         return ResponseEntity.ok().body(xeKhachService.delete(bienSo).build());
     }
 
+    @GetMapping("/searchXeKhach")
+    public ResponseEntity searchXeKhachByTen(@RequestParam("tenxekhach") String tenxekhach) {
+        return ResponseEntity.ok().body(xeKhachService.searchByName(tenxekhach).build());
+    }
+
+//    @GetMapping("/showXeKhach/{id}")
+//    public ResponseEntity searchXeKhach(@PathVariable("id") String id,
+//                                        @RequestParam int page, @RequestParam int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        return ResponseEntity.ok().body(xeKhachService.showXeKhach(id, pageable).build());
+//    }
+
     @GetMapping("/showXeKhachByID/{bienSo}")
     public ResponseEntity showXeKhach(@PathVariable("bienSo") String bienSo) {
         return ResponseEntity.ok().body(xeKhachService.searchById(bienSo).build());
     }
 
-    @GetMapping("/showXeKhach/{id}")
-    public ResponseEntity searchXeKhach(@PathVariable("id") String id,
-                                        @RequestParam int page, @RequestParam int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok().body(xeKhachService.showXeKhach(id, pageable).build());
-    }
-
     @PutMapping("/updateXeKhach/{bienSo}")
-    public ResponseEntity updateKhachHang(@PathVariable("bienSo") String bienSo, @RequestBody XeKhach xeKhach) {
+    public ResponseEntity updateXeKhach(@PathVariable("bienSo") String bienSo, @RequestBody XeKhach xeKhach) {
         if (xeKhach.getBienSo().equals(bienSo)) {
             return ResponseEntity.ok().body(xeKhachService.create(xeKhach).build());
         }
         throw new IllegalStateException("Error");
     }
 
-    @GetMapping("/searchXeKhach")
-    public ResponseEntity searchXeKhachByTen(@RequestParam("tenxekhach") String tenxekhach) {
-        return ResponseEntity.ok().body(xeKhachService.searchByName(tenxekhach).build());
-    }
-
     // luong co ban
     @PostMapping("/addLuongCoBan")
     public ResponseEntity addLuongCoBan(@RequestBody LuongCoBanRequest luongCoBanRequest) {
         return ResponseEntity.ok().body(luongCoBanService.create(luongCoBanRequest).build());
-    }
-
-    @DeleteMapping("/deleteLuongCoBan/{id}")
-    public ResponseEntity deleteLuongCoBan(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok().body(luongCoBanService.delete(id).build());
     }
 
     @GetMapping("/showLuongCoBan")

@@ -112,17 +112,15 @@
                 <section class="row" layout:fragment="content">
                     <div class="col-6 offset-3 mt-4">
 
-                        <div th:if="${noticeSuccess != null}" class="alert alert-success" role="alert" th:text="${noticeSuccess}">
-                        </div>
-                        <div th:if="${noticeDanger != null}" class="alert alert-danger" role="alert" th:text="${noticeDanger}">
+                        <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
                         </div>
 
-                        <form th:action="${taixe.isEdit}? @{/admin/taixe/update} : @{/admin/taixe/save}"
-                              th:object="${taixe}" method="POST">
-                            <!--                            th:action="@{/admin/taixe/save}"-->
+                        <form th:action="${xekhach.isEdit}? @{/admin/coachs/update} : @{/admin/coachs/save}"
+                               th:object="${xekhach}" method="POST">
+<!--                            th:action="@{/admin/customers/save}"-->
                             <div class="card">
                                 <div class="card-header">
-                                    <h2 th:text="${taixe.isEdit ? 'Sửa thông tin tài xế' : 'Thêm tài xế'}" />
+                                    <h2 th:text="${xekhach.isEdit?'Sửa thông tin xe khách' : 'Thêm xe khách'}" />
                                 </div>
 
                                 <div>
@@ -136,104 +134,102 @@
 
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="cmtTaiXe">Cmt / Căn cước công dân</label>
-                                        <input th:if="*{!isEdit}" th:value="*{cmtTaiXe}" type="text"
-                                               th:class="${#fields.hasErrors('cmtTaiXe')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="cmtTaiXe" aria-describedby="cmtTaiXeId" placeholder="" >
+                                        <label for="bienSo">Biển số xe</label>
+                                        <input th:if="*{!isEdit}" th:value="*{bienSo}" type="text"
+                                               th:class="${#fields.hasErrors('bienSo')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="bienSo" aria-describedby="bienSoId" placeholder="" >
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('cmtTaiXe')}"
-                                              th:errors="*{cmtTaiXe}">Error</span>
+                                              th:if="${#fields.hasErrors('bienSo')}"
+                                              th:errors="*{bienSo}">Error</span>
 
-                                        <input th:if="*{isEdit}" th:value="*{cmtTaiXe}" type="text"
-                                               class="form-control" name="cmtTaiXe" aria-describedby="cmtTaiXeId" placeholder="" readonly >
+                                        <input th:if="*{isEdit}" th:value="*{bienSo}" type="text"
+                                               class="form-control" name="bienSo" aria-describedby="bienSoId" placeholder="" readonly >
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="ten">Họ và tên</label>
-                                        <input th:value="*{ten}" type="text"
-                                               th:class="${#fields.hasErrors('ten')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="ten" id="ten" aria-describedby="tenId" placeholder="">
+                                      <label for="tenXeKhach">Tên xe khách</label>
+                                      <input th:value="*{tenXeKhach}" type="text"
+                                             th:class="${#fields.hasErrors('tenXeKhach')} ? 'validationInputError form-control' : 'form-control'"
+                                             name="tenXeKhach" id="tenXeKhach" aria-describedby="tenXeKhachId" placeholder="">
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('ten')}"
-                                              th:errors="*{ten}">Error</span>
+                                              th:if="${#fields.hasErrors('tenXeKhach')}"
+                                              th:errors="*{tenXeKhach}">Error</span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="maSoBangLai">Mã số bằng lái</label>
-                                        <input th:value="*{maSoBangLai}" type="text"
-                                               th:class="${#fields.hasErrors('maSoBangLai')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="maSoBangLai" id="maSoBangLai" aria-describedby="maSoBangLaiId" placeholder="">
+                                        <label for="mauXe">Màu xe</label>
+                                        <input th:value="*{mauXe}" type="text"
+                                               th:class="${#fields.hasErrors('mauXe')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="mauXe" id="mauXe" aria-describedby="mauXeId" placeholder="">
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('maSoBangLai')}"
-                                              th:errors="*{maSoBangLai}"></span>
+                                              th:if="${#fields.hasErrors('mauXe')}"
+                                              th:errors="*{mauXe}">Error</span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="loaiBangLai">Loại bằng lái</label>
-                                        <input th:value="*{loaiBangLai}" type="text"
-                                               th:class="${#fields.hasErrors('loaiBangLai')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="loaiBangLai" id="loaiBangLai" aria-describedby="loaiBangLaiId" placeholder="">
+                                        <label for="hangSanXuat">Hãng sản xuất</label>
+                                        <input th:value="*{hangSanXuat}" type="text"
+                                               th:class="${#fields.hasErrors('hangSanXuat')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="hangSanXuat" id="hangSanXuat" aria-describedby="hangSanXuatId" placeholder="">
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('loaiBangLai')}"
-                                              th:errors="*{loaiBangLai}">Error</span>
+                                              th:if="${#fields.hasErrors('hangSanXuat')}"
+                                              th:errors="*{hangSanXuat}">Error</span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="diaChi">Địa chỉ</label>
-                                        <input th:value="*{diaChi}" type="text"
-                                               th:class="${#fields.hasErrors('diaChi')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="diaChi" id="diaChi" aria-describedby="diaChiId" placeholder="">
+                                        <label for="doiXe">Đời xe</label>
+                                        <input th:value="*{doiXe}" type="number"
+                                               th:class="${#fields.hasErrors('doiXe')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="doiXe" id="doiXe" aria-describedby="doiXeId" placeholder="">
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('diaChi')}"
-                                              th:errors="*{diaChi}">Error</span>
+                                              th:if="${#fields.hasErrors('doiXe')}"
+                                              th:errors="*{doiXe}">Error</span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="ngaySinh">Ngày sinh</label>
-                                        <input th:value="${#dates.format(taixe.ngaySinh, 'dd/MM/yyyy')}" type="text"
-                                               th:class="${#fields.hasErrors('ngaySinh')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="ngaySinh" id="ngaySinh" aria-describedby="ngaySinhId" placeholder="">
+                                        <label for="model">Model</label>
+                                        <input th:value="*{model}" type="text"
+                                               th:class="${#fields.hasErrors('model')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="model" id="model" aria-describedby="modelId" placeholder="">
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('ngaySinh')}">Sai định dạng dd/MM/yyyy</span>
+                                              th:if="${#fields.hasErrors('model')}"
+                                              th:errors="*{model}">Error</span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="thamNien">Thâm niên</label>
-                                        <input th:value="*{thamNien}" type="number"
-                                               th:class="${#fields.hasErrors('thamNien')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="thamNien" id="thamNien" aria-describedby="thamNienId" placeholder="">
+                                        <label for="soGhe">Số ghế</label>
+                                        <input th:value="*{soGhe}" type="number"
+                                               th:class="${#fields.hasErrors('soGhe')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="soGhe" id="soGhe" aria-describedby="soGheId" placeholder="">
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('thamNien')}"
-                                              th:errors="*{thamNien}">Error</span>
+                                              th:if="${#fields.hasErrors('soGhe')}"
+                                              th:errors="*{soGhe}">Error</span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Username</label>
-                                        <input th:if="*{!isEdit}" th:value="*{username}" type="text"
-                                               th:class="${#fields.hasErrors('username')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="username" aria-describedby="username" placeholder="" >
+                                        <label for="soNamSuDung">Số năm sử dụng</label>
+                                        <input th:value="*{soNamSuDung}" type="number"
+                                               th:class="${#fields.hasErrors('soNamSuDung')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="soNamSuDung" id="soNamSuDung" aria-describedby="soNamSuDungId" placeholder="">
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('username')}"
-                                              th:errors="*{username}">Error</span>
-
-                                        <input th:if="*{isEdit}" th:value="*{username}" type="text"
-                                               class="form-control" name="username" aria-describedby="usernameId" placeholder="" readonly >
+                                              th:if="${#fields.hasErrors('soNamSuDung')}"
+                                              th:errors="*{soNamSuDung}">Error</span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="password">password</label>
-                                        <input type="text"
-                                               th:class="${#fields.hasErrors('password')} ? 'validationInputError form-control' : 'form-control'"
-                                               name="password" id="password" aria-describedby="passwordId" placeholder="">
+                                        <label for="ngayBaoDuongCuoiCung">Ngày bảo dưỡng cuối cùng</label>
+                                        <input th:value="${#dates.format(xekhach.ngayBaoDuongCuoiCung, 'dd/MM/yyyy')}" type="text"
+                                               th:class="${#fields.hasErrors('ngayBaoDuongCuoiCung')} ? 'validationInputError form-control' : 'form-control'"
+                                               name="ngayBaoDuongCuoiCung" id="ngayBaoDuongCuoiCung" aria-describedby="ngayBaoDuongCuoiCungId" placeholder="">
                                         <span class="validationError"
-                                              th:if="${#fields.hasErrors('password')}"
-                                              th:errors="*{password}">Error</span>
+                                              th:if="${#fields.hasErrors('ngayBaoDuongCuoiCung')}"
+                                              th:errors="*{ngayBaoDuongCuoiCung}">Error</span>
+
                                     </div>
-                                </div>
 
                                 <div class="card-footer text-muted">
                                     <button type="reset" class="btn btn-secondary">Reset</button>
-                                    <a th:href="@{/admin/taixe}" class="btn btn-success">Xem danh sách</a>
+                                    <a th:href="@{/admin/coachs}" class="btn btn-success">Xem danh sách</a>
                                     <button class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>

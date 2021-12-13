@@ -38,7 +38,6 @@ public class KhachHangController {
 
         ObjectMapper objectMapper = new ObjectMapper();
         khachhang = objectMapper.convertValue(responseEntity.getBody(), KhachHang.class);
-
         ResponseBuilder khachhangBuilder = rest.getForObject("http://localhost:8080/api/khachhang/getChuyenXe/{username}",
                 ResponseBuilder.class, khachhang.getUsername());
         Set<ChuyenXe> chuyenxelist = objectMapper.convertValue(khachhangBuilder.getData(), new TypeReference<Set<ChuyenXe>>() {});

@@ -112,9 +112,9 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Quản lý tài xế</h1>
+                <h1 class="mt-4">Quản lý xe khách</h1>
 
-                <div th:if="${deleteNotice != null}" class="alert alert-danger" role="alert" th:text="${deleteNotice}">
+                <div th:if="${deleteNotice != null}" class="alert alert-info" role="alert" th:text="${deleteNotice}">
                 </div>
                 <div th:if="${noticeUpdate != null}" class="alert alert-info" role="alert" th:text="${noticeUpdate}">
                 </div>
@@ -122,65 +122,71 @@
                 <div class="card mb-4">
                     <div class="row mt-2 mb-2">
                         <div class="col" style="display: flex; justify-content: space-between;">
-                            <form th:action="@{/admin/taixe/search}">
+                            <form th:action="@{/admin/coachs/search}">
                                 <div class="form-inline float-left" style="display: flex">
                                     <label for="name">Name: </label>
                                     <input type="text" class="form-control ml-2" name="name" id="name"
                                            aria-describedby="helpId">
 
-                                    <button class="btn btn-outline-primary ml-2">Search</button>
+                                <button class="btn btn-outline-primary ml-2">Search</button>
                                 </div>
                             </form>
                             <div class="float-right">
-                                <a th:href="@{/admin/taixe/add}" class="btn btn-outline-primary">Thêm tài xế</a>
+                                <a th:href="@{/admin/coachs/add}" class="btn btn-outline-primary">Thêm xe khách</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col">
-                            <!--                            <div class="alert alert-danger" role="alert">-->
-                            <!--                                <strong th:if="${!categoryPage.hasContent()}">No Category Found</strong>-->
-                            <!--                            </div>-->
+<!--                            <div class="alert alert-danger" role="alert">-->
+<!--                                <strong th:if="${!categoryPage.hasContent()}">No Category Found</strong>-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <table class="table table-striped table-inverse">
-                        <!--                        th:if="${categoryPage.hasContent()}"-->
+<!--                        th:if="${categoryPage.hasContent()}"-->
                         <thead class="thead-inverse">
                         <tr>
-                            <th>CMT</th>
-                            <th>Tên</th>
-                            <th>Mã số bằng lái</th>
-                            <th>Loại bằng lái</th>
-                            <th>Địa chỉ</th>
-                            <th>Ngày sinh</th>
-                            <th>Thâm niên</th>
+                            <th>Biển số</th>
+                            <th>Tên xe khách</th>
+                            <th>Màu xe</th>
+                            <th>Hãng sản xuất</th>
+                            <th>Đời xe</th>
+                            <th>Model</th>
+                            <th>Số ghế</th>
+                            <th>Số năm sử dụng</th>
+                            <th>Ngày bảo dưỡng cuối cùng</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="taixe : ${listtaixe}">
-                            <td scope="row" th:text="${taixe.cmtTaiXe}"></td>
-                            <td th:text="${taixe.ten}"></td>
-                            <td th:text="${taixe.maSoBangLai}"></td>
-                            <td th:text="${taixe.loaiBangLai}"></td>
-                            <td th:text="${taixe.diaChi}"></td>
-                            <td th:text="${taixe.ngaySinh}"></td>
-                            <td th:text="${taixe.thamNien}"></td>
+                        <tr th:each="xekhach : ${listxekhach}">
+                            <td scope="row" th:text="${xekhach.bienSo}"></td>
+                            <td th:text="${xekhach.tenXeKhach}"></td>
+                            <td th:text="${xekhach.mauXe}"></td>
+                            <td th:text="${xekhach.hangSanXuat}"></td>
+                            <td th:text="${xekhach.doiXe}"></td>
+                            <td th:text="${xekhach.model}"></td>
+                            <td th:text="${xekhach.soGhe}"></td>
+                            <td th:text="${xekhach.soNamSuDung}"></td>
+                            <td th:text="${xekhach.ngayBaoDuongCuoiCung}"></td>
                             <td>
-                                <a th:href="@{'/admin/taixe/editLuong/' + ${taixe.username}}"
-                                   class="btn btn-outline-info"><i class="fas fa-money-bill"></i></a>
+                                <!--<a th:href="@{'/admin/categories/view/'}"
+                                   class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
 
-                                <a th:href="@{'/admin/taixe/edit/' + ${taixe.username}}"
+
+
+                                <a th:href="@{'/admin/coachs/edit/' + ${xekhach.bienSo}}"
                                    class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
 
                                 <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                        th:data-target="${'#'+taixe.username}">
+                                        th:data-target="${'#delete'+xekhach.bienSo}">
                                     <i class="fas fa-recycle"></i>
                                 </button>
 
                                 <!-- Modal -->
-                                <div class="modal fade" th:id="${taixe.username}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" th:id="${'delete' + xekhach.bienSo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -190,13 +196,14 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <span th:text="${'Tên: ' + taixe.ten}" /><br>
-                                                <span th:text="${'Địa chỉ: ' + taixe.diaChi}" /><br>
-                                                <span th:text="${'Tuổi: ' + taixe.ngaySinh}" /><br>
+                                                <span th:text="${'Tên xe khách: ' + xekhach.tenXeKhach}" /><br>
+                                                <span th:text="${'Màu xe: ' + xekhach.mauXe}" /><br>
+                                                <span th:text="${'Hãng sản xuất: ' + xekhach.hangSanXuat}" /><br>
+                                                <span th:text="${'Đời xe: ' + xekhach.doiXe}" /><br>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                                                <a th:href="@{'/admin/taixe/delete/' + ${taixe.username}}" type="button" class="btn btn-primary">Xác nhận</a>
+                                                <a th:href="@{'/admin/coachs/delete/' + ${xekhach.bienSo}}" type="button" class="btn btn-primary">Xác nhận</a>
                                             </div>
                                         </div>
                                     </div>
@@ -209,6 +216,44 @@
                     </table>
 
                 </div>
+
+<!--                <div class="card-footer text-muted">-->
+
+<!--                    <form action="">-->
+<!--                        <div class="form-inline float-left">-->
+<!--                            <label for="size">Page size: </label>-->
+<!--                            <select name="size" id="size" class="form-control" onchange="this.form.submit()">-->
+<!--                                <option th:selected="${categoryPage.size==5}" value="5">5</option>-->
+<!--                                <option th:selected="${categoryPage.size==10}" value="10">10</option>-->
+<!--                                <option th:selected="${categoryPage.size==15}" value="15">15</option>-->
+<!--                                <option th:selected="${categoryPage.size==20}" value="20">20</option>-->
+<!--                                <option th:selected="${categoryPage.size==30}" value="30">30</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </form>-->
+
+<!--                    <nav aria-label="Page navigation" th:if="${categoryPage.totalPages > 0}">-->
+<!--                        <ul class="pagination justify-content-center">-->
+<!--                            <li th:class="${1== categoryPage.number + 1} ? 'page-item active' : 'page-item'">-->
+<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${1})}"-->
+<!--                                   class="page-link">&laquo;</a>-->
+<!--                            </li>-->
+
+<!--                            <li class="page-item active" th:each="pageNumber : ${pageNumbers}"-->
+<!--                                th:if="${categoryPage.totalPages > 1}"-->
+<!--                                th:class="${pageNumber==categoryPage.number+1} ? 'page-item active' : 'page-item'">-->
+<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${pageNumber})}"-->
+<!--                                   class="page-link" th:text="${pageNumber}"></a>-->
+<!--                            </li>-->
+
+<!--                            <li th:class="${categoryPage.totalPages==categoryPage.number + 1} ? 'page-item active' : 'page-item'">-->
+<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${categoryPage.totalPages})}"-->
+<!--                                   class="page-link">&raquo;</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </nav>-->
+<!--                </div>-->
+
             </div>
         </main>
         <footer class="py-4 bg-light mt-auto">

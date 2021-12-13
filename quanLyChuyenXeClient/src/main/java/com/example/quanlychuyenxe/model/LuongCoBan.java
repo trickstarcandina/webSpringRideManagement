@@ -19,12 +19,18 @@ import java.util.Date;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LuongCoBan extends BaseEntity {
-
+    @NotNull(message = "Thiếu lương")
     private Long luong;
+    @NotNull(message = "Thiếu phụ cấp")
     private Long phuCap;
+    @NotEmpty(message = "Thiếu ghi chú")
     private String ghiChu;
+    @NotNull(message = "Thiếu tháng lương")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
     private Date thangLuong;
-    private TaiXe taiXe;
+    private TaiXe taixe;
     private Boolean isEdit= false;
 
 //    @JsonIgnore

@@ -8,6 +8,6 @@ public interface XeKhachService {
     Response create(XeKhach khachHang);
     Response delete(String bienSo);
     Response searchById(String bienSo);
-    Response showXeKhach(String idTuyenXe, Pageable pageable);
-    Response searchByName(String tenxekhach);
+//    Response showXeKhach(String idTuyenXe, Pageable pageable);
+    Response searchByName(String tenXeKhach);
 }
