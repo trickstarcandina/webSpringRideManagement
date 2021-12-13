@@ -1,10 +1,12 @@
 package com.example.quanlychuyenxe.repositories;
 
 import com.example.quanlychuyenxe.model.ChuyenXe;
+import com.example.quanlychuyenxe.model.request.TKTaiXeRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ChuyenXeRepository extends JpaRepository<ChuyenXe, Integer> {
@@ -34,4 +36,25 @@ public interface ChuyenXeRepository extends JpaRepository<ChuyenXe, Integer> {
     @Modifying
     @Query(value = "INSERT INTO khachhang_chuyenxe (khach_hang_username, chuyenxe_id) VALUES (?, ?)", nativeQuery = true)
     void saveKhachHangChuyenXe(String username, Integer id);
+
+    @Query(value = "SELECT COUNT(*) FROM quanlychuyenxe.chuyenxe WHERE thoi_gian_ket_thuc" +
+            " BETWEEN ? AND ? AND status = 1", nativeQuery = true)
+    Integer getChuyenXe(Date start, Date end);
+
+    @Query(value = "SELECT taixe.ten AS ten, taixe.dia_chi AS diaChi, taixe.ngay_sinh AS ngaySinh, laixe, phuxe FROM quanlychuyenxe.taixe\n" +
+            "LEFT JOIN\n" +
+            "(\n" +
+            "\tSELECT COUNT(*) AS laixe, tai_xe1_username FROM quanlychuyenxe.chuyenxe\n" +
+            "\tgroup by tai_xe1_username\n" +
+            ") AS A\n" +
+            "ON taixe.username = A.tai_xe1_username\n" +
+            "LEFT JOIN\n" +
+            "(\n" +
+            "\tSELECT COUNT(*) AS phuxe, tai_xe2_username FROM quanlychuyenxe.chuyenxe\n" +
+            "\tgroup by tai_xe2_username\n" +
+            ") AS B\n" +
+            "ON taixe.username = B.tai_xe2_username\n" +
+            "ORDER BY ifnull(A.laixe, 0) + ifnull(B.phuxe, 0) DESC\n" +
+            "LIMIT 5", nativeQuery = true)
+    List<Object> getListTaiXe();
 }

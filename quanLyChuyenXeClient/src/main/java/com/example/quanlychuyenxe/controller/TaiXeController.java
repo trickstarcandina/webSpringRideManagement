@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -122,18 +123,25 @@ public class TaiXeController {
     // Chức năng lương
     @GetMapping("xemluong")
     public String showLuong(Model model) {
-        UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchTaiXe")
-                .queryParam("username", taixe.getUsername())
-                .queryParam("status", 1);
-        ResponseBuilder responseBuilder = rest.getForObject(urlBuilder.build().encode().toUri(), ResponseBuilder.class);
-        List<ChuyenXe> listchuyenxe = (List<ChuyenXe>) responseBuilder.getData();
+//        UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchTaiXe")
+//                .queryParam("username", taixe.getUsername())
+//                .queryParam("status", 1);
+//        ResponseBuilder responseBuilder = rest.getForObject(urlBuilder.build().encode().toUri(), ResponseBuilder.class);
+//        List<ChuyenXe> listchuyenxe = (List<ChuyenXe>) responseBuilder.getData();
+//        model.addAttribute("listchuyenxe", listchuyenxe);
         model.addAttribute("taixe", taixe);
-        model.addAttribute("listchuyenxe", listchuyenxe);
         return "taixe/showSalary";
     }
 
     @GetMapping("xemluong/search")
     public String searchLuong(Model model, @RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
+        Date date = new Date();
+        System.out.println(date.getYear());
+        if(thang < 1 || thang > 12 || nam < 2000 || nam > new Date().getYear() + 1900) {
+            model.addAttribute("dangerNotice", "Nhập sai ngày tháng năm!");
+            model.addAttribute("taixe", taixe);
+            return "taixe/showSalary";
+        }
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/tongluong/getLuongTaiXe")
                 .queryParam("username", taixe.getUsername())
                 .queryParam("thang", thang).queryParam("nam", nam);
@@ -143,8 +151,12 @@ public class TaiXeController {
         ObjectMapper mapper = new ObjectMapper();
         LuongTrongThangRequest luongTrongThangRequest = mapper.convertValue(responseEntity.getBody().getData(), LuongTrongThangRequest.class);
 
-        model.addAttribute("listchuyenxe", luongTrongThangRequest.getChuyenXe());
-        model.addAttribute("tongluong", luongTrongThangRequest.getLuong());
+        if(luongTrongThangRequest == null) {
+            model.addAttribute("dangerNotice", "Không có thông tin!");
+        } else {
+            model.addAttribute("listchuyenxe", luongTrongThangRequest.getChuyenXe());
+            model.addAttribute("tongluong", luongTrongThangRequest.getLuong());
+        }
         model.addAttribute("taixe", taixe);
         return "taixe/showSalary";
     }

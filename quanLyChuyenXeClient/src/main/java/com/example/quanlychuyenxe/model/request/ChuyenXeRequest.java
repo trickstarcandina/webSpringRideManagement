@@ -1,9 +1,12 @@
 package com.example.quanlychuyenxe.model.request;
 
+import com.example.quanlychuyenxe.model.KhachHang;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Data
 public class ChuyenXeRequest {
@@ -18,4 +21,6 @@ public class ChuyenXeRequest {
     private Integer tuyen_xe_id;
     private String usernameLaiXe;
     private String usernamePhuXe;
+
+    private Set<KhachHang> khachHangList;
 }

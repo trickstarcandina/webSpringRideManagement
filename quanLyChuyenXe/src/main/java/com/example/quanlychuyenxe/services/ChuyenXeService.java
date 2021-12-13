@@ -11,6 +11,8 @@ public interface ChuyenXeService {
     Response searchById(Integer id);
     Response getAll();
     Response searchByTuyenXe(String diemDau, String diemCuoi);
+    Response thongkeChuyenXe();
+    Response thongkeTaiXe();
 
     // Lái xe
     Response searchLaiXeByStatus(String username, Integer status);
@@ -24,4 +26,5 @@ public interface ChuyenXeService {
     Response update(ChuyenXe chuyenXe);
     Response allKhachHang(Integer id);
     Response updateKhachHang(String username, Integer id);
+
 }

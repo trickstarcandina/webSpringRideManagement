@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
           integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -111,143 +112,73 @@
     </div>
     <div id="layoutSidenav_content">
         <main>
-            <div class="container-fluid px-4">
-                <h1 class="mt-4">Quản lý tuyến xe</h1>
-
-                <div th:if="${deleteNotice != null}" class="alert alert-info" role="alert" th:text="${deleteNotice}">
+            <div class="row" style="margin-top: 30px;">
+                <div class="col-1"></div>
+                <div class="col-5" style="margin-left: -68px !important;">
+                    <div id="top_x_div" style="width: 500px; height: 300px;"></div>
                 </div>
-                <div th:if="${noticeUpdate != null}" class="alert alert-info" role="alert" th:text="${noticeUpdate}">
-                </div>
+            </div>
 
-                <div class="card mb-4">
-                    <div class="row mt-2 mb-2">
-                        <div class="col" style="display: flex; justify-content: space-between;">
-                            <form th:action="@{/admin/carriageways/search}">
-                                <div class="form-inline float-left" style="display: flex">
-                                    <label>Điểm đầu: </label>
-                                    <input type="text" class="form-control ml-2" name="diemDau"
-                                           aria-describedby="helpId">
-
-                                    <label>Điểm cuối: </label>
-                                    <input type="text" class="form-control ml-2" name="diemCuoi"
-                                           aria-describedby="helpId">
-
-                                <button class="btn btn-outline-primary ml-2">Search</button>
-                                </div>
-                            </form>
-                            <div class="float-right">
-                                <a th:href="@{/admin/carriageways/add}" class="btn btn-outline-primary">Thêm tuyến xe</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-<!--                            <div class="alert alert-danger" role="alert">-->
-<!--                                <strong th:if="${!categoryPage.hasContent()}">No Category Found</strong>-->
-<!--                            </div>-->
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-5" style="margin-left: 800px;margin-top: 35px;">
+                    <span style="margin-top: -4px !important;display: flex;justify-content: space-around;">Top 5 tài xế tham gia chuyến xe nhiều nhất</span>
                     <table class="table table-striped table-inverse">
-<!--                        th:if="${categoryPage.hasContent()}"-->
                         <thead class="thead-inverse">
                         <tr>
-                            <th>Điểm đầu</th>
-                            <th>Điểm cuối</th>
-                            <th>Độ dài</th>
-                            <th>Độ phức tạp của tuyến đường</th>
-                            <th></th>
+                            <th>Tên</th>
+                            <th>Địa chỉ</th>
+                            <th>Ngày sinh</th>
+                            <th>Lái xe</th>
+                            <th>Phụ xe</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="tuyenXe : ${listTuyenXe}">
-                            <td scope="row" th:text="${tuyenXe.diemDau}"></td>
-                            <td th:text="${tuyenXe.diemCuoi}"></td>
-                            <td th:text="${tuyenXe.doDai}"></td>
-                            <td th:text="${tuyenXe.doPhucTapCuaTuyenDuong}"></td>
-                            <td>
-<!--                                <a th:href="@{'/admin/categories/view/'}"-->
-<!--                                   class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
-                                <a th:href="@{'/admin/carriageways/edit/' + ${tuyenXe.id}}"
-                                   class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
-
-                                <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                        th:data-target="${'#tuyenXe'+tuyenXe.id}">
-                                    <i class="fas fa-recycle"></i>
-                                </button>
-
-
-                                <!-- Modal -->
-                                <div class="modal fade" th:id="${'tuyenXe'+tuyenXe.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Chắc chắn xóa?</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <span th:text="${'Điểm đầu: ' + tuyenXe.diemDau}" /><br>
-                                                <span th:text="${'Điểm cuối: ' + tuyenXe.diemCuoi}" /><br>
-                                                <span th:text="${'Độ dài: ' + tuyenXe.doDai}" /><br>
-                                                <span th:text="${'Độ phức tạp tuyến đường: ' + tuyenXe.doPhucTapCuaTuyenDuong}" /><br>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                                                <a th:href="@{'/admin/carriageways/delete/' + ${tuyenXe.id}}" type="button" class="btn btn-primary">Xác nhận</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </td>
-
+                        <tr th:each="taixe : ${listtaixe}">
+                            <td th:text="${taixe.ten}"></td>
+                            <td th:text="${taixe.diaChi}"></td>
+                            <td th:text="${taixe.ngaySinh}"></td>
+                            <td th:text="${taixe.laixe}"></td>
+                            <td th:text="${taixe.phuxe}"></td>
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
-
-<!--                <div class="card-footer text-muted">-->
-
-<!--                    <form action="">-->
-<!--                        <div class="form-inline float-left">-->
-<!--                            <label for="size">Page size: </label>-->
-<!--                            <select name="size" id="size" class="form-control" onchange="this.form.submit()">-->
-<!--                                <option th:selected="${categoryPage.size==5}" value="5">5</option>-->
-<!--                                <option th:selected="${categoryPage.size==10}" value="10">10</option>-->
-<!--                                <option th:selected="${categoryPage.size==15}" value="15">15</option>-->
-<!--                                <option th:selected="${categoryPage.size==20}" value="20">20</option>-->
-<!--                                <option th:selected="${categoryPage.size==30}" value="30">30</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </form>-->
-
-<!--                    <nav aria-label="Page navigation" th:if="${categoryPage.totalPages > 0}">-->
-<!--                        <ul class="pagination justify-content-center">-->
-<!--                            <li th:class="${1== categoryPage.number + 1} ? 'page-item active' : 'page-item'">-->
-<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${1})}"-->
-<!--                                   class="page-link">&laquo;</a>-->
-<!--                            </li>-->
-
-<!--                            <li class="page-item active" th:each="pageNumber : ${pageNumbers}"-->
-<!--                                th:if="${categoryPage.totalPages > 1}"-->
-<!--                                th:class="${pageNumber==categoryPage.number+1} ? 'page-item active' : 'page-item'">-->
-<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${pageNumber})}"-->
-<!--                                   class="page-link" th:text="${pageNumber}"></a>-->
-<!--                            </li>-->
-
-<!--                            <li th:class="${categoryPage.totalPages==categoryPage.number + 1} ? 'page-item active' : 'page-item'">-->
-<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${categoryPage.totalPages})}"-->
-<!--                                   class="page-link">&raquo;</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </nav>-->
-<!--                </div>-->
-
             </div>
         </main>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" th:inline="javascript">
+            google.charts.load('current', {'packages':['bar']});
+            google.charts.setOnLoadCallback(drawStuff);
+
+            function drawStuff() {
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Thời gian');
+                data.addColumn('number', 'Số lượng');
+                data.addRows([[${chartData}]]);
+
+                var options = {
+                    width: 600,
+                    legend: { position: 'none' },
+                    chart: {
+                        // title: 'Chess opening moves',
+                        // subtitle: 'popularity by percentage'
+                    },
+                    axes: {
+                        x: {
+                            0: { side: 'bottom', label: 'Số chuyến xe chạy trong 5 tuần gần nhất'} // Top x-axis.
+                        }
+                    },
+                    bar: { groupWidth: "90%" }
+                };
+
+                var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+                // Convert the Classic options to Material options.
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+            };
+        </script>
+
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-between small">
@@ -261,6 +192,8 @@
             </div>
         </footer>
     </div>
+
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script th:src="@{../js/scripts.js}"></script>

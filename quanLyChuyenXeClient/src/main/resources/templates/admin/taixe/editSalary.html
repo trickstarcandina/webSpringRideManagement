@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Tables - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+    <link th:href="@{../css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+          integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="sb-nav-fixed">
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+
+            <h1 class="mt-4" style="text-align: center;margin-bottom: 24px;">Lương cơ bản của tài xế</h1>
+            <div class="col-6 offset-3 mt-4">
+                <div class="card mb-4">
+
+                    <div th:if="${noticeSuccess != null}" class="alert alert-success" role="alert" th:text="${noticeSuccess}">
+                    </div>
+                    <div th:if="${noticeDanger != null}" class="alert alert-danger" role="alert" th:text="${noticeDanger}">
+                    </div>
+
+                    <form th:action="@{/admin/taixe/editLuong/save}"
+                          th:object="${luongcoban}" method="POST">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 th:text="${luongcoban.isEdit ? 'Cập nhật thông tin lương' : 'Thêm thông tin lương'}" />
+                            </div>
+
+                            <div class="card-body">
+
+                                <input th:value="*{id}" type="hidden"
+                                       class="form-control" name="id" aria-describedby="usernameId" placeholder="" readonly >
+
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input th:value="*{username}" type="text"
+                                           class="form-control" name="username" aria-describedby="usernameId" placeholder="" readonly >
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Lương</label>
+                                    <input th:value="*{luong}" type="number"
+                                           class="form-control" name="luong" aria-describedby="luongId" placeholder=""  >
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Phụ cấp</label>
+                                    <input th:value="*{phuCap}" type="number"
+                                           class="form-control" name="phuCap" aria-describedby="usernameId" placeholder=""  >
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Ghi chú</label>
+                                    <input th:value="*{ghiChu}" type="text"
+                                           class="form-control" name="ghiChu" aria-describedby="usernameId" placeholder=""  >
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Tháng lương</label>
+                                    <input th:value="${#dates.format(luongcoban.thangLuong, 'dd/MM/yyyy')}" type="text"
+                                           class="form-control" name="thangLuong" aria-describedby="usernameId" placeholder="" readonly>
+                                </div>
+                            </div>
+
+                            <div class="card-footer text-muted">
+                                <button type="reset" class="btn btn-outline-dark">Reset</button>
+                                <a th:href="@{/admin/taixe}" class="btn btn-secondary">Quay lại</a>
+                                <button class="btn btn-primary">Lưu</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script th:src="@{../js/scripts.js}"></script>
+<script th:src="@{js/scripts.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script th:src="@{../js/datatables-simple-demo.js}"></script>
+<script th:src="@{js/datatables-simple-demo.js}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
