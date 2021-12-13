@@ -76,6 +76,19 @@
                         </nav>
                     </div>
 
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#coachs" aria-expanded="false"
+                       aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="far fa-compass"></i></div>
+                        Xe khách
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="coachs" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" th:href="@{/admin/coachs}">Tìm kiếm</a>
+                            <a class="nav-link" th:href="@{/admin/coachs/add}">Thêm</a>
+                        </nav>
+                    </div>
+
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#chuyenxe" aria-expanded="false"
                        aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i class="fas fa-bus-alt"></i></div>
