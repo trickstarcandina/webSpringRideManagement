@@ -24,7 +24,7 @@ public class LuongCoBan extends BaseEntity {
     private Long phuCap;
     private String ghiChu;
     private Date thangLuong;
-    private String cmtTaiXe;
+    private TaiXe taiXe;
     private Boolean isEdit= false;
 
 //    @JsonIgnore

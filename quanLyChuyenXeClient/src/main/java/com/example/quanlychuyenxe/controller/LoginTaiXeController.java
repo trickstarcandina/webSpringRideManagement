@@ -47,6 +47,6 @@ public class LoginTaiXeController {
             System.out.println(e);
         }
         model.addAttribute("notice", fail);
-        return "logintaixe";
+        return "redirect:/logintaixe";
     }
 }

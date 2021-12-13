@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
 
 <head>
   <title>Sidebar 01</title>
@@ -17,9 +17,9 @@
         integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
+<body style="height: 100%;">
 
-<div class="wrapper d-flex align-items-stretch">
+<div style="height: 100%;" class="wrapper d-flex align-items-stretch">
   <nav id="sidebar">
     <div class="p-4 pt-5">
       <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(/images/logo.jpg);margin-bottom: 20px !important;"></a>
@@ -32,6 +32,8 @@
           <a th:href="@{/khachhang/chonchuyenxe}">Đăng ký chuyến xe</a>
         </li>
       </ul>
+
+      <a class="btn btn-success" th:href="@{/logout/khachhang}" style="padding: 11px 25px;margin-left: 58px;margin-bottom: 55px;">Đăng xuất</a>
 
       <div class="footer" style="color: #d1cfcf;">
         <span>Liên lạc,</span><br>

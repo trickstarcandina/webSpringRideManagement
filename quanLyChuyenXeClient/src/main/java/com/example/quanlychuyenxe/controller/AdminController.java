@@ -1,33 +1,30 @@
 package com.example.quanlychuyenxe.controller;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
-import com.example.quanlychuyenxe.model.ChuyenXe;
-import com.example.quanlychuyenxe.model.KhachHang;
-import com.example.quanlychuyenxe.model.LuongCoBan;
-import com.example.quanlychuyenxe.model.TaiXe;
+import com.example.quanlychuyenxe.model.*;
 import com.example.quanlychuyenxe.model.request.LuongCoBanRequest;
 import com.example.quanlychuyenxe.model.request.LuongTrongThangRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.example.quanlychuyenxe.model.TuyenXe;
+import com.example.quanlychuyenxe.model.request.TKChuyenXeRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.ReferenceType;
-import org.springframework.http.*;
+import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.ObjectUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import java.net.URI;
 
 @Controller
 @RequestMapping("admin")
@@ -85,10 +82,6 @@ public class AdminController {
         if(errors.hasErrors()) {
             return "admin/carriageways/search";
         }
-//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/admin/updateTuyenXe/{idTuyenXe}");
-//        Map<String, Integer> maps = new HashMap<>();
-//        maps.put("idTuyenXe", tuyenXe.getId());
-
 
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateTuyenXe/" + tuyenXe.getId(),
                 HttpMethod.PUT, new HttpEntity<>(tuyenXe, null), ResponseBuilder.class);
@@ -175,6 +168,7 @@ public class AdminController {
             model.addAttribute("khachhang", khachHang);
             return "admin/khachhang/addOrEdit";
         }
+
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateKhachHang/"
                         + khachHang.getUsername(), HttpMethod.PUT, new HttpEntity<>(khachHang, null), ResponseBuilder.class);
         String noticeUpdate = "";
@@ -198,7 +192,7 @@ public class AdminController {
         KhachHang khachhang = objectMapper.convertValue(builder.getData(), KhachHang.class);
         String notice = "";
         if(!ObjectUtils.isEmpty(khachhang)) {
-            notice = "Thẻ căn cước công dân đã tồn tại!";
+            notice = "Username đã tồn tại!";
         } else {
             ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/addKhachHang",
                     HttpMethod.POST, new HttpEntity<>(khachHang, null), ResponseBuilder.class);
@@ -326,7 +320,7 @@ public class AdminController {
 
     @GetMapping("thongke/luong/search")
     public String searchLuong(Model model, @RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
-        if (thang < 1 || nam < 2000 || thang > 12 || nam > 2030) {
+        if (thang < 1 || nam < 2000 || thang > 12 || nam > new Date().getYear() + 1900) {
             model.addAttribute("dangerNotice", "Nhập sai tháng và năm");
         } else {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/admin/thongke/luongtaixe")
@@ -345,5 +339,42 @@ public class AdminController {
         }
 
         return "admin/thongke/salaryDriver";
+    }
+
+    @GetMapping("thongke/chuyenxe")
+    public String chart(Model model) {
+        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/thongke/chuyenxe", ResponseBuilder.class);
+        ObjectMapper mapper = new ObjectMapper();
+        List<TKChuyenXeRequest> result = mapper.convertValue(builder.getData(), new TypeReference<List<TKChuyenXeRequest>>() {});
+
+        ResponseBuilder tkTaiXebuilder = rest.getForObject("http://localhost:8080/api/admin/thongke/taixe", ResponseBuilder.class);
+        List<Object> listObject = (List<Object>) tkTaiXebuilder.getData();
+        List<TaiXeDto> taiXeDtos = new ArrayList<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (int i = 0; i < listObject.size(); i++) {
+            String str = listObject.get(i).toString();
+            str = str.substring(1, str.length()-1);
+            String[] array = str.split(",");
+            TaiXeDto taiXeDto = new TaiXeDto();
+            taiXeDto.setTen(array[0].trim());
+            taiXeDto.setDiaChi(array[1].trim());
+            taiXeDto.setNgaySinh(StringUtils.reverse(array[2].trim()).replaceAll("-", "/"));
+            if(!array[3].trim().equals("null")) {
+                taiXeDto.setLaixe(Integer.parseInt(array[3].trim()));
+            }
+            if(!array[4].trim().equals("null")) {
+                taiXeDto.setPhuxe(Integer.parseInt(array[4].trim()));
+            }
+            taiXeDtos.add(taiXeDto);
+        }
+
+        List<Object> list = new ArrayList<>();
+        for(TKChuyenXeRequest i : result) {
+            list.add(List.of(i.getDate(), i.getSoluong()));
+        }
+
+        model.addAttribute("chartData", list);
+        model.addAttribute("listtaixe", taiXeDtos);
+        return "admin/thongke/trip";
     }
 }

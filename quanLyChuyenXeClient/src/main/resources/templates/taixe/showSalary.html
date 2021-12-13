@@ -36,6 +36,8 @@
         </li>
       </ul>
 
+      <a class="btn btn-success" th:href="@{/logout/taixe}" style="padding: 11px 25px;margin-left: 58px;margin-bottom: 55px;">Đăng xuất</a>
+
       <div class="footer" style="color: #d1cfcf;">
         <span>Liên lạc,</span><br>
         <span>Sđt: 0954983728</span><br>
@@ -51,8 +53,9 @@
     <div class="container-fluid px-4">
       <h1 class="mt-4 mb-4">Xem thông tin lương</h1>
 
-      <div th:if="${notice != null}" class="alert alert-info" role="alert" th:text="${notice}">
+      <div th:if="${dangerNotice != null}" class="alert alert-danger" role="alert" th:text="${dangerNotice}">
       </div>
+
 
       <div class="card mb-4">
         <div class="row mt-2 mb-2">
@@ -60,10 +63,10 @@
             <form th:action="@{/taixe/xemluong/search}">
               <div class="form-inline float-left" style="display: flex">
                 <label class="ml-4">Nhập tháng: </label>
-                <input type="number" class="form-control ml-2" name="thang" id="thang" describedby="thangId">
+                <input type="number" class="form-control ml-2" name="thang" id="thang" describedby="thangId" required>
 
                 <label class="ml-4">Nhập năm: </label>
-                <input type="number" class="form-control ml-2" name="nam" id="nam" aria-describedby="helpId">
+                <input type="number" class="form-control ml-2" name="nam" id="nam" aria-describedby="helpId" required>
 
                 <button class="btn btn-outline-primary ml-4">Tìm kiếm</button>
               </div>
@@ -90,8 +93,8 @@
               <td th:text="${chuyenxe.xeKhach.tenXeKhach}"></td>
               <td th:text="${chuyenxe.tuyenXe.diemDau + ' - ' + chuyenxe.tuyenXe.diemCuoi}"></td>
               <td th:text="${chuyenxe.giaVe}"></td>
-              <td th:text="${chuyenxe.thoiGianKhoiHanh}"></td>
-              <td th:text="${chuyenxe.thoiGianKetThuc}"></td>
+              <td th:text="${#dates.format(chuyenxe.thoiGianKhoiHanh, 'HH:mm dd-MMM-yyyy')}"></td>
+              <td th:text="${#dates.format(chuyenxe.thoiGianKetThuc, 'HH:mm dd-MMM-yyyy')}"></td>
               <td th:text="${(chuyenxe.taiXe1.username == taixe.username) ? 'Lái xe' : 'Phụ xe'}"></td>
               <td></td>
             </tr>
@@ -99,7 +102,9 @@
           </table>
         </div>
 
-        <div><h4 class="float-right" style="margin-top: 56px;" th:text="${'Tổng lương: ' + tongluong}"></h4></div>
+        <div th:if="${listchuyenxe != null}">
+          <h4 class="float-right" style="margin-top: 56px;" th:text="${'Tổng lương: ' + tongluong}"></h4>
+        </div>
       </div>
 
     </div>
