@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title Page-->
+    <title>Au Register Forms by Colorlib</title>
+
+    <!-- Icons font CSS-->
+    <link th:href="@{../vendor/formregister/mdi-font/css/material-design-iconic-font.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/formregister/font-awesome-4.7/css/font-awesome.min.css}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link th:href="@{../https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i}" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link th:href="@{../vendor/formregister/select2/select2.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/formregister/datepicker/daterangepicker.css}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link th:href="@{../css/formregister/main.css}" rel="stylesheet" media="all">
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w780">
+            <div class="card card-3">
+                <div class="card-heading"></div>
+                <div class="card-body">
+                    <h2 class="title">Registration Info</h2>
+                    <form method="POST" th:object="${khachhangRequest}" th:action="@{/khachhang/registersuccess}">
+                        <div class="input-group">
+                            <input class="input--style-3" type="text" placeholder="Họ tên" name="name" th:field="*{ten}">
+                        </div>
+<!--                        <div class="input-group">-->
+<!--                            <input class="input&#45;&#45;style-3 js-datepicker" type="text" placeholder="Birthdate" name="birthday">-->
+<!--                            <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>-->
+<!--                        </div>-->
+<!--                        <div class="input-group">-->
+<!--                            <div class="rs-select2 js-select-simple select&#45;&#45;no-search">-->
+<!--                                <select name="gender">-->
+<!--                                    <option disabled="disabled" selected="selected">Gender</option>-->
+<!--                                    <option>Male</option>-->
+<!--                                    <option>Female</option>-->
+<!--                                    <option>Other</option>-->
+<!--                                </select>-->
+<!--                                <div class="select-dropdown"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="input-group">
+                            <input class="input--style-3" type="text" placeholder="Địa chỉ" name="address" th:field="*{diaChi}">
+                        </div>
+                        <div class="input-group">
+                            <input class="input--style-3" type="text" placeholder="Tuổi" name="old" th:field="*{tuoi}">
+                        </div>
+                        <div class="input-group">
+                            <input class="input--style-3" type="text" placeholder="Username" name="usernam" th:field="*{username}">
+                        </div>
+                        <div class="input-group">
+                            <input class="input--style-3" type="text" placeholder="Password" name="password" th:field="*{password}">
+                        </div>
+                        <div class="p-t-10">
+                            <button class="btn btn--pill btn--green" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery JS-->
+    <script th:src="@{../vendor/formregister/jquery/jquery.min.js}"></script>
+    <!-- Vendor JS-->
+    <script th:src="@{../vendor/formregister/select2/select2.min.js}"></script>
+    <script th:src="@{../vendor/formregister/datepicker/moment.min.js}"></script>
+    <script th:src="@{../vendor/formregister/datepicker/daterangepicker.js}"></script>
+
+    <!-- Main JS-->
+    <script th:src="@{../js/formregister/global.js}"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->
