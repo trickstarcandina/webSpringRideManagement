@@ -54,14 +54,9 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public Response update(KhachHang khachHang) {
         if (khachHang.getUsername() != null) {
-            Set<ChuyenXe> chuyenXeList = (Set<ChuyenXe>) getKhachHangChuyenXe(khachHang.getUsername()).build().getData();
-            KhachHang save = khachHangRepository.save(khachHang);
-            if(chuyenXeList != null) {
-                for (ChuyenXe i : chuyenXeList) {
-                    chuyenXeRepository.saveKhachHangChuyenXe(khachHang.getUsername(), i.getId());
-                }
-            }
-            return ResponseBuilder.ok(save);
+            khachHangRepository.updateUser(khachHang.getPassword(), khachHang.getDiaChi(), khachHang.getGhiChu(),
+                    khachHang.getTen(), khachHang.getTuoi(), khachHang.getUsername());
+            return ResponseBuilder.ok(200, "Success!!");
         }
         return ResponseBuilder.ok(100, "Error");
     }

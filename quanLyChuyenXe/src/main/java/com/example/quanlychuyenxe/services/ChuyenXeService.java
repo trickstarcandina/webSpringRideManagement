@@ -27,4 +27,5 @@ public interface ChuyenXeService {
     Response allKhachHang(Integer id);
     Response updateKhachHang(String username, Integer id);
 
+    Response updateChuyenXe(ChuyenXeRequest chuyenXeRequest);
 }

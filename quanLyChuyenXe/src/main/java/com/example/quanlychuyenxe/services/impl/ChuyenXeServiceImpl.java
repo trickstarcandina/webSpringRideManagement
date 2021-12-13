@@ -194,4 +194,17 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
             return ResponseBuilder.ok(100, "Error");
         }
     }
+
+    @Override
+    public Response updateChuyenXe(ChuyenXeRequest chuyenXeRequest) {
+        try {
+            chuyenXeRepository.updateChuyenXe(chuyenXeRequest.getGiaVe(), chuyenXeRequest.getUsernameLaiXe(),
+                    chuyenXeRequest.getUsernamePhuXe(), chuyenXeRequest.getTuyen_xe_id(),
+                    chuyenXeRequest.getXe_khach_bien_so(), chuyenXeRequest.getId());
+            return ResponseBuilder.ok(200, "Success");
+        } catch (Exception e) {
+            return ResponseBuilder.ok(200, "Success");
+        }
+
+    }
 }
