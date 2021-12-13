@@ -30,7 +30,7 @@ public class LuongCoBan extends BaseEntity {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
     private Date thangLuong;
-    private String cmtTaiXe;
+    private TaiXe taixe;
     private Boolean isEdit= false;
 
 //    @JsonIgnore

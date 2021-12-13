@@ -369,6 +369,32 @@ public class AdminController {
         return "admin/taixe/addOrEdit";
     }
 
+    @GetMapping("taixe/addLuong/{username}")
+    public String themLuong(Model model, @PathVariable("username") String username) {
+        LuongCoBan luongCoBan = new LuongCoBan ();
+        TaiXe newTaiXe = new TaiXe();
+        newTaiXe.setUsername (username);
+        luongCoBan.setTaixe (newTaiXe);
+        model.addAttribute ("luongCoBan", luongCoBan);
+        return "admin/taixe/editSalary";
+    }
+
+    @PostMapping("taixe/saveLuong/{username}")
+    public String saveLuongCoBan(Model model, @Valid @ModelAttribute("luongcoban") LuongCoBan luongCoBan, Errors errors) {
+        if(errors.hasErrors()) {
+            model.addAttribute("noticeDanger", "Lỗi!!!");
+            return "admin/taixe/editSalary";
+        }
+        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/taixe/saveLuong/{username}",
+                HttpMethod.POST, new HttpEntity<>(luongCoBan, null), ResponseBuilder.class);
+        if(responseEntity.getBody().getStatus() != 200) {
+            model.addAttribute("noticeDanger", responseEntity.getBody().getMessage());
+        } else {
+            model.addAttribute("noticeSuccess", "Thành công!!!");
+        }
+        return "admin/taixe/editSalary";
+    }
+
     // Thống kê
     @GetMapping("thongke/luong")
     public String homeTKLuong() {
@@ -403,6 +429,8 @@ public class AdminController {
     public String homeSalary() {
         return "redirect:salarys/search?name=";
     }
+
+
 
 //    @GetMapping("salarys/search")
 //    public String searchSalary(ModelMap model, @RequestParam("name") String name) {

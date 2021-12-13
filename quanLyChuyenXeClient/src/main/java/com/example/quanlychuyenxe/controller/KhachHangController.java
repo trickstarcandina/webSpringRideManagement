@@ -26,14 +26,14 @@ public class KhachHangController {
 
     private KhachHang khachhang;
 
-    public KhachHangController() {
-        String username = "khachhang1";
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showKhachHang/{username}",
-                ResponseBuilder.class, username);
-        ObjectMapper objectMapper = new ObjectMapper();
-        KhachHang khachHang = objectMapper.convertValue(builder.getData(), KhachHang.class);
-        this.khachhang = khachHang;
-    }
+//    public KhachHangController() {
+//        String username = "khachhang1";
+//        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showKhachHang/{username}",
+//                ResponseBuilder.class, username);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        KhachHang khachHang = objectMapper.convertValue(builder.getData(), KhachHang.class);
+//        this.khachhang = khachHang;
+//    }
 
     @GetMapping("")
     private String home(Model model) {
