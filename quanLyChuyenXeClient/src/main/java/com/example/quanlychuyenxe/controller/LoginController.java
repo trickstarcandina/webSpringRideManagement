@@ -52,7 +52,7 @@ public class LoginController {
             System.out.println(e);
         }
         model.addAttribute("notice", fail);
-        return "login";
+        return "redirect:/login";
     }
 
 }

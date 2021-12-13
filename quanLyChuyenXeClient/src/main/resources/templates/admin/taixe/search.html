@@ -97,9 +97,9 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                         Lương tài xế
                     </a>
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link" th:href="@{/admin/thongke/chuyenxe}">
                         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                        Charts
+                        Biểu đồ
                     </a>
                 </div>
             </div>
@@ -168,8 +168,9 @@
                             <td th:text="${taixe.ngaySinh}"></td>
                             <td th:text="${taixe.thamNien}"></td>
                             <td>
-<!--                                <a href="#"-->
-<!--                                   class="btn btn-outline-info"><i class="fas fa-info"></i></a>-->
+                                <a th:href="@{'/admin/taixe/editLuong/' + ${taixe.username}}"
+                                   class="btn btn-outline-info"><i class="fas fa-money-bill"></i></a>
+
                                 <a th:href="@{'/admin/taixe/edit/' + ${taixe.username}}"
                                    class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
 
@@ -208,44 +209,6 @@
                     </table>
 
                 </div>
-
-<!--                <div class="card-footer text-muted">-->
-
-<!--                    <form action="">-->
-<!--                        <div class="form-inline float-left">-->
-<!--                            <label for="size">Page size: </label>-->
-<!--                            <select name="size" id="size" class="form-control" onchange="this.form.submit()">-->
-<!--                                <option th:selected="${categoryPage.size==5}" value="5">5</option>-->
-<!--                                <option th:selected="${categoryPage.size==10}" value="10">10</option>-->
-<!--                                <option th:selected="${categoryPage.size==15}" value="15">15</option>-->
-<!--                                <option th:selected="${categoryPage.size==20}" value="20">20</option>-->
-<!--                                <option th:selected="${categoryPage.size==30}" value="30">30</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </form>-->
-
-<!--                    <nav aria-label="Page navigation" th:if="${categoryPage.totalPages > 0}">-->
-<!--                        <ul class="pagination justify-content-center">-->
-<!--                            <li th:class="${1== categoryPage.number + 1} ? 'page-item active' : 'page-item'">-->
-<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${1})}"-->
-<!--                                   class="page-link">&laquo;</a>-->
-<!--                            </li>-->
-
-<!--                            <li class="page-item active" th:each="pageNumber : ${pageNumbers}"-->
-<!--                                th:if="${categoryPage.totalPages > 1}"-->
-<!--                                th:class="${pageNumber==categoryPage.number+1} ? 'page-item active' : 'page-item'">-->
-<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${pageNumber})}"-->
-<!--                                   class="page-link" th:text="${pageNumber}"></a>-->
-<!--                            </li>-->
-
-<!--                            <li th:class="${categoryPage.totalPages==categoryPage.number + 1} ? 'page-item active' : 'page-item'">-->
-<!--                                <a th:href="@{/admin/categories/searchpaginated(name=${name}, size=${categoryPage.size}, page=${categoryPage.totalPages})}"-->
-<!--                                   class="page-link">&raquo;</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </nav>-->
-<!--                </div>-->
-
             </div>
         </main>
         <footer class="py-4 bg-light mt-auto">
