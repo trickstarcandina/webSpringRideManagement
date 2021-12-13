@@ -325,20 +325,10 @@ public class ChuyenXeController {
             chuyenXeRequest.setUsernamePhuXe(editChuyenXe.getTaiXe2().getUsername());
         }
 
-        ResponseBuilder chuyenxeBuilder = rest.getForObject("http://localhost:8080/api/chuyenxe/allkhachhang/{id}",
-                ResponseBuilder.class, editChuyenXe.getId());
-        ObjectMapper objectMapper = new ObjectMapper();
-        ChuyenXe chuyenXe = objectMapper.convertValue(chuyenxeBuilder.getData(), ChuyenXe.class);
-        chuyenXeRequest.setKhachHangList(chuyenXe.getKhachHangList());
-        chuyenXeRequest.setSoLuongHanhKhach(chuyenXe.getKhachHangList().size());
-
         ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/updateChuyenXe?id="
                  + editChuyenXe.getId(), HttpMethod.PUT, new HttpEntity<>(chuyenXeRequest, null), ResponseBuilder.class);
 
-
-
         editChuyenXe = null;
-        chuyenXeRequest = null;
         model.addAttribute("notice", notice);
         return "admin/chuyenxe/search";
     }

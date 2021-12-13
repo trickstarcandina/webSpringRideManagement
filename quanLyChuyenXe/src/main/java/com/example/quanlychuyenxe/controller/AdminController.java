@@ -202,7 +202,7 @@ public class AdminController {
     @PutMapping("/updateChuyenXe")
     public ResponseEntity updateChuyenXe(@RequestParam("id") Integer id, @RequestBody ChuyenXeRequest chuyenXeRequest) {
         chuyenXeRequest.setId(id);
-        return ResponseEntity.ok().body(chuyenXeService.create(chuyenXeRequest).build());
+        return ResponseEntity.ok().body(chuyenXeService.updateChuyenXe(chuyenXeRequest).build());
     }
 
     // Thong ke tong luong
