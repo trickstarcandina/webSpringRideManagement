@@ -2,12 +2,13 @@ package com.example.quanlychuyenxe.services;
 
 import com.example.quanlychuyenxe.base.response.Response;
 import com.example.quanlychuyenxe.model.LuongCoBan;
+import com.example.quanlychuyenxe.model.request.LuongCoBanRequest;
 
 public interface LuongCoBanService {
-    Response create(LuongCoBan luongCoBan);
+    Response create(LuongCoBanRequest luongCoBanRequest);
     Response delete(Integer id);
     Response searchById(Integer id);
-    Response searchByLuong(Long luong);
+    Response findLuongByTaiXe(String username);
 
     Response findLaterLuong(String username);
 }

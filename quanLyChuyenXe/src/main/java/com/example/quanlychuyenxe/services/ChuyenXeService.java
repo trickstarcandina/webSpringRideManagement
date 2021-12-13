@@ -1,6 +1,7 @@
 package com.example.quanlychuyenxe.services;
 
 import com.example.quanlychuyenxe.base.response.Response;
+import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
 
 public interface ChuyenXeService {
@@ -10,6 +11,8 @@ public interface ChuyenXeService {
     Response searchById(Integer id);
     Response getAll();
     Response searchByTuyenXe(String diemDau, String diemCuoi);
+    Response thongkeChuyenXe();
+    Response thongkeTaiXe();
 
     // Lái xe
     Response searchLaiXeByStatus(String username, Integer status);
@@ -20,4 +23,8 @@ public interface ChuyenXeService {
 
     // Khách hàng
     Response findChuyenXeByStatus(String diemDau, String diemCuoi, Integer status);
+    Response update(ChuyenXe chuyenXe);
+    Response allKhachHang(Integer id);
+    Response updateKhachHang(String username, Integer id);
+
 }

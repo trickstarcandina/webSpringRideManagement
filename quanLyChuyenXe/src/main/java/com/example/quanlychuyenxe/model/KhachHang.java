@@ -1,12 +1,12 @@
 package com.example.quanlychuyenxe.model;
 
 import com.example.quanlychuyenxe.base.entity.BaseEntityUser;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "khachhang")
@@ -19,9 +19,12 @@ public class KhachHang extends BaseEntityUser {
     private Integer tuoi;
     private String ghiChu;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "khachhang_chuyenxe",
-            joinColumns = @JoinColumn(name = "cmtKhachHang"),
+            joinColumns = @JoinColumn(name = "khach_hang_username"),
             inverseJoinColumns = @JoinColumn(name = "chuyenxe_id"))
-    private List<ChuyenXe> chuyenXeList;
+    private Set<ChuyenXe> chuyenXeList;
 }

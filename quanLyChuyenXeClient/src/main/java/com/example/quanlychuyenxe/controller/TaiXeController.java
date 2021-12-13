@@ -2,6 +2,7 @@ package com.example.quanlychuyenxe.controller;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
 import com.example.quanlychuyenxe.model.ChuyenXe;
+import com.example.quanlychuyenxe.model.KhachHang;
 import com.example.quanlychuyenxe.model.TaiXe;
 import com.example.quanlychuyenxe.model.TongLuong;
 import com.example.quanlychuyenxe.model.request.LuongTrongThangRequest;
@@ -9,6 +10,7 @@ import com.example.quanlychuyenxe.model.request.TongLuongRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("taixe")
@@ -31,17 +36,17 @@ public class TaiXeController {
 
     private TaiXe taixe;
 
-    public TaiXeController() {
-        String username = "taixe2";
-        ResponseBuilder builder = rest.getForObject("http://localhost:8080/api/admin/showTaiXe/{username}",
-                ResponseBuilder.class, username);
-        ObjectMapper objectMapper = new ObjectMapper();
-        TaiXe taiXe = objectMapper.convertValue(builder.getData(), TaiXe.class);
-        this.taixe = taiXe;
-    }
-
     @GetMapping("")
-    private String home(Model model) {
+    private String home(Model model, HttpSession session) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization",  session.getAttribute("Token").toString());
+
+        ResponseEntity responseEntity = rest.exchange("http://localhost:8080/api/taixe", HttpMethod.GET,
+                new HttpEntity<>(null,httpHeaders), Map.class);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        taixe = objectMapper.convertValue(responseEntity.getBody(), TaiXe.class);
+
         UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchTaiXe")
                 .queryParam("username", taixe.getUsername())
                 .queryParam("status", 0);
@@ -118,18 +123,25 @@ public class TaiXeController {
     // Chức năng lương
     @GetMapping("xemluong")
     public String showLuong(Model model) {
-        UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchTaiXe")
-                .queryParam("username", taixe.getUsername())
-                .queryParam("status", 1);
-        ResponseBuilder responseBuilder = rest.getForObject(urlBuilder.build().encode().toUri(), ResponseBuilder.class);
-        List<ChuyenXe> listchuyenxe = (List<ChuyenXe>) responseBuilder.getData();
+//        UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/chuyenxe/searchTaiXe")
+//                .queryParam("username", taixe.getUsername())
+//                .queryParam("status", 1);
+//        ResponseBuilder responseBuilder = rest.getForObject(urlBuilder.build().encode().toUri(), ResponseBuilder.class);
+//        List<ChuyenXe> listchuyenxe = (List<ChuyenXe>) responseBuilder.getData();
+//        model.addAttribute("listchuyenxe", listchuyenxe);
         model.addAttribute("taixe", taixe);
-        model.addAttribute("listchuyenxe", listchuyenxe);
         return "taixe/showSalary";
     }
 
     @GetMapping("xemluong/search")
     public String searchLuong(Model model, @RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
+        Date date = new Date();
+        System.out.println(date.getYear());
+        if(thang < 1 || thang > 12 || nam < 2000 || nam > new Date().getYear() + 1900) {
+            model.addAttribute("dangerNotice", "Nhập sai ngày tháng năm!");
+            model.addAttribute("taixe", taixe);
+            return "taixe/showSalary";
+        }
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/api/tongluong/getLuongTaiXe")
                 .queryParam("username", taixe.getUsername())
                 .queryParam("thang", thang).queryParam("nam", nam);
@@ -139,8 +151,12 @@ public class TaiXeController {
         ObjectMapper mapper = new ObjectMapper();
         LuongTrongThangRequest luongTrongThangRequest = mapper.convertValue(responseEntity.getBody().getData(), LuongTrongThangRequest.class);
 
-        model.addAttribute("listchuyenxe", luongTrongThangRequest.getChuyenXe());
-        model.addAttribute("tongluong", luongTrongThangRequest.getLuong());
+        if(luongTrongThangRequest == null) {
+            model.addAttribute("dangerNotice", "Không có thông tin!");
+        } else {
+            model.addAttribute("listchuyenxe", luongTrongThangRequest.getChuyenXe());
+            model.addAttribute("tongluong", luongTrongThangRequest.getLuong());
+        }
         model.addAttribute("taixe", taixe);
         return "taixe/showSalary";
     }

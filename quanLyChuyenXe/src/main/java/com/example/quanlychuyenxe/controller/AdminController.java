@@ -1,8 +1,10 @@
 package com.example.quanlychuyenxe.controller;
 
 
+import com.example.quanlychuyenxe.dto.AuthenticationRequest;
 import com.example.quanlychuyenxe.model.*;
 import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
+import com.example.quanlychuyenxe.model.request.LuongCoBanRequest;
 import com.example.quanlychuyenxe.services.*;
 
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
@@ -16,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/admin")
 @AllArgsConstructor
@@ -28,6 +32,7 @@ public class AdminController {
     private TaiXeService taiXeService;
     private ChuyenXeService chuyenXeService;
     private TongLuongService tongLuongService;
+    private AdminService adminService;
 
     private BCryptPasswordEncoder encoder;
 
@@ -76,7 +81,8 @@ public class AdminController {
     @PutMapping("/updateKhachHang/{username}")
     public ResponseEntity updateKhachHang(@PathVariable("username") String username, @RequestBody KhachHang khachHang) {
         if (khachHang.getUsername().equals(username)) {
-            return ResponseEntity.ok().body(khachHangService.create(khachHang).build());
+            khachHang.setPassword(encoder.encode(khachHang.getPassword()));
+            return ResponseEntity.ok().body(khachHangService.update(khachHang).build());
         }
         throw new IllegalStateException("Error");
     }
@@ -106,6 +112,7 @@ public class AdminController {
     @PutMapping("/updateTaiXe/{username}")
     public ResponseEntity updateTaiXe(@PathVariable("username") String username, @RequestBody TaiXe taiXe) {
         if (taiXe.getUsername().equals(username)) {
+            taiXe.setPassword(encoder.encode(taiXe.getPassword()));
             return ResponseEntity.ok().body(taiXeService.update(taiXe).build());
         }
         throw new IllegalStateException("Error");
@@ -148,33 +155,27 @@ public class AdminController {
     }
 
     // luong co ban
-
     @PostMapping("/addLuongCoBan")
-    public ResponseEntity addLuongCoBan(@RequestBody LuongCoBan luongCoBan) {
-        return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
+    public ResponseEntity addLuongCoBan(@RequestBody LuongCoBanRequest luongCoBanRequest) {
+        return ResponseEntity.ok().body(luongCoBanService.create(luongCoBanRequest).build());
     }
 
-//    @DeleteMapping("/deleteLuongCoBan/{id}")
-//    public ResponseEntity deleteLuongCoBan(@PathVariable("id") Integer id) {
-//        return ResponseEntity.ok().body(luongCoBanService.delete(id).build());
-//    }
-
-//    @GetMapping("/searchLuongCoBan")
-//    public ResponseEntity searchLuongCoBanByLuong(@RequestParam("luong") Long luong) {
-//        return ResponseEntity.ok().body(luongCoBanService.searchByLuong(luong));
-//    }
-
-//    @GetMapping("/showLuongCoBan")
-//    public ResponseEntity searchLuongCoBanById(@RequestParam("id") Integer id) {
-//        return ResponseEntity.ok().body(luongCoBanService.searchById(id));
-//    }
+    @GetMapping("/showLuongCoBan")
+    public ResponseEntity searchLuongCoBanById(@RequestParam("id") Integer id) {
+        return ResponseEntity.ok().body(luongCoBanService.searchById(id));
+    }
 
     @PutMapping("/updateLuongCoBan/{id}")
-    public ResponseEntity updateLuongCoBan(@PathVariable("id") Integer id, @RequestBody LuongCoBan luongCoBan) {
-        if (luongCoBan.getId().equals(id)) {
-            return ResponseEntity.ok().body(luongCoBanService.create(luongCoBan).build());
+    public ResponseEntity updateLuongCoBan(@PathVariable("id") Integer id, @RequestBody LuongCoBanRequest luongCoBanRequest) {
+        if (luongCoBanRequest.getId().equals(id)) {
+            return ResponseEntity.ok().body(luongCoBanService.create(luongCoBanRequest).build());
         }
         throw new IllegalStateException("Error");
+    }
+
+    @GetMapping("/luongcoban/findByTaiXe")
+    public ResponseEntity findByTaiXe(@RequestParam("username") String username) {
+        return ResponseEntity.ok().body(luongCoBanService.findLuongByTaiXe(username).build());
     }
 
     // Chuyen Xe
@@ -208,5 +209,31 @@ public class AdminController {
     @GetMapping("/thongke/luongtaixe")
     public ResponseEntity thongkeTongLuong(@RequestParam("thang") Integer thang, @RequestParam("nam") Integer nam) {
         return ResponseEntity.ok().body(tongLuongService.getAllTongLuongByDate(thang, nam).build());
+    }
+
+    @GetMapping("/thongke/chuyenxe")
+    public ResponseEntity thongkeChuyenXe() {
+        return ResponseEntity.ok().body(chuyenXeService.thongkeChuyenXe().build());
+    }
+
+    @GetMapping("/thongke/taixe")
+    public ResponseEntity thongkeTaiXe() {
+        return ResponseEntity.ok().body(chuyenXeService.thongkeTaiXe().build());
+    }
+
+    //auth
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody AuthenticationRequest authenticationRequest) {
+        return ResponseEntity.ok().body(adminService.findUser(authenticationRequest.getUsername(), authenticationRequest.getPassword()).build());
+    }
+
+    @PostMapping("/authen")
+    public ResponseEntity authen(@RequestBody AuthenticationRequest authenticationRequest, @RequestParam("code") String code) throws IOException {
+        return ResponseEntity.ok().body(adminService.authen(authenticationRequest.getUsername(), authenticationRequest.getPassword(), code).build());
+    }
+
+    @PostMapping("/showQRCode")
+    public ResponseEntity showQRCode(@RequestParam("displayName") String displayName) {
+        return ResponseEntity.ok().body(adminService.showQRCode(displayName).build());
     }
 }

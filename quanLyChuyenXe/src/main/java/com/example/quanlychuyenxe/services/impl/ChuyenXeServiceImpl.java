@@ -2,23 +2,26 @@ package com.example.quanlychuyenxe.services.impl;
 
 import com.example.quanlychuyenxe.base.response.Response;
 import com.example.quanlychuyenxe.base.response.ResponseBuilder;
-import com.example.quanlychuyenxe.model.ChuyenXe;
-import com.example.quanlychuyenxe.model.TaiXe;
+import com.example.quanlychuyenxe.model.*;
 import com.example.quanlychuyenxe.model.request.ChuyenXeRequest;
-import com.example.quanlychuyenxe.model.TuyenXe;
-import com.example.quanlychuyenxe.model.XeKhach;
+import com.example.quanlychuyenxe.model.request.TKChuyenXeRequest;
 import com.example.quanlychuyenxe.repositories.ChuyenXeRepository;
 import com.example.quanlychuyenxe.repositories.TaiXeRepository;
 import com.example.quanlychuyenxe.repositories.TuyenXeRepository;
 import com.example.quanlychuyenxe.repositories.XeKhachRepository;
 import com.example.quanlychuyenxe.services.ChuyenXeService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -57,6 +60,10 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
 
         if(chuyenXeRequest.getId() != null) chuyenXe.setId(chuyenXeRequest.getId());
 
+        if(chuyenXeRequest.getKhachHangList() != null) {
+            chuyenXe.setKhachHangList(chuyenXeRequest.getKhachHangList());
+        }
+
         return ResponseBuilder.ok(chuyenXeRepository.save(chuyenXe));
     }
 
@@ -79,6 +86,44 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
     @Override
     public Response searchByTuyenXe(String diemDau, String diemCuoi) {
         return ResponseBuilder.ok(chuyenXeRepository.findAllByTuyenXe_DiemDauContainingAndTuyenXe_DiemCuoiContaining(diemDau, diemCuoi));
+    }
+
+
+    @Override
+    public Response thongkeChuyenXe() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date end = subtractDays(new Date(), 1);
+        Date start = subtractDays(end, 7);
+        List<TKChuyenXeRequest> result = new ArrayList<>();
+        result.add(new TKChuyenXeRequest(formatter.format(start) + " - " + formatter.format(end),
+                chuyenXeRepository.getChuyenXe(subtractDays(start, 1), addDays(end, 1))));
+        for (int i = 0; i < 4; i++) {
+            end = start;
+            start = subtractDays(end, 7);
+            result.add(new TKChuyenXeRequest(formatter.format(start) + " - " + formatter.format(end),
+                    chuyenXeRepository.getChuyenXe(subtractDays(start, 1), addDays(end, 1))));
+        }
+        Collections.reverse(result);
+        return ResponseBuilder.ok(result);
+    }
+
+    @Override
+    public Response thongkeTaiXe() {
+        return ResponseBuilder.ok(chuyenXeRepository.getListTaiXe());
+    }
+
+    private Date addDays(Date date, int days) {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
+    }
+
+    private Date subtractDays(Date date, int days) {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, -days);
+        return cal.getTime();
     }
 
     @Override
@@ -125,5 +170,28 @@ public class ChuyenXeServiceImpl implements ChuyenXeService {
     @Override
     public Response findChuyenXeByStatus(String diemDau, String diemCuoi, Integer status) {
         return ResponseBuilder.ok(chuyenXeRepository.findAllByTuyenXe_DiemDauContainingAndTuyenXe_DiemCuoiContainingAndStatus(diemDau, diemCuoi, status));
+    }
+
+    @Override
+    public Response update(ChuyenXe chuyenXe) {
+        return ResponseBuilder.ok(chuyenXeRepository.save(chuyenXe));
+    }
+
+    @Override
+    public Response allKhachHang(Integer id) {
+        ChuyenXe chuyenXe = chuyenXeRepository.findById(id).get();
+        Set<KhachHang> khachHangList = (Set<KhachHang>) chuyenXe.getKhachHangList();
+        chuyenXe.setKhachHangList(khachHangList);
+        return ResponseBuilder.ok(chuyenXe);
+    }
+
+    @Override
+    public Response updateKhachHang(String username, Integer id) {
+        try {
+            chuyenXeRepository.saveKhachHangChuyenXe(username, id);
+            return ResponseBuilder.ok(200, "Success");
+        } catch (Exception e) {
+            return ResponseBuilder.ok(100, "Error");
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.quanlychuyenxe.controller;
 
+import com.example.quanlychuyenxe.model.ChuyenXe;
 import com.example.quanlychuyenxe.services.ChuyenXeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,20 @@ public class ChuyenXeController {
     public ResponseEntity searchChuyenXe(@RequestParam("diemDau") String diemDau, @RequestParam("diemCuoi") String diemCuoi
             , @RequestParam("status") Integer status) {
         return ResponseEntity.ok().body(chuyenXeService.findChuyenXeByStatus(diemDau, diemCuoi, status).build());
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity updateChuyenXe(@RequestBody ChuyenXe chuyenXe) {
+        return ResponseEntity.ok().body(chuyenXeService.update(chuyenXe).build());
+    }
+
+    @GetMapping("/allkhachhang/{id}")
+    public ResponseEntity showAllKhachHang(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(chuyenXeService.allKhachHang(id).build());
+    }
+
+    @PostMapping("/updatekhachhang")
+    public ResponseEntity addKhachHang(@RequestParam("username") String username, @RequestParam("id") Integer id) {
+        return ResponseEntity.ok().body(chuyenXeService.updateKhachHang(username, id).build());
     }
 }

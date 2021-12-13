@@ -21,29 +21,14 @@
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+    <a class="navbar-brand ps-3" href="index.html">ADMIN</a>
     <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-            class="fas fa-bars"></i></button>
-    <!-- Navbar Search-->
-    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        <div class="input-group">
-            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
-                   aria-describedby="btnNavbarSearch"/>
-            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-        </div>
-    </form>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <!-- Navbar-->
-    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+    <ul style="width: 100%;display: flex;justify-content: flex-end;" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Settings</a></li>
-                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                <li>
-                    <hr class="dropdown-divider"/>
-                </li>
                 <li><a class="dropdown-item" href="#!">Logout</a></li>
             </ul>
         </li>
@@ -54,72 +39,67 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav">
-                    <div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" href="index.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Dashboard
-                    </a>
-                    <div class="sb-sidenav-menu-heading">Interface</div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
-                       aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Layouts
+                    <div class="sb-sidenav-menu-heading">Quản lý</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#khachhang" aria-expanded="false"
+                       aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-address-card"></i></div>
+                        Khách hàng
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                         data-bs-parent="#sidenavAccordion">
+                    <div class="collapse" id="khachhang" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                            <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                            <a class="nav-link" th:href="@{/admin/khachhang}">Tìm kiếm</a>
+                            <a class="nav-link" th:href="@{/admin/khachhang/add}">Thêm</a>
                         </nav>
                     </div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-                       aria-expanded="false" aria-controls="collapsePages">
-                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                        Pages
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#taixe" aria-expanded="false"
+                       aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-motorcycle"></i></div>
+                        Tài xế
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
-                         data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                               data-bs-target="#pagesCollapseAuth" aria-expanded="false"
-                               aria-controls="pagesCollapseAuth">
-                                Authentication
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
-                                 data-bs-parent="#sidenavAccordionPages">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="login.html">Login</a>
-                                    <a class="nav-link" href="register.html">Register</a>
-                                    <a class="nav-link" href="password.html">Forgot Password</a>
-                                </nav>
-                            </div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                               data-bs-target="#pagesCollapseError" aria-expanded="false"
-                               aria-controls="pagesCollapseError">
-                                Error
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
-                                 data-bs-parent="#sidenavAccordionPages">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="401.html">401 Page</a>
-                                    <a class="nav-link" href="404.html">404 Page</a>
-                                    <a class="nav-link" href="500.html">500 Page</a>
-                                </nav>
-                            </div>
+                    <div class="collapse" id="taixe" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" th:href="@{/admin/taixe}">Tìm kiếm</a>
+                            <a class="nav-link" th:href="@{/admin/taixe/add}">Thêm</a>
                         </nav>
                     </div>
-                    <div class="sb-sidenav-menu-heading">Addons</div>
-                    <a class="nav-link" href="charts.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                        Charts
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#carriageways" aria-expanded="false"
+                       aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="far fa-compass"></i></div>
+                        Tuyến xe
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <a class="nav-link" href="tables.html">
+                    <div class="collapse" id="carriageways" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" th:href="@{/admin/carriageways}">Tìm kiếm</a>
+                            <a class="nav-link" th:href="@{/admin/carriageways/add}">Thêm</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#chuyenxe" aria-expanded="false"
+                       aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-bus-alt"></i></div>
+                        Chuyến xe
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="chuyenxe" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" th:href="@{/admin/chuyenxe}">Tìm kiếm</a>
+                            <a class="nav-link" th:href="@{/admin/chuyenxe/add}">Tạo mới</a>
+                        </nav>
+                    </div>
+
+                    <div class="sb-sidenav-menu-heading">Thống kê</div>
+                    <a class="nav-link" th:href="@{/admin/thongke/luong}">
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        Tables
+                        Lương tài xế
+                    </a>
+                    <a class="nav-link" th:href="@{/admin/thongke/chuyenxe}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                        Biểu đồ
                     </a>
                 </div>
             </div>
@@ -132,7 +112,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Quản lý chuyến xe</h1>
+                <h1 class="mt-4" style="text-align: center;margin-bottom: 24px;">Quản lý chuyến xe</h1>
 
                 <div th:if="${deleteNotice != null}" class="alert alert-info" role="alert" th:text="${deleteNotice}">
                 </div>
@@ -147,16 +127,21 @@
 
                             <form th:action="@{/admin/chuyenxe/search}">
                                 <div class="form-inline float-left" style="display: flex">
-                                    <label class="ml-4" for="name">Điểm đầu: </label>
+                                    <label class="ml-4">Điểm đầu: </label>
                                     <input type="text" class="form-control ml-2" name="diemDau"
                                            id="diemDau"
                                            aria-describedby="helpId">
 
-                                    <label class="ml-4" for="name">Điểm cuối: </label>
+                                    <label class="ml-4">Điểm cuối: </label>
                                     <input type="text" class="form-control ml-2" name="diemCuoi"
                                            id="diemCuoi"
                                            aria-describedby="helpId">
 
+                                    <select style="margin-left: 40px;text-align: center;" class="form-control btn-outline-info" name="chooseType">
+                                        <option value="all">Tất cả</option>
+                                        <option value="done">Đã hoàn thành</option>
+                                        <option value="none">Chưa chạy</option>
+                                    </select>
                                     <button class="btn btn-outline-primary ml-4">Tìm kiếm</button>
                                 </div>
                             </form>
@@ -172,9 +157,6 @@
                         <tr>
                             <th>Tên xe</th>
                             <th>Quãng đường</th>
-                            <th>Độ dài</th>
-                            <th>Số ghế</th>
-                            <th>Giá vé</th>
                             <th>Thời gian khởi hành</th>
                             <th>Thời gian kết thúc</th>
                             <th>Lái xe</th>
@@ -187,15 +169,47 @@
                         <tr th:each="chuyenxe : ${listchuyenxe}">
                             <td th:text="${chuyenxe.xeKhach.tenXeKhach}"></td>
                             <td scope="row" th:text="${chuyenxe.tuyenXe.diemDau + ' - ' + chuyenxe.tuyenXe.diemCuoi}"></td>
-                            <td th:text="${chuyenxe.tuyenXe.doDai}"></td>
-                            <td th:text="${chuyenxe.xeKhach.soGhe}"></td>
-                            <td th:text="${chuyenxe.giaVe}"></td>
                             <td th:text="${chuyenxe.thoiGianKhoiHanh}"></td>
                             <td th:text="${chuyenxe.thoiGianKetThuc}"></td>
                             <td th:text="${(chuyenxe.taiXe1 == null) ? 'Không có' : chuyenxe.taiXe1.ten}"></td>
                             <td th:text="${(chuyenxe.taiXe2 == null) ? 'Không có' : chuyenxe.taiXe2.ten}"></td>
                             <td th:text="${(chuyenxe.status == 0) ? 'Chưa khởi hành' : ((chuyenxe.status==1) ? 'Đã kết thúc' : 'Đang di chuyển')}"></td>
                             <td>
+
+                                <button type="button" class="btn btn-outline-info" data-toggle="modal"
+                                        th:data-target="${'#chuyenxeinfo'+chuyenxe.id}">
+                                    <i class="fas fa-info"></i>
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" th:id="${'chuyenxeinfo'+chuyenxe.id}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Thông tin chi tiết chuyến xe</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <span class="float-left" th:text="${'Tên xe khách: ' + chuyenxe.xeKhach.tenXeKhach}"></span>
+                                                <span class="float-right" th:text="${'Biển số: ' + chuyenxe.xeKhach.bienSo}"></span><br>
+                                                <span class="float-left" th:text="${'Giá vé: ' + chuyenxe.giaVe}"></span>
+                                                <span class="float-right" th:text="${'Số lượng hành khách: ' + chuyenxe.soLuongHanhKhach}"></span><br>
+                                                <span class="float-left" th:text="${'Số năm sử dụng: ' + chuyenxe.xeKhach.soNamSuDung}"></span>
+                                                <span class="float-right" th:text="${'Số ghế: ' + chuyenxe.xeKhach.soGhe}"></span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ
+                                                </button>
+                                                <a th:if="${chuyenxe.soLuongHanhKhach > 0}" th:href="@{'/admin/chuyenxe/detail/' + ${chuyenxe.id}}"
+                                                   type="button" class="btn btn-primary">Danh sách khách hàng</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <a th:href="@{'/admin/chuyenxe/edit/' + ${chuyenxe.id}}"
                                    class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>

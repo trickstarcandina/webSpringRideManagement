@@ -36,6 +36,8 @@
         </li>
       </ul>
 
+      <a class="btn btn-success" th:href="@{/logout/taixe}" style="padding: 11px 25px;margin-left: 58px;margin-bottom: 55px;">Đăng xuất</a>
+
       <div class="footer" style="color: #d1cfcf;">
         <span>Liên lạc,</span><br>
         <span>Sđt: 0954983728</span><br>
@@ -69,6 +71,7 @@
         <th></th>
       </tr>
       </thead>
+
       <tbody>
       <tr th:each="chuyenxe : ${listchuyenxe}">
         <td th:text="${chuyenxe.xeKhach.tenXeKhach}"></td>
@@ -109,8 +112,8 @@
               </div>
             </div>
           </div>
-        </td>
 
+        </td>
       </tr>
       </tbody>
     </table>
