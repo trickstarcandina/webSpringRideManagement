@@ -311,19 +311,21 @@ public class AdminController {
     // Lương cơ bản
     @GetMapping("taixe/editLuong/{username}")
     public ModelAndView showLuong(ModelMap model, @PathVariable("username") String username) {
-        ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/luongcoban/findByTaiXe?username="
-                        + username, HttpMethod.GET, null, ResponseBuilder.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-        LuongCoBanRequest luongCoBanRequest = objectMapper.convertValue(responseEntity.getBody().getData(), LuongCoBanRequest.class);
-        if(luongCoBanRequest != null) {
+        LuongCoBanRequest luongCoBanRequest;
+        try {
+            ResponseEntity<ResponseBuilder> responseEntity = rest.exchange("http://localhost:8080/api/admin/luongcoban/findByTaiXe?username="
+                    + username, HttpMethod.GET, null, ResponseBuilder.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            luongCoBanRequest = objectMapper.convertValue(responseEntity.getBody().getData(), LuongCoBanRequest.class);
             luongCoBanRequest.setIsEdit(true);
             if(luongCoBanRequest.getThangLuong().getDay() != new Date().getDay()
                     || luongCoBanRequest.getThangLuong().getMonth() != new Date().getMonth()
                     || luongCoBanRequest.getThangLuong().getYear() != new Date().getYear()) {
                 luongCoBanRequest.setId(null);
             }
-        } else {
+        } catch (Exception e) {
             luongCoBanRequest = new LuongCoBanRequest();
+            luongCoBanRequest.setUsername(username);
         }
         luongCoBanRequest.setThangLuong(new Date());
         model.addAttribute("luongcoban", luongCoBanRequest);
