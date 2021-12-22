@@ -43,11 +43,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Response authen(String username, String password, String code) throws IOException {
-        String sercetkey = CryptLib.encryptPositiveLong(adminRepository.findDisplayName(username, password), 7891656);
+        String sercetkey = CryptLib.encryptPositiveLong(adminRepository.findSecretCode(username, password), 7891656);
 //        RestTemplate restTemplate = new RestTemplate();
 //        URI uri = UriBuilder.fromUri("https://www.authenticatorApi.com/Validate.aspx")
 //                .queryParam("Pin", code)
-//                .queryParam("SecretCode", adminRepository.findDisplayName(username, password))
+//                .queryParam("SecretCode", adminRepository.findSecretCode(username, password))
 //                .build();
 //       ?Pin=123456&SecretCode=12345678BXYT
 //        ResponseEntity<Map> responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(null), Map.class);
@@ -58,15 +58,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Response showQRCode(String displayName) {
-        String sercetkey = CryptLib.encryptPositiveLong(displayName, 7891656);
+    public Response showQRCode(String secretCode) {
+        String sercetkey = CryptLib.encryptPositiveLong(secretCode, 7891656);
 //        https://www.authenticatorApi.com/pair.aspx?AppName=MyApp&AppInfo=John&SecretCode=12345678BXYT
 //        URI uri = UriBuilder.fromUri("https://www.authenticatorApi.com/pair.aspx")
 //                .queryParam("AppName", "QuanLyChuyenXe")
-//                .queryParam("AppInfo", displayName)
-//                .queryParam("SecretCode", displayName)
+//                .queryParam("AppInfo", secretCode)
+//                .queryParam("SecretCode", secretCode)
 //                .build();
-        String url = "https://www.authenticatorApi.com/pair.aspx?AppName=QuanLyChuyenXe&AppInfo=" + displayName + "&SecretCode=" + sercetkey;
+        String url = "https://www.authenticatorApi.com/pair.aspx?AppName=QuanLyChuyenXe&AppInfo=" + secretCode + "&SecretCode=" + sercetkey;
 
 //        RestTemplate restTemplate = new RestTemplate();
 //        ResponseEntity<Map> responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(null), Map.class);

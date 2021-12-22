@@ -10,6 +10,6 @@ public interface AdminRepository extends JpaRepository<Admin, String> {
     @Query(value = "select count(*) from admin where username = ? and password = ? and role = '1'", nativeQuery = true)
     Integer checkExist(String username, String password);
 
-    @Query(value = "select display_name from admin where username = ? and password = ? and role = '1'", nativeQuery = true)
-    String findDisplayName(String username, String password);
+    @Query(value = "select secret_code from admin where username = ? and password = ? and role = '1'", nativeQuery = true)
+    String findSecretCode(String username, String password);
 }

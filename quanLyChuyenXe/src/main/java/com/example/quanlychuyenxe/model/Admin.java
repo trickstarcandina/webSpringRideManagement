@@ -16,5 +16,5 @@ import javax.persistence.Table;
 @Getter
 @Data
 public class Admin extends BaseEntityUser {
-    private String displayName;
+    private String secretCode;
 }

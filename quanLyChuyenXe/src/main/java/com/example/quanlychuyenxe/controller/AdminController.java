@@ -233,7 +233,7 @@ public class AdminController {
     }
 
     @PostMapping("/showQRCode")
-    public ResponseEntity showQRCode(@RequestParam("displayName") String displayName) {
-        return ResponseEntity.ok().body(adminService.showQRCode(displayName).build());
+    public ResponseEntity showQRCode(@RequestParam("secretCode") String secretCode) {
+        return ResponseEntity.ok().body(adminService.showQRCode(secretCode).build());
     }
 }
